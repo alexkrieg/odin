@@ -24,12 +24,6 @@ public class MySQLAccessManager {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			String connectCommand = "jdbc:mysql://"+host+"/"+database+"?user="+user+"&password="+password;
 			connect = DriverManager.getConnection(connectCommand);
-			Statement stmt = connect.createStatement();
-			String sqrtl = "SELECT * FROM teacher";
-			ResultSet rs = stmt.executeQuery(sqrtl);
-			while(rs.next()){
-				MainApplication.log(rs.toString());
-			}
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
