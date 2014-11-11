@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="253.0" prefWidth="244.0" stylesheets="@dialog.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.AboutDialogController">
+   <children>
+      <VBox layoutY="-97.0" prefHeight="200.0" prefWidth="244.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="226.0" prefWidth="244.0" styleClass="textArea" text="Stundeplaner">
+               <font>
+                  <Font size="10.0" />
+               </font></TextArea>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClose" text="Schließen" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

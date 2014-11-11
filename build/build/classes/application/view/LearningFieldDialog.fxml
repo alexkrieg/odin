@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="284.0" prefWidth="550.0" stylesheets="@dialog.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LearningDialogController">
+   <children>
+      <VBox prefHeight="312.0" prefWidth="550.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane prefHeight="184.0" prefWidth="550.0" styleClass="background">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="99.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="489.0" minWidth="0.0" prefWidth="451.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.0" minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="24.0" prefWidth="82.0" text="Name :" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="24.0" prefWidth="92.0" text="Inahlte :" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nameTxtField" prefHeight="26.0" prefWidth="476.0" styleClass="textField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </GridPane.margin></TextField>
+                  <TextArea fx:id="descriptionTxtField" prefHeight="200.0" prefWidth="200.0" styleClass="textField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </GridPane.margin></TextArea>
+                  <ComboBox fx:id="comboBox" onAction="#choiceBoxAction" prefHeight="26.0" prefWidth="540.0" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label prefHeight="24.0" prefWidth="82.0" style="-fx-font-weight: bold;" text="Lernfeld :">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d8d8d8;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d8d8d8;" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#onRemove" prefHeight="35.0" prefWidth="550.0" styleClass="buttonDelete" text="Lernfeld löschen">
+               <font>
+                  <Font size="12.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="10.0" />
+               </VBox.margin></Button>
+            <GridPane prefHeight="55.0" prefWidth="550.0">
+               <children>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleOK" prefHeight="36.0" prefWidth="295.0" style="-fx-font-weight: bold;" text="Speichern" textAlignment="CENTER" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin></Button>
+                  <Button mnemonicParsing="false" onAction="#handleCancel" prefHeight="36.0" prefWidth="306.0" text="Abbrechen">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="5.0" />
+                     </GridPane.margin></Button>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

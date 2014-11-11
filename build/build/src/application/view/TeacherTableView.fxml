@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="775.0" prefWidth="250.0" stylesheets="@tableView.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.TeacherListViewController">
+   <children>
+      <Label prefHeight="30.0" prefWidth="250.0" styleClass="headline" text="Lehrkräfte" AnchorPane.topAnchor="10.0" />
+      <ListView fx:id="list" layoutY="49.0" prefHeight="726.0" prefWidth="250.0" styleClass="list" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="49.0" />
+   </children>
+</AnchorPane>

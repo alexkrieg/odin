@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="rootPane" prefHeight="606.0" prefWidth="530.0" style="-fx-background-color: grey;" styleClass="pain" stylesheets="@dialog.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ConfigurationDialogController">
+   <children>
+      <VBox prefHeight="606.0" prefWidth="530.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefHeight="82.0" prefWidth="530.0">
+               <children>
+                  <VBox prefHeight="77.0" prefWidth="416.0">
+                     <children>
+                        <Label fx:id="dayLabel" styleClass="headline" text="Montag" />
+                        <Label fx:id="timeLabel" text="10:00 - 13:00 Uhr">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="hourLabel" text="3 - 4 Stunde" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onSave" prefHeight="34.0" style="-fx-font-weight: bold;" text="Speichern" textAlignment="CENTER">
+                     <HBox.margin>
+                        <Insets right="5.0" top="40.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator" />
+         </children></VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,158 @@
+package application.controller;
+
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import application.MainApplication;
+import application.model.LearningField;
+import application.model.Teacher;
+import application.view.TeacherCell;
+
+public class TeacherDialogController {
+	
+    //================================================================================
+    // Properties
+    //================================================================================
+	public static final String DIALOG_STAGE_TITLE = "Lehrer bearbeiten ...";
+	@FXML
+	private Button removeButton;
+	@FXML
+	private TextField firstNameTxtField;
+	@FXML
+	private TextField lastNameTxtField;
+	@FXML
+	private ComboBox<LearningField> fieldSelectionBox;
+	@FXML
+	private ComboBox<Teacher> choiceBox;
+	@FXML
+	private ListView<LearningField> selectedFieldList;
+	@FXML
+	private Button addFieldButton;
+	@FXML
+	private Button removeFieldButton;
+	
+	private MainApplication dataHandler;
+	private Stage dialogStage;
+	
+	private ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
+	private ObservableList<LearningField> fieldList = FXCollections.observableArrayList();
+	
+    //================================================================================
+    // Cunstructors
+    //================================================================================
+	public TeacherDialogController(){
+		teacherList.add(null);
+    	// TODO: get all teachers here and save them in teacher list
+    	// TODO: get all learning fields here and save them in field list
+	}
+	/**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    @FXML
+    private void initialize() {
+    	this.fieldSelectionBox.setItems(this.fieldList);
+    	this.choiceBox.setItems(this.teacherList);
+    	this.choiceBoxAction();
+    	this.selectedFieldList.setCellFactory(new Callback<ListView<LearningField>, ListCell<LearningField>>(){
+			@Override
+			public ListCell<LearningField> call(ListView<LearningField> param) {
+					ListCell<LearningField> cell = new ListCell<LearningField>();
+					//cell.textProperty().set(param);
+					return cell;
+				}
+    	});
+    }
+    public void setDialogStage(Stage stage){
+    	this.dialogStage = stage;
+    }
+	public void setDataHandler(MainApplication handler){
+		this.dataHandler=handler;
+	}
+    private void setTeacher(Teacher teacher){
+    	if(teacher == null){
+    		this.removeButton.setDisable(true);
+    		this.firstNameTxtField.setText("");
+        	this.lastNameTxtField.setText("");
+        	this.selectedFieldList.setItems(null);
+    	}else{
+    		this.removeButton.setDisable(false);
+    		this.firstNameTxtField.setText(teacher.firstNameProperty().get());
+        	this.lastNameTxtField.setText(teacher.lastNameProperty().get());
+        	this.selectedFieldList.setItems(teacher.learningFieldProperty());
+    	}
+    }
+    public void setTeachers(ObservableList<Teacher> list){
+    	this.teacherList.addAll(list);
+    }
+    public void setFields(ObservableList<LearningField> list){
+    	this.fieldList.addAll(list);
+    }
+    //================================================================================
+    // Action Handlers
+    //================================================================================
+    @FXML
+    private void addFieldAction(){
+    	Teacher t = this.choiceBox.getSelectionModel().getSelectedItem();
+    	LearningField f = this.fieldSelectionBox.getSelectionModel().getSelectedItem();
+    	if(t != null){
+    		t.addLearningField(f);
+    	}else {
+    		//TODO: save fields in seperate list ans save for new teacher
+    	}
+    }
+    @FXML
+    private void removeFieldAction(){
+    	Teacher t = this.choiceBox.getSelectionModel().getSelectedItem();
+    	if(t != null){
+    		t.removeLearningField(this.selectedFieldList.getSelectionModel().getSelectedItem());
+    	}
+    }
+    @FXML
+    private void choiceBoxAction(){
+    	this.setTeacher(this.choiceBox.getSelectionModel().getSelectedItem());
+    }
+    @FXML
+    private void onFieldSelectionChange() {
+    	MainApplication.log("field selection change");
+    }
+    @FXML
+    private void handleOk() {
+    	if (this.firstNameTxtField.getText().length() == 0 || this.lastNameTxtField.getText().length() == 0 ) {
+    		return;
+    	}
+    	if (this.choiceBox.getSelectionModel().getSelectedItem() == null) {
+    		Teacher t = new Teacher(this.firstNameTxtField.getText(), this.lastNameTxtField.getText());
+			this.teacherList.add(t);
+			// TODO: insert new Teacher
+		}
+    	else {
+    		Teacher t = this.choiceBox.getSelectionModel().getSelectedItem();
+        	t.setFirstName(this.firstNameTxtField.getText());
+        	t.setLastName(this.lastNameTxtField.getText());
+        	// TODO: update teacher anhand von id
+    	}
+    	this.choiceBoxAction();
+    }
+    @FXML
+    private void handleCancel() {
+        dialogStage.close();
+    }
+    @FXML
+    private void handleRemove() {
+    	Teacher t = this.choiceBox.getSelectionModel().getSelectedItem();
+    	this.teacherList.remove(t);
+    	// TODO: remove teacher anhnd von id
+    	this.choiceBoxAction();
+    }
+}
