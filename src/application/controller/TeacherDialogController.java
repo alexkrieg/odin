@@ -16,6 +16,7 @@ import javafx.util.Callback;
 import application.MainApplication;
 import application.model.LearningField;
 import application.model.Teacher;
+import application.view.FieldViewListCell;
 import application.view.TeacherCell;
 
 public class TeacherDialogController {
@@ -57,7 +58,7 @@ public class TeacherDialogController {
 	}
 	/**
      * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
+     * after the FXML file has been loaded.
      */
     @FXML
     private void initialize() {
@@ -67,9 +68,8 @@ public class TeacherDialogController {
     	this.selectedFieldList.setCellFactory(new Callback<ListView<LearningField>, ListCell<LearningField>>(){
 			@Override
 			public ListCell<LearningField> call(ListView<LearningField> param) {
-					ListCell<LearningField> cell = new ListCell<LearningField>();
-					//cell.textProperty().set(param);
-					return cell;
+					MainApplication.log("ds");
+					return new FieldViewListCell();
 				}
     	});
     }
@@ -115,7 +115,8 @@ public class TeacherDialogController {
     private void removeFieldAction(){
     	Teacher t = this.choiceBox.getSelectionModel().getSelectedItem();
     	if(t != null){
-    		t.removeLearningField(this.selectedFieldList.getSelectionModel().getSelectedItem());
+    		int index = this.selectedFieldList.getSelectionModel().getSelectedIndex();
+    		t.removeLearningFieldAtIndex(index);
     	}
     }
     @FXML

@@ -45,6 +45,9 @@ public class Teacher {
 	public void removeLearningField(LearningField field){
 		this.learningFields.remove(field);
 	}
+	public void removeLearningFieldAtIndex(int index){
+		this.learningFields.remove(index);
+	}
 	public void setFirstName(String firstName){
 		this.firstName.set(firstName);
 	}
@@ -65,6 +68,13 @@ public class Teacher {
 	}
 	public ObservableList<LearningField> learningFieldProperty(){
 		return this.learningFields;
+	}
+	public ObservableList<String> learningFieldPropertyStrings(){
+		ObservableList<String> ret = FXCollections.observableArrayList();
+		for(LearningField f :this.learningFields){
+			ret.add(f.toString());
+		}
+		return ret;
 	}
 	public String getLearningFields(){
 		String result = StringUtils.join(this.learningFields, ", ");
