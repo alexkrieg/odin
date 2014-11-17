@@ -39,9 +39,7 @@ public class ClassDialogController {
 	private ListView<SchoolClassGroup> groupList;
 	@FXML
 	private HBox groupHBox;
-	
-	
-	private ObservableList<SchoolClassGroup> groups = FXCollections.observableArrayList(); 
+
     //================================================================================
     // Cunstructors
     //================================================================================
@@ -51,7 +49,6 @@ public class ClassDialogController {
     @FXML
     private void initialize() {
     	this.choiceBox.setItems(this.classList);
-    	this.groupList.setItems(groups);
     	this.choiceBoxAction();
     }
     public void setDialogStage(Stage stage){
