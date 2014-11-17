@@ -112,7 +112,7 @@ public class ClassDialogController {
     	Optional<String> response = Dialogs.create()
 		      .owner(dialogStage)
 		      .title(title)
-		      .message( "Gruppenname:")
+		      .message( "Gruppenname: ")
 		      .showTextInput();
 	  if(response.get().length()>0){
 		  SchoolClass sc = this.choiceBox.getSelectionModel().getSelectedItem();

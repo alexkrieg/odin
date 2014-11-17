@@ -3,7 +3,7 @@
  */
 
 .background {
-    -fx-background-color: derive(#1d1d1d,50%);
+    -fx-background-color: derive(#1d1d1d,20%);
     -fx-padding: 0;
 }
 .seperator {
@@ -22,7 +22,7 @@
     -fx-text-fill: #d8d8d8;
 }
 .button:hover {
-	-fx-background-color: #d8d8d8;
+	-fx-background-color: -fx-focus-color;
 	-fx-text-fill: #000000;
 	-fx-text-alignment: center;
 }
