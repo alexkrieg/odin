@@ -11,7 +11,7 @@
    <children>
       <VBox prefHeight="239.0" prefWidth="550.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="364.0" prefWidth="550.0" styleClass="background">
+            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="379.0" prefWidth="550.0" styleClass="background">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="135.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="415.0" />
@@ -58,40 +58,10 @@
                   </ComboBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <ListView fx:id="selectedFieldList" prefHeight="41.0" prefWidth="282.0" />
-                        <VBox prefHeight="167.0" prefWidth="127.0">
-                           <children>
-                              <ComboBox fx:id="fieldSelectionBox" minWidth="-Infinity" onAction="#onFieldSelectionChange" prefHeight="29.0" prefWidth="123.0" style="-fx-background-color: #ffffff;">
-                                 <padding>
-                                    <Insets left="5.0" right="5.0" />
-                                 </padding>
-                                 <VBox.margin>
-                                    <Insets left="5.0" />
-                                 </VBox.margin>
-                              </ComboBox>
-                              <Button fx:id="addFieldButton" mnemonicParsing="false" onAction="#addFieldAction" prefHeight="33.0" prefWidth="135.0" text="Hizufügen">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" top="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Pane prefHeight="1.0" prefWidth="123.0" style="-fx-background-color: #ffffff;">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" left="5.0" top="10.0" />
-                                 </VBox.margin>
-                              </Pane>
-                              <Button fx:id="removeFieldButton" alignment="CENTER" mnemonicParsing="false" onAction="#removeFieldAction" prefHeight="30.0" prefWidth="123.0" text="Löschen">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <VBox.margin>
-                                    <Insets left="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
+                        <Pane fx:id="listPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="405.0">
                            <HBox.margin>
                               <Insets />
-                           </HBox.margin>
-                        </VBox>
+                           </HBox.margin></Pane>
                      </children>
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -101,7 +71,7 @@
             </GridPane>
             <Button fx:id="removeButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRemove" prefHeight="36.0" prefWidth="550.0" styleClass="buttonDelete" text="Lehrkraft löschen">
                <VBox.margin>
-                  <Insets left="5.0" right="5.0" top="30.0" />
+                  <Insets left="5.0" right="5.0" top="10.0" />
                </VBox.margin></Button>
             <GridPane prefHeight="55.0" prefWidth="550.0">
               <columnConstraints>

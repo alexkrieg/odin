@@ -100,6 +100,6 @@ public class Teacher {
 	public String toString() {
 		String vorname = this.firstName.get();
 		String nachname = this.lastName.get();
-		return vorname+" "+nachname+" "+this.getLearningFieldNames();
+		return vorname+" "+nachname;
 	}
 }

@@ -42,12 +42,26 @@ public class MainApplication extends Application {
     //================================================================================
 	public MainApplication(){
 		this.sqlManager = new MySQLAccessManager();
-		this.sqlManager.connectToMySQL("localhost:3306",Constants.MYSQL_DB, Constants.MYSQL_USER,Constants.MYSQL_PW);
+		//this.sqlManager.connectToMySQL("localhost:3306",Constants.MYSQL_DB, Constants.MYSQL_USER,Constants.MYSQL_PW);
 		Teacher t1 = new Teacher("Hans", "Junke");
-		t1.addLearningField(new LearningField("Lernfeld1", "Bl�dsinn", 0));
-		t1.addLearningField(new LearningField("Lernfeld2", "Bl�dsinn", 1));
-		t1.addLearningField(new LearningField("Lernfeld3", "Bl�dsinn", 2));
-		t1.addLearningField(new LearningField("Lernfeld4", "Bl�dsinn", 3));
+		learningFieldData.add(new LearningField("Lernfeld1", "Bl�dsinn",0));
+		learningFieldData.add(new LearningField("Lernfeld2", "Bl�dsinn", 1));
+		learningFieldData.add(new LearningField("Lernfeld3", "Bl�dsinn", 2));
+		learningFieldData.add(new LearningField("Lernfeld4", "Bl�dsinn", 3));
+		learningFieldData.add(new LearningField("Lernfeld5", "Bl�dsinn", 4));
+		learningFieldData.add(new LearningField("Lernfeld6", "Bl�dsinn", 5));
+		learningFieldData.add(new LearningField("Lernfeld7", "Bl�dsinn", 8));
+		learningFieldData.add(new LearningField("Lernfeld7", "Bl�dsinn", 9));
+		learningFieldData.add(new LearningField("Lernfeld7", "Bl�dsinn", 7));
+		learningFieldData.add(new LearningField("Lernfeld7", "Bl�dsinn", 11));
+		learningFieldData.add(new LearningField("Lernfeld7", "Bl�dsinn",22));
+		learningFieldData.add(new LearningField("Lernfeld7", "Bl�dsinn", 33));
+		learningFieldData.add(new LearningField("Lernfeld7", "Bl�dsinn", 88));
+		learningFieldData.add(new LearningField("Lernfeld7", "Bl�dsinn", 77));
+		t1.addLearningField(learningFieldData.get(0));
+		t1.addLearningField(learningFieldData.get(1));
+		t1.addLearningField(learningFieldData.get(4));
+		t1.addLearningField(learningFieldData.get(5));
 		teacherData.add(t1);
 		teacherData.add(new Teacher("Lehrer", "Lehrer1"));
 		teacherData.add(new Teacher("Lehrer", "Lehrer2"));
@@ -56,12 +70,7 @@ public class MainApplication extends Application {
 		teacherData.add(new Teacher("Lehrer", "Lehrer6"));
 		teacherData.add(new Teacher("Lehrer", "Lehrer7"));
 		teacherData.add(new Teacher("Lehrer", "Lehrer8"));
-		learningFieldData.add(new LearningField("Lernfeld1", "Bl�dsinn",0));
-		learningFieldData.add(new LearningField("Lernfeld2", "Bl�dsinn", 0));
-		learningFieldData.add(new LearningField("Lernfeld3", "Bl�dsinn", 0));
-		learningFieldData.add(new LearningField("Lernfeld4", "Bl�dsinn", 0));
-		learningFieldData.add(new LearningField("Lernfeld5", "Bl�dsinn", 0));
-		learningFieldData.add(new LearningField("Lernfeld6", "Bl�dsinn", 0));
+
 		blabla.add(new Room("Allo"));
 		blabla.add(new Room("Raum 2"));
 		blabla.add(new Room("Raum 3"));

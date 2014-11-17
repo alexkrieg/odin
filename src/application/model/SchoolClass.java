@@ -2,6 +2,8 @@ package application.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class SchoolClass {
     //================================================================================
@@ -10,6 +12,7 @@ public class SchoolClass {
 	private int id ;
 	private StringProperty name;
 	private StringProperty description;
+	private ObservableList<SchoolClassGroup> groups;
 	
     //================================================================================
     // Constructors
@@ -21,6 +24,8 @@ public class SchoolClass {
 	public SchoolClass(String name){
 		this.name = new SimpleStringProperty(name);
 		this.description = new SimpleStringProperty("");
+		this.groups = FXCollections.observableArrayList();
+		this.groups.add(new SchoolClassGroup("Alle Schüler"));
 	}
 	
     //================================================================================
@@ -43,6 +48,9 @@ public class SchoolClass {
 	}
 	public void setDescription(String description) {
 		this.description.set(description);
+	}
+	public ObservableList<SchoolClassGroup>getGroups(){
+		return this.groups;
 	}
 	@Override
 	public String toString(){

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -9,8 +10,19 @@
    <children>
       <HBox fx:id="hbox" prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="idCellLabel" text="Label" />
-            <Label fx:id="nameCellLabel" text="Label" />
+            <CheckBox fx:id="checkbox" alignment="CENTER" mnemonicParsing="false" onAction="#onCheckItem">
+               <HBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </HBox.margin>
+            </CheckBox>
+            <Label fx:id="idCellLabel" text="Label">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin></Label>
+            <Label fx:id="nameCellLabel" text="Label">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin></Label>
          </children>
       </HBox>
    </children>
