@@ -2,6 +2,7 @@ package application.controller;
 
 import application.MainApplication;
 import application.model.LearningField;
+import application.model.Lesson;
 import application.model.Room;
 import application.model.SchoolClass;
 import application.model.SchoolClassGroup;
@@ -85,6 +86,19 @@ public class ConfigurationDialogController {
 	@FXML
 	private void onSave(){
 		MainApplication.log("SAVE");
+		Teacher t = this.teacherComboBox.getSelectionModel().getSelectedItem();
+		LearningField f = this.fieldComboBox.getSelectionModel().getSelectedItem();
+		SchoolClass s = this.classComboBox.getSelectionModel().getSelectedItem();
+		SchoolClassGroup g = this.classGroupComboBox.getSelectionModel().getSelectedItem();
+		Room r = this.roomComboBox.getSelectionModel().getSelectedItem();
+		String day = this.dayLabel.getText();
+		String hour = ""+this.hourLabelFrom.getText()+"-"+this.hourLabelTo.getText();
+		if(t == null || f == null || s == null || g == null || r == null){
+			return;
+		}
+		Lesson l = new Lesson(t, f, s, g, r, day, hour);
+		//TODO: instert lesson in mapping table
+		this.dialogStage.close();
 	}
 	@FXML
 	private void onClassComboBox(){
