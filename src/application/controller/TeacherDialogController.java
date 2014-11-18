@@ -57,9 +57,9 @@ public class TeacherDialogController {
     private void initialize() {
     	this.choiceBox.setItems(this.teacherList);
     	this.choiceBoxAction();
-    	this.checkListView.setMaxHeight(180);
+    	this.checkListView.setMaxHeight(233);
     	this.checkListView.setMaxWidth(405);
-    	this.checkListView.setMinHeight(180);
+    	this.checkListView.setMinHeight(233);
     	this.checkListView.setMinWidth(405);
     	this.listPane.getChildren().add(checkListView);
     	checkListView.getCheckModel().getCheckedItems().addListener(new ListChangeListener<LearningField>() {

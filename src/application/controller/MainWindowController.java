@@ -49,6 +49,6 @@ public class MainWindowController {
 	}
 	@FXML
 	private void open(){
-		this.mainApp.showConfigurationDialog();
+		this.mainApp.showConfigurationDialog("1","2","14:00","23:00","Dienstag");
 	}
 }

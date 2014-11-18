@@ -11,16 +11,16 @@
    <children>
       <VBox prefHeight="312.0" prefWidth="550.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <GridPane prefHeight="184.0" prefWidth="550.0" styleClass="background">
+            <GridPane prefHeight="234.0" prefWidth="550.0" styleClass="background">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="99.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="489.0" minWidth="0.0" prefWidth="451.0" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="1.0" minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="112.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label prefHeight="24.0" prefWidth="82.0" text="Name :" GridPane.rowIndex="2">
@@ -64,29 +64,20 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d8d8d8;" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#onRemove" prefHeight="35.0" prefWidth="550.0" styleClass="buttonDelete" text="Lernfeld löschen">
-               <font>
-                  <Font size="12.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" top="10.0" />
-               </VBox.margin></Button>
             <GridPane prefHeight="55.0" prefWidth="550.0">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleOK" prefHeight="36.0" prefWidth="295.0" style="-fx-font-weight: bold;" text="Speichern" textAlignment="CENTER" GridPane.columnIndex="1">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleOK" prefHeight="36.0" prefWidth="295.0" styleClass="buttonSave" text="Speichern" textAlignment="CENTER" GridPane.columnIndex="1">
                      <font>
                         <Font size="12.0" />
                      </font>
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin></Button>
-                  <Button mnemonicParsing="false" onAction="#handleCancel" prefHeight="36.0" prefWidth="306.0" text="Abbrechen">
+                  <Button fx:id="removeButton" mnemonicParsing="false" onAction="#onRemove" prefHeight="35.0" prefWidth="550.0" styleClass="buttonDelete" text="Lernfeld löschen">
                      <font>
                         <Font size="12.0" />
                      </font>
-                     <GridPane.margin>
-                        <Insets right="5.0" />
-                     </GridPane.margin></Button>
+                  </Button>
                </children>
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

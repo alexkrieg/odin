@@ -184,10 +184,11 @@ public class MainApplication extends Application {
         controller.setRoomList(this.blabla);
 		dialogStage.showAndWait();
 	}
-	public void showConfigurationDialog(){
+	public void showConfigurationDialog(String hFrom, String hTo,String tFrom,String tTo, String day){
 		Stage dialogStage = this.generateStage("ConfigurationDialog", ConfigurationDialogController.DIALOG_STAGE_TITLE, false);
 		ConfigurationDialogController controller = this.fxmlLoader.getController();
 		controller.setDialogStage(dialogStage);
+		controller.setTimeInformation(hFrom,hTo,tFrom,tTo,day);
 		dialogStage.showAndWait();
 	}
     //================================================================================

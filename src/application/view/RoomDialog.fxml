@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="284.0" prefWidth="550.0" stylesheets="@dialog.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.RoomDialogController">
+<AnchorPane prefHeight="242.0" prefWidth="550.0" stylesheets="@dialog.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.RoomDialogController">
    <children>
       <VBox prefHeight="312.0" prefWidth="550.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -65,29 +65,20 @@
                   </TextField>
                </children>
             </GridPane>
-            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#onRemove" prefHeight="35.0" prefWidth="550.0" styleClass="buttonDelete" text="Raum löschen">
-               <font>
-                  <Font size="12.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" top="10.0" />
-               </VBox.margin></Button>
             <GridPane prefHeight="55.0" prefWidth="550.0">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleOK" prefHeight="36.0" prefWidth="295.0" style="-fx-font-weight: bold;" text="Speichern" textAlignment="CENTER" GridPane.columnIndex="1">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleOK" prefHeight="36.0" prefWidth="295.0" styleClass="buttonSave" text="Speichern" textAlignment="CENTER" GridPane.columnIndex="1">
                      <font>
                         <Font size="12.0" />
                      </font>
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin></Button>
-                  <Button mnemonicParsing="false" onAction="#handleCancel" prefHeight="36.0" prefWidth="306.0" text="Abbrechen">
+                  <Button fx:id="removeButton" mnemonicParsing="false" onAction="#onRemove" prefHeight="35.0" prefWidth="550.0" styleClass="buttonDelete" text="Raum löschen">
                      <font>
                         <Font size="12.0" />
                      </font>
-                     <GridPane.margin>
-                        <Insets right="5.0" />
-                     </GridPane.margin></Button>
+                  </Button>
                </children>
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

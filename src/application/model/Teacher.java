@@ -14,8 +14,6 @@ public class Teacher {
     //================================================================================
     // Properties
     //================================================================================
-	public static final DataFormat FORMAT = new DataFormat("application.model.Teacher");
-	
 	private int id;
 	private StringProperty firstName;
 	private StringProperty lastName;

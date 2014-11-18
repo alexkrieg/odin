@@ -68,7 +68,6 @@ public class TeacherCell extends ListCell<Teacher> {
 			});
 			this.setOnDragDetected((event)->{
 				MainApplication.log("Drag");
-				this.onDragDetected();
 			});
 			this.setOnDragDropped((event)->{
 				MainApplication.log("Dropped");
@@ -84,13 +83,6 @@ public class TeacherCell extends ListCell<Teacher> {
 	}
 	private void onMouseOut(){
 		this.optionBtn.setVisible(false);
-	}
-	private void onDragDetected(){
-		Dragboard db = this.startDragAndDrop(TransferMode.ANY);
-		ClipboardContent content = new ClipboardContent();
-		content.put(Teacher.FORMAT, this.teacher.toString());
-		//content.putString(this.teacher.lastNameProperty().get());
-		db.setContent(content);
 	}
     //================================================================================
     // Accesors
