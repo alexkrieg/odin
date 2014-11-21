@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootPane" prefHeight="333.0" prefWidth="530.0" style="-fx-background-color: grey;" styleClass="pain" stylesheets="@dialog.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ConfigurationDialogController">
+<AnchorPane fx:id="rootPane" prefHeight="333.0" prefWidth="530.0" styleClass="background" stylesheets="@dialog.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ConfigurationDialogController">
    <children>
       <VBox prefHeight="606.0" prefWidth="530.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -23,7 +23,7 @@
                               <Label fx:id="hourLabelFrom" text="3" />
                               <Label text=" - " />
                               <Label fx:id="hourLabelTo" text="4" />
-                              <Label text=" Stunde      " />
+                              <Label text=" Stunde       " />
                               <Label fx:id="timeLabelFrom" text="10:00" />
                               <Label text=" - ">
                                  <HBox.margin>

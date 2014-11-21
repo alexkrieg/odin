@@ -1,8 +1,11 @@
 package application.controller;
 
+import org.controlsfx.dialog.Dialogs;
+
 import application.MainApplication;
 import application.model.LearningField;
 import application.model.Lesson;
+import application.model.LessonTimeInformation;
 import application.model.Room;
 import application.model.SchoolClass;
 import application.model.SchoolClassGroup;
@@ -21,7 +24,9 @@ public class ConfigurationDialogController {
     //================================================================================
 	public static final String DIALOG_STAGE_TITLE = "Stunde bearbeiten ...";
 	private Stage dialogStage;
-	private MainApplication dataHandler;
+	private MainApplication mainApplication;
+	private Lesson lesson;
+	private LessonTimeInformation timeInformation;
 	
 	@FXML
 	private Label dayLabel;
@@ -48,7 +53,7 @@ public class ConfigurationDialogController {
     // Constructors
     //================================================================================
 	public ConfigurationDialogController(){
-		
+		this.lesson = null;
 	}
     @FXML
     private void initialize() {
@@ -61,15 +66,22 @@ public class ConfigurationDialogController {
 	public void setDialogStage(Stage stage){
 		this.dialogStage = stage;
 	}
-	public void setDatahandler(MainApplication dataHandler){
-		this.dataHandler = dataHandler;
+	public void setMainApplication(MainApplication app){
+		this.mainApplication = app;
 	}
-	public void setTimeInformation(String hFrom, String hTo,String tFrom, String tTo, String day){
-		this.timeLabelFrom.setText(tFrom);
-		this.timeLabelTo.setText(tTo);
-		this.hourLabelFrom.setText(hFrom);
-		this.hourLabelTo.setText(hTo);
-		this.dayLabel.setText(day);
+	public void setTimeInformation(LessonTimeInformation i){
+		this.timeInformation = i;
+		this.timeLabelFrom.setText(this.timeInformation.getTimeFrom());
+		this.timeLabelTo.setText(this.timeInformation.getTimeTo());
+		this.hourLabelFrom.setText(this.timeInformation.getHourFrom());
+		this.hourLabelTo.setText(this.timeInformation.getHourTo());
+		this.dayLabel.setText(this.timeInformation.getDay());
+	}
+	public void setLesson(Lesson l){
+		if(l!= null){
+			this.lesson = l;
+			//TODO : set all fields
+		}
 	}
 	public void setTeachers(ObservableList<Teacher> list){
 		this.teacherComboBox.setItems(list);
@@ -85,7 +97,6 @@ public class ConfigurationDialogController {
     //================================================================================
 	@FXML
 	private void onSave(){
-		MainApplication.log("SAVE");
 		Teacher t = this.teacherComboBox.getSelectionModel().getSelectedItem();
 		LearningField f = this.fieldComboBox.getSelectionModel().getSelectedItem();
 		SchoolClass s = this.classComboBox.getSelectionModel().getSelectedItem();
@@ -94,36 +105,46 @@ public class ConfigurationDialogController {
 		String day = this.dayLabel.getText();
 		String hour = ""+this.hourLabelFrom.getText()+"-"+this.hourLabelTo.getText();
 		if(t == null || f == null || s == null || g == null || r == null){
+	    	Dialogs.create()
+	        .owner(dialogStage)
+	        .title("Fehler")
+	        .message("Es sind nicht alle Felder ausgef¸llt! Bitte w‰hlen sie in jeder Kategorie ein dings!")
+	        .showError();
 			return;
 		}
-		Lesson l = new Lesson(t, f, s, g, r, day, hour);
-		//TODO: instert lesson in mapping table
+		if(this.lesson != null){
+			this.lesson.setLearningField(f);
+			this.lesson.setRoom(r);
+			this.lesson.setsClass(s);
+			this.lesson.setsClassGroup(g);
+			//TODO: update lesson anhand von id
+		}else{
+			Lesson l = new Lesson(t, f, s, g, r, timeInformation);
+			//TODO: insert lesson in mapping table
+		}
 		this.dialogStage.close();
 	}
 	@FXML
 	private void onClassComboBox(){
-		MainApplication.log("onClass");
 		SchoolClass sc = this.classComboBox.getSelectionModel().getSelectedItem();
 		this.classGroupComboBox.setItems(sc.getGroups());
 		this.classGroupComboBox.setDisable(false);
+		this.classGroupComboBox.getSelectionModel().select(0);
 	}
 	@FXML
 	private void onClassGroupComboBox(){
-		MainApplication.log("onGroup");
 	}
 	@FXML
 	private void onTeacherComboBox(){
-		MainApplication.log("onTeacher");
 		Teacher t = this.teacherComboBox.getSelectionModel().getSelectedItem();
 		this.fieldComboBox.setItems(t.learningFieldProperty());
 		this.fieldComboBox.setDisable(false);
+		this.fieldComboBox.getSelectionModel().select(0);
 	}
 	@FXML
 	private void onFieldComboBox(){
-		MainApplication.log("onField");
 	}
 	@FXML
 	private void onRoomComboBox(){
-		MainApplication.log("onRoom");
 	}
 }

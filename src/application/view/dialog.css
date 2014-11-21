@@ -30,21 +30,22 @@
  * Custom Buttons
  */
 .buttonDelete {
-	-fx-background-color: #cc5c5c;
+	-fx-background-color: transparent ;/* #cc5c5c*/
 	-fx-background-radius: 0;
 	-fx-border-width: 1;
 	-fx-border-color: #ffffff /*transparent #ffffff transparent*/;
 	-fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 12pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-text-fill:#ee4949 ;/*#d8d8d8 */
 }
 .buttonDelete:hover {
-	-fx-background-color: #ee4949;
+	-fx-background-color: #ee4949;/* */
 	-fx-text-fill: #ffffff;
 	-fx-font-weight: bold;
 }
 .buttonSave{
-	-fx-background-color: #339933;
+	-fx-background-color: transparent ; /*#339933 */
+	-fx-text-fill: #00b200;
 }
 .buttonSave:hover {
 	-fx-background-color: #00b200;
@@ -134,6 +135,17 @@
 .list-view:focused{
 	-fx-border-color: #000000;
 	-fx-border-width: 1px;
+}
+.list-view .list-cell:filled:selected:focused, .list-cell:filled:selected {
+     -fx-background-color: transparent  ;
+    /*-fx-text-fill: white; /* 5 */
+}
+.list-view .list-cell { -fx-text-fill: black; /* 5 */ }
+.list-view .list-cell:odd { /* 1 */ }
+.list-view .list-cell:even{ /* for information */ }
+.list-view .list-cell:filled:hover { 
+    -fx-background-color: #d8d8d8; /* 2 */
+    /*-fx-text-fill: white; /* 5 */
 }
 /*
  * List Cell Style

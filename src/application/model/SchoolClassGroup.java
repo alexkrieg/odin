@@ -39,7 +39,7 @@ public class SchoolClassGroup {
 	}
 	@Override
 	public String toString(){
-		return this.id +" - " +this.name.get();
+		return "" +this.name.get();
 	}
 
 

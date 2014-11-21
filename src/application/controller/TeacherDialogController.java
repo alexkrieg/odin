@@ -2,7 +2,6 @@ package application.controller;
 
 
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.controlsfx.control.CheckListView;
+import org.controlsfx.dialog.Dialogs;
 
 import application.MainApplication;
 import application.model.LearningField;
@@ -34,7 +34,7 @@ public class TeacherDialogController {
 	@FXML
 	private Pane listPane;
 	
-	private MainApplication dataHandler;
+	private MainApplication mainApplication;
 	private Stage dialogStage;
 	private CheckListView<LearningField> checkListView;
 	private ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
@@ -45,9 +45,7 @@ public class TeacherDialogController {
     //================================================================================
 	public TeacherDialogController(){
 		this.checkListView = new CheckListView<>();
-		teacherList.add(null);
-    	// TODO: get all teachers here and save them in teacher list
-    	// TODO: get all learning fields here and save them in field list
+		teacherList.add(new Teacher(-1, "Neuen Lehrer anlegen ...", ""));
 	}
 	/**
      * Initializes the controller class. This method is automatically called
@@ -56,39 +54,38 @@ public class TeacherDialogController {
     @FXML
     private void initialize() {
     	this.choiceBox.setItems(this.teacherList);
+    	this.choiceBox.getSelectionModel().select(0);
     	this.choiceBoxAction();
     	this.checkListView.setMaxHeight(233);
     	this.checkListView.setMaxWidth(405);
     	this.checkListView.setMinHeight(233);
     	this.checkListView.setMinWidth(405);
     	this.listPane.getChildren().add(checkListView);
-    	checkListView.getCheckModel().getCheckedItems().addListener(new ListChangeListener<LearningField>() {
-            public void onChanged(ListChangeListener.Change<? extends LearningField> c) {
-                System.out.println(checkListView.getCheckModel().getCheckedItems());
-            }
-        });
+    	this.checkListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+    		checkListView.getCheckModel().check(newValue);
+		});
     }
     public void setDialogStage(Stage stage){
     	this.dialogStage = stage;
     }
-	public void setDataHandler(MainApplication handler){
-		this.dataHandler=handler;
+	public void setMainApplication(MainApplication app){
+		this.mainApplication=app;
+    	// TODO: get all teachers here and save them in teacher list
+    	// TODO: get all learning fields here and save them in field list
+		// TODO: this.mainApplication.sharedSQLManager().getData;
 	}
     private void setTeacher(Teacher teacher){
-    	if(teacher == null){
+    	if(teacher.getID() == -1){
     		this.removeButton.setDisable(true);
     		this.firstNameTxtField.setText("");
         	this.lastNameTxtField.setText("");
         	this.checkListView.setDisable(true);
     	}else{
-    		MainApplication.log("Alloo");
     		this.removeButton.setDisable(false);
     		this.firstNameTxtField.setText(teacher.firstNameProperty().get());
         	this.lastNameTxtField.setText(teacher.lastNameProperty().get());
         	this.checkListView.setDisable(false);
-        	MainApplication.log("Fields:"+teacher.learningFieldProperty());
         	for(LearningField f : teacher.learningFieldProperty()){
-        		MainApplication.log("TOCheck:"+f);
         		this.checkListView.getCheckModel().check(f);
         	}
     	}
@@ -113,7 +110,7 @@ public class TeacherDialogController {
     	if (this.firstNameTxtField.getText().length() == 0 || this.lastNameTxtField.getText().length() == 0 ) {
     		return;
     	}
-    	if (this.choiceBox.getSelectionModel().getSelectedItem() == null) {
+    	if (this.choiceBox.getSelectionModel().getSelectedItem().getID() == -1) {
     		Teacher t = new Teacher(this.firstNameTxtField.getText(), this.lastNameTxtField.getText());
 			this.teacherList.add(t);
 			// TODO: insert new Teacher
@@ -127,6 +124,12 @@ public class TeacherDialogController {
         	t.learningFieldProperty().addAll(list);
         	// TODO: update teacher anhand von id
     	}
+    	Dialogs.create()
+        .owner(dialogStage)
+        .title("Information")
+        .message("ƒnderungen wurden gespeichert!")
+        .showInformation();
+    	this.mainApplication.getClass();
     	this.choiceBoxAction();
     }
     @FXML
@@ -137,7 +140,7 @@ public class TeacherDialogController {
     private void handleRemove() {
     	Teacher t = this.choiceBox.getSelectionModel().getSelectedItem();
     	this.teacherList.remove(t);
-    	// TODO: remove teacher anhnd von id
+    	// TODO: remove teacher anhand von id
     	this.choiceBoxAction();
     }
 }

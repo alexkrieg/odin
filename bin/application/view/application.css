@@ -1,3 +1,6 @@
+/*
+ * Menu Bar style
+ */
 .menu-bar {
     -fx-background-color: derive(#1d1d1d,20%);
 }
@@ -15,4 +18,69 @@
 
 .menu .left-container {
     -fx-background-color: black;
+}
+/*
+ * Tab Pane Style
+ */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:70px;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #d8d8d8;
+	-fx-background-insets: 0 0 0 0,0,0;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+.tab-pane .tab:focused
+{
+    -fx-border-style: solid ;
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: derive(#1d1d1d,20%);
+}
+.tab:hover .tab-label{
+	-fx-text-fill: -fx-focus-color;
+}
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: derive(#1d1d1d,20%);
+    -fx-font-size: 13px;
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: -fx-focus-color;
+    -fx-font-weight: bold ;
+}
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0;
+	 /* -fx-padding: 0.416667em 0.166667em 0.0em 0.833em; /* 5 2 0 10 */
+  		/* -fx-padding: 0.416667em 0.166667em 0.0em 0.0em; /* overriden as 5 2 0 0 */
+}
+/*
+ * List View Style
+ */
+ .list-cell{
+ 	-fx-min-height: 40px;
+ }
+ .list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: -fx-focus-color;
+    /*-fx-text-fill: white; /* 5 */
+}
+.list-cell { -fx-text-fill: black; /* 5 */ }
+.list-cell:odd { /* 1 */ }
+.list-cell:even { /* for information */ }
+.list-cell:filled:hover { 
+    -fx-background-color: #d8d8d8; /* 2 */
+    /*-fx-text-fill: white; /* 5 */
 }

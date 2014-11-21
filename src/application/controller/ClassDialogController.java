@@ -44,18 +44,19 @@ public class ClassDialogController {
     // Cunstructors
     //================================================================================
 	public ClassDialogController(){
-		this.classList.add(null);
+		this.classList.add(new SchoolClass("Neue Klasse hinzuf¸gen ...",-1));
 	}
     @FXML
     private void initialize() {
     	this.choiceBox.setItems(this.classList);
+    	this.choiceBox.getSelectionModel().select(0);
     	this.choiceBoxAction();
     }
     public void setDialogStage(Stage stage){
     	this.dialogStage = stage;
     }
     private void setClass(SchoolClass classy){
-    	if(classy == null){
+    	if(classy.getId() == -1){
     		this.nameTxtField.setText("");
     		this.descriptionTxtField.setText("");
     		this.removeButton.setDisable(true);
@@ -84,7 +85,7 @@ public class ClassDialogController {
     }
     @FXML
     private void handleOK() {
-    	if(this.choiceBox.getSelectionModel().getSelectedItem() == null){
+    	if(this.choiceBox.getSelectionModel().getSelectedItem().getId() == -1){
     		SchoolClass s = new SchoolClass(this.nameTxtField.getText());
     		s.setDescription(this.descriptionTxtField.getText());
     		this.classList.add(s);
@@ -95,6 +96,11 @@ public class ClassDialogController {
     		s.setName(this.nameTxtField.getText());
     		// TODO : update class anhand von id 
     	}
+    	Dialogs.create()
+        .owner(dialogStage)
+        .title("Information")
+        .message("ƒnderungen wurden gespeichert!")
+        .showInformation();
     	this.choiceBoxAction();
     }
     @FXML
@@ -123,7 +129,6 @@ public class ClassDialogController {
     	}
     	SchoolClassGroup g = this.groupList.getSelectionModel().getSelectedItem();
     	if(g!= null){
-    		MainApplication.log("Ja"+this.groupList.getSelectionModel().getSelectedIndex());
     		SchoolClass sc = this.choiceBox.getSelectionModel().getSelectedItem();
   		  	sc.getGroups().remove(this.groupList.getSelectionModel().getSelectedItem());
     	}

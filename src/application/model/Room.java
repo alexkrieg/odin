@@ -16,12 +16,12 @@ public class Room {
     //================================================================================
 	public Room(String name, int id){
 		this(name);
-		this.id=id;
+		this.setId(id);
 	}
 	public Room(String name){
 		this.name= new SimpleStringProperty(name);
 		this.characteristic= new SimpleStringProperty("");
-		this.id = 0;
+		this.setId(0);
 	}
     //================================================================================
     // Accessors
@@ -38,9 +38,15 @@ public class Room {
 	public void setCharacteristic(String characteristic) {
 		this.characteristic.set(characteristic);
 	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	@Override
 	public String toString(){
-		return this.id+"-"+this.name.get();
+		return ""+this.name.get();
 	}
 
 }

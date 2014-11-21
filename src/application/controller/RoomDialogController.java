@@ -1,5 +1,7 @@
 package application.controller;
 
+import org.controlsfx.dialog.Dialogs;
+
 import application.MainApplication;
 import application.model.LearningField;
 import application.model.Room;
@@ -33,15 +35,17 @@ public class RoomDialogController {
     //================================================================================
 	public RoomDialogController(){
 		// TODO: get all rooms and save them in room list
-		this.roomList.add(null);
+		this.roomList.add(new Room("Neuen Raum hinzuf¸gen ...", -1));
 		
 	}
     @FXML
     private void initialize() {
     	this.choiceBox.setItems(this.roomList);
+    	this.choiceBox.getSelectionModel().select(0);
+    	this.choiceBoxAction();
     }
     private void setRoom(Room room){
-    	if(room == null){
+    	if(room.getId() == -1){
     		this.nameTxtField.setText("");
     		this.characteristicTxtField.setText("");
     		this.removeButton.setDisable(true);
@@ -69,7 +73,7 @@ public class RoomDialogController {
     }
     @FXML
     private void handleOK() {
-    	if(this.choiceBox.getSelectionModel().getSelectedItem() == null){
+    	if(this.choiceBox.getSelectionModel().getSelectedItem().getId() == -1){
     		Room r = new Room(this.nameTxtField.getText());
     		r.setCharacteristic(this.characteristicTxtField.getText());
     		this.roomList.add(r);
@@ -80,6 +84,11 @@ public class RoomDialogController {
     		r.setName(this.nameTxtField.getText());
     		// TODO : update room anhand von id 
     	}
+    	Dialogs.create()
+        .owner(null)
+        .title("Information")
+        .message("ƒnderungen wurden gespeichert!")
+        .showInformation();
     	this.choiceBoxAction();
     }
     @FXML

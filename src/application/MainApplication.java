@@ -7,18 +7,25 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import application.model.*;
-import application.controller.*;
+import application.controller.AboutDialogController;
+import application.controller.ClassDialogController;
+import application.controller.ConfigurationDialogController;
+import application.controller.LearningDialogController;
+import application.controller.MainWindowController;
+import application.controller.RoomDialogController;
+import application.controller.TeacherDialogController;
+import application.model.LearningField;
+import application.model.Lesson;
+import application.model.LessonTimeInformation;
+import application.model.Room;
+import application.model.SchoolClass;
+import application.model.Teacher;
 
 
 public class MainApplication extends Application {
@@ -28,7 +35,7 @@ public class MainApplication extends Application {
     //================================================================================
 	private static final String APPLICATION_TITLE = "Stundenplaner";
 	private Stage primaryStage;
-	
+	private MainWindowController mainController;
 	private MySQLAccessManager sqlManager;
 	private FXMLLoader fxmlLoader;
 	
@@ -108,12 +115,14 @@ public class MainApplication extends Application {
 			FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApplication.class.getResource("view/MainWindow.fxml"));
 			BorderPane root = loader.load();
-			Scene scene = new Scene(root,1280,800);
+			Scene scene = new Scene(root,1080,600);
 			scene.getStylesheets().add(getClass().getResource("view/application.css").toExternalForm());
 			this.primaryStage.setScene(scene);
 			this.primaryStage.setTitle(MainApplication.APPLICATION_TITLE);
-			MainWindowController contr  = loader.getController();
-			contr.setMainApp(this);
+			this.mainController  = loader.getController();
+			this.mainController.setMainApp(this);
+			this.mainController.setClasses(classData);
+			this.mainController.setTeachers(teacherData);
 			this.primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -160,7 +169,7 @@ public class MainApplication extends Application {
         controller.setDialogStage(dialogStage);
         controller.setTeachers(this.teacherData);
         controller.setFields(this.learningFieldData);
-        controller.setDataHandler(this);
+        controller.setMainApplication(this);
 		dialogStage.showAndWait();
 	}
 	public void showAboutDialog(){
@@ -184,12 +193,24 @@ public class MainApplication extends Application {
         controller.setRoomList(this.blabla);
 		dialogStage.showAndWait();
 	}
-	public void showConfigurationDialog(String hFrom, String hTo,String tFrom,String tTo, String day){
+	public void showConfigurationDialog(Lesson l,LessonTimeInformation i){
 		Stage dialogStage = this.generateStage("ConfigurationDialog", ConfigurationDialogController.DIALOG_STAGE_TITLE, false);
 		ConfigurationDialogController controller = this.fxmlLoader.getController();
 		controller.setDialogStage(dialogStage);
-		controller.setTimeInformation(hFrom,hTo,tFrom,tTo,day);
+		controller.setMainApplication(this);
+		controller.setTimeInformation(i);
+		controller.setLesson(l);
+		controller.setClasses(this.classData);
+		controller.setRooms(this.blabla);
+		controller.setTeachers(this.teacherData);
 		dialogStage.showAndWait();
+	}    
+	//================================================================================
+    // Updater
+    //================================================================================
+	public void updateData(){
+		//TODO: update all data in main view controller (this.observable lists) from sql Manager
+		this.mainController.reloadData();
 	}
     //================================================================================
     // Launch / Log / Close

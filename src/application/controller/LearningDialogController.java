@@ -1,5 +1,7 @@
 package application.controller;
 
+import org.controlsfx.dialog.Dialogs;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,7 +19,7 @@ public class LearningDialogController {
     //================================================================================
 	public static final String DIALOG_STAGE_TITLE = "Lernfeld bearbeiten ...";
 	private Stage dialogStage;
-	private MainApplication dataHandler;
+	private MainApplication mainApplication;
 	
 	@FXML
 	private Button removeButton;
@@ -33,23 +35,24 @@ public class LearningDialogController {
     // Cunstructors
     //================================================================================
 	public LearningDialogController(){
-		this.fieldList.add(null);
+		this.fieldList.add(new LearningField("Neues Lernfeld hinzuf¸gen ...","",-1));
 		//TODO: get all learning fields and save the in fieldList
 		
 	}
     @FXML
     private void initialize() {
     	this.comboBox.setItems(this.fieldList);
+		this.comboBox.getSelectionModel().select(0);
     	this.choiceBoxAction();
     }
-    public void setDataHandler(MainApplication dataHadler){
-    	this.dataHandler = dataHadler;
+    public void setMainApplication(MainApplication app){
+    	this.mainApplication = app;
     }
     public void setDialogStage(Stage stage){
     	this.dialogStage = stage;
     }
     private void setField(LearningField field){
-    	if(field == null){
+    	if(field.getID() == -1){
     		this.removeButton.setDisable(true);
     		this.nameTxtField.setText("");
         	this.descriptionTxtField.setText("");
@@ -74,7 +77,7 @@ public class LearningDialogController {
     	if(this.nameTxtField.getText().length()== 0 || this.descriptionTxtField.getText().length() == 0){
     		return;
     	}
-    	if(this.comboBox.getSelectionModel().getSelectedItem() == null){
+    	if(this.comboBox.getSelectionModel().getSelectedItem().getID() == -1){
     		LearningField f = new LearningField(this.nameTxtField.getText(), this.descriptionTxtField.getText(), 0);
     		this.fieldList.add(f);
     		// TODO: insert new Field in database
@@ -84,6 +87,11 @@ public class LearningDialogController {
     		f.setDescription(this.descriptionTxtField.getText());
     		// TODO : update db anhand von field id
     	}
+    	Dialogs.create()
+        .owner(dialogStage)
+        .title("Information")
+        .message("ƒnderungen wurden gespeichert!")
+        .showInformation();
     	this.choiceBoxAction();
     }
     @FXML

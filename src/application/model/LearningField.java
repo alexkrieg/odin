@@ -51,6 +51,7 @@ public class LearningField {
 	}
 	@Override
 	public String toString(){
-		return this.id+"-"+this.name.get()+"-"+this.description.get();
+		return this.getNameProperty().get()+"";
+		//return this.id+"-"+this.name.get()+"-"+this.description.get();
 	}
 }

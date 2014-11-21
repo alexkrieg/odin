@@ -25,7 +25,7 @@ public class SchoolClass {
 		this.name = new SimpleStringProperty(name);
 		this.description = new SimpleStringProperty("");
 		this.groups = FXCollections.observableArrayList();
-		this.groups.add(new SchoolClassGroup("Alle Schüler"));
+		this.groups.add(new SchoolClassGroup("Alle SchÂ¸ler"));
 	}
 	
     //================================================================================
@@ -54,6 +54,6 @@ public class SchoolClass {
 	}
 	@Override
 	public String toString(){
-		return this.id +"-" +this.name.get();
+		return ""+this.name.get();
 	}
 }

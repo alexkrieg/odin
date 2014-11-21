@@ -5,30 +5,38 @@ public class Lesson {
     //================================================================================
     // Properties
     //================================================================================
+	private int id;
 	private Teacher teacher;
 	private LearningField learningField;
 	private SchoolClass sClass;
 	private SchoolClassGroup sClassGroup;
 	private Room room;
-	
-	private String day;
-	private String hour;
+	private LessonTimeInformation timeInformation;
 	
     //================================================================================
     // Cunstructors
     //================================================================================
-	public Lesson(Teacher t, LearningField f, SchoolClass s, SchoolClassGroup g, Room r, String day, String hour){
+	public Lesson(int id,Teacher t, LearningField f, SchoolClass s, SchoolClassGroup g, Room r, LessonTimeInformation i){
+		this(t,f,s,g,r,i);
+		this.setId(id);
+	}
+	public Lesson(Teacher t, LearningField f, SchoolClass s, SchoolClassGroup g, Room r, LessonTimeInformation i){
 		this.setTeacher(t);
 		this.setLearningField(f);
 		this.setsClass(s);
 		this.setsClassGroup(g);
 		this.setRoom(r);
-		this.setDay(day);
-		this.setHour(hour);
+		this.setTimeInformation(i);
 	}
-    //================================================================================
+	//================================================================================
     // Getter / Setter
     //================================================================================
+    public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public Teacher getTeacher() {
 		return teacher;
 	}
@@ -59,24 +67,18 @@ public class Lesson {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
-	public String getDay() {
-		return day;
+    public LessonTimeInformation getTimeInformation() {
+		return timeInformation;
 	}
-	public void setDay(String day) {
-		this.day = day;
+	public void setTimeInformation(LessonTimeInformation timeInformation) {
+		this.timeInformation = timeInformation;
 	}
-	public String getHour() {
-		return hour;
-	}
-	public void setHour(String hour) {
-		this.hour = hour;
-	}
-    //================================================================================
+	//================================================================================
     // Methods
     //================================================================================
 	@Override
 	public String toString(){
-		String s = ""+getDay()+","+getHour()+","+getsClass()+","+getsClassGroup()+","+getTeacher()+",";
+		String s = ""+getTimeInformation()+","+getsClass()+","+getsClassGroup()+","+getTeacher()+",";
 		s += getRoom()+","+getLearningField();
 		return s;
 	}
