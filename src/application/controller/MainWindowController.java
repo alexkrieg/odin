@@ -3,9 +3,13 @@ package application.controller;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import javax.security.auth.callback.Callback;
+
 import application.MainApplication;
 import application.model.Lesson;
 import application.model.LessonTimeInformation;
@@ -18,7 +22,7 @@ public class MainWindowController {
 	private MainApplication mainApp;
 	
 	@FXML
-	private TableView<Lesson> mainTableView;
+	private TableView<TimePeriod> mainTableView;
 	@FXML
 	private TableColumn<TimePeriod, String> timeC;
 	@FXML
@@ -49,7 +53,9 @@ public class MainWindowController {
 	}
 	@FXML
     private void initialize() {
-		MainApplication.log("init");
+		this.mainTableView.getSelectionModel().setCellSelectionEnabled(true);
+		this.mainTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		this.mainTableView.setEditable(false);
 		// Handle ListView selection changes.
 		this.teacherListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 		    System.out.println("TeacherListView Selection Changed (selected: " + newValue.toString() + ")");
@@ -57,8 +63,32 @@ public class MainWindowController {
 		this.classListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 		    System.out.println("ClassListView Selection Changed (selected: " + newValue.toString() + ")");
 		});
+
 		timeC.setCellValueFactory(cellData -> cellData.getValue().getTimeInformation());
-		this.reloadData();
+		mondayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDay("Montag"));
+		tuesdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDay("Dienstag"));
+		wendsdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDay("Mittwoch"));
+		thursdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDay("Donnerstag"));
+		fridayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDay("Freitag"));
+//		mondayC.setCellFactory(column -> {
+//		    return new TableCell<TimePeriod, Lesson>() {
+//		        @Override
+//		        protected void updateItem(Lesson item, boolean empty) {
+//		            super.updateItem(item, empty);
+//		            this.setOnMouseClicked((event)->{
+//		            	if(event.getClickCount() == 2){
+//		            		LessonTimeInformation i = new LessonTimeInformation("Dienstag", "1", "2", "14:00", "23:00");
+//		            		// if null 
+//		            		Lesson l = null;
+//		            		mainApp.showConfigurationDialog(l,i);	
+//		            	}
+//		            });
+//		        }
+//		        
+//		    };
+//		});
+		
+
 	}
 	public void reloadData(){
     	// TODO: get all teachers here 
@@ -73,6 +103,9 @@ public class MainWindowController {
 	}
 	public void setClasses(ObservableList<SchoolClass> list){
 		this.classListView.setItems(list);
+	}
+	public void setTimes(ObservableList<TimePeriod> list) {
+		this.mainTableView.setItems(list);
 	}
     //================================================================================
     // Action Handlers

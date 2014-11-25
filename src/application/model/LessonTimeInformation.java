@@ -68,6 +68,10 @@ public class LessonTimeInformation {
 	//================================================================================
     // Methods
     //================================================================================
+	public String getTime(){
+		String s = ""+getHourFrom()+" - "+getHourTo()+"\n"+getTimeFrom()+" - "+getTimeTo()+" Uhr";
+		return s;
+	}
 	@Override
 	public String toString(){
 		String s = ""+getDay()+","+getHourFrom()+"-"+getHourTo()+","+getTimeFrom()+"-";

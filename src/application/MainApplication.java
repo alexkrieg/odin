@@ -26,6 +26,7 @@ import application.model.LessonTimeInformation;
 import application.model.Room;
 import application.model.SchoolClass;
 import application.model.Teacher;
+import application.model.TimePeriod;
 
 
 public class MainApplication extends Application {
@@ -43,6 +44,7 @@ public class MainApplication extends Application {
 	private ObservableList<LearningField> learningFieldData = FXCollections.observableArrayList();
 	private ObservableList<Room> blabla = FXCollections.observableArrayList();
 	private ObservableList<SchoolClass> classData = FXCollections.observableArrayList();
+	private ObservableList<TimePeriod> timePeriodData = FXCollections.observableArrayList();
 	
     //================================================================================
     // Cunstructors
@@ -91,6 +93,14 @@ public class MainApplication extends Application {
 		classData.add(new SchoolClass("Klasse 4"));
 		classData.add(new SchoolClass("Klasse 5"));
 		classData.add(new SchoolClass("Klasse 6"));
+		ObservableList<Lesson> test = FXCollections.observableArrayList();
+		test.add(new Lesson(t1,learningFieldData.get(3),classData.get(2),classData.get(2).getGroups().get(0),blabla.get(0),new LessonTimeInformation("Montag", "1", "2", "08:00", "11:00")));
+		MainApplication.log("Lessons:"+test);
+		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "1", "2", "08:00", "11:00")));
+		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "3", "4", "10:00", "11:00")));
+		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "5", "6", "10:00", "11:00")));
+		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "7", "8", "10:00", "11:00")));
+		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "9", "10", "10:00", "11:00")));
 	}
 	
     //================================================================================
@@ -123,6 +133,7 @@ public class MainApplication extends Application {
 			this.mainController.setMainApp(this);
 			this.mainController.setClasses(classData);
 			this.mainController.setTeachers(teacherData);
+			this.mainController.setTimes(timePeriodData);
 			this.primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
