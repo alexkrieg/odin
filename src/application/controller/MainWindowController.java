@@ -70,6 +70,28 @@ public class MainWindowController {
 		wendsdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDay("Mittwoch"));
 		thursdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDay("Donnerstag"));
 		fridayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDay("Freitag"));
+//		Callback<TableColumn<TimePeriod, Lesson>, TableCell<TimePeriod, Lesson>> c = new Callback<TableColumn<TimePeriod, Lesson>, TableCell<TimePeriod, Lesson>>() {
+//		    @Override
+//		    public TableCell<TimePeriod, Lesson> call(TableColumn<TimePeriod, Lesson> param) {
+//		        return new TableCell<TimePeriod, Lesson>() {
+//		            @Override
+//		            protected void updateItem(Calendar item, boolean empty) {
+//		                super.updateItem(item, empty);
+//		                if (!empty) {
+//		                	// Use a SimpleDateFormat or similar in the format method
+//		                	setText(format(item));
+//		                	if (item.get(Calendar.YEAR) == 2011) {
+//		                		setTextFill(Color.CHOCOLATE);
+//		                	} else {
+//		                		setTextFill(Color.BLACK);
+//		                	}
+//		                } else {
+//		                	setText(null);
+//		                }
+//		            }
+//		        };
+//		    }
+//		};
 //		mondayC.setCellFactory(column -> {
 //		    return new TableCell<TimePeriod, Lesson>() {
 //		        @Override

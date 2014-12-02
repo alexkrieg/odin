@@ -62,7 +62,7 @@
             <TableColumn fx:id="fridayC" prefWidth="154.0" text="Freitag" />
         </columns>
          <BorderPane.margin>
-            <Insets top="5.0" />
+            <Insets top="33.0" />
          </BorderPane.margin>
       </TableView>
    </center>
