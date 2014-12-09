@@ -104,7 +104,6 @@ public class MainWindowController {
 		            	}
 		            });
 		        }
-		        
 		    };
 		});
 		thursdayC.setCellFactory(column -> {
