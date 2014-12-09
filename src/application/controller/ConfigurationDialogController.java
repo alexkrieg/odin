@@ -60,7 +60,7 @@ public class ConfigurationDialogController {
     //================================================================================
 	public ConfigurationDialogController(){
 		this.lesson = null;
-		//this.lessons.add(null);
+		this.lessons.add(null);
 	}
     @FXML
     private void initialize() {
@@ -88,12 +88,15 @@ public class ConfigurationDialogController {
 		this.dayLabel.setText(this.timeInformation.getDay());
 	}
 	public void setLesson(Lesson l){
+		MainApplication.log("Set lesson: "+l);
 		if(l!= null){
+			this.buttonRemove.setDisable(false);
 			this.lesson = l;
 			//TODO : set all fields
 		}
 		else{
-			
+			this.buttonRemove.setDisable(true);
+			this.lesson = null;
 		}
 	}
 	public void setLessons(ObservableList<String> list){
@@ -166,10 +169,10 @@ public class ConfigurationDialogController {
 	@FXML
 	private void onClassSplitComboBox(){
 		//Lesson l = this.classSplitComboBox.getSelectionModel().getSelectedItem();
-		//this.setLesson(l);
+		this.setLesson(null);
 	}
 	@FXML
 	private void onButtonRemove(){
-		MainApplication.log("Remove");
+		this.lessons.remove(this.classSplitComboBox.getSelectionModel().getSelectedItem());
 	}
 }

@@ -33,6 +33,7 @@ public class Teacher {
 		this.firstName = new SimpleStringProperty(firstName);
 		this.lastName = new SimpleStringProperty(lastName);
 		this.learningFields = FXCollections.observableArrayList();
+		this.id = -1;
 	}
     //================================================================================
     // Setter

@@ -42,7 +42,7 @@
                         <Insets left="10.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </VBox>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#onSave" prefHeight="34.0" prefWidth="133.0" style="-fx-font-weight: bold;" text="Speichern" textAlignment="CENTER">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#onSave" prefHeight="34.0" prefWidth="133.0" style="-fx-font-weight: bold;" styleClass="buttonSave" text="Speichern" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets right="10.0" top="21.0" />
                      </HBox.margin>
@@ -57,7 +57,7 @@
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator">
+            <Pane prefHeight="200.0" prefWidth="253.0">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin></Pane>
