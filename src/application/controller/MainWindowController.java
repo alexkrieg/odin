@@ -45,10 +45,8 @@ public class MainWindowController {
     // Cunstructors
     //================================================================================
 	public MainWindowController(){
-		MainApplication.log("const");
 	}
 	public void setMainApp(MainApplication mainApp){
-		MainApplication.log("setApp");
 		this.mainApp=mainApp;
 	}
 	@FXML
@@ -92,23 +90,40 @@ public class MainWindowController {
 //		        };
 //		    }
 //		};
-//		mondayC.setCellFactory(column -> {
-//		    return new TableCell<TimePeriod, Lesson>() {
-//		        @Override
-//		        protected void updateItem(Lesson item, boolean empty) {
-//		            super.updateItem(item, empty);
-//		            this.setOnMouseClicked((event)->{
-//		            	if(event.getClickCount() == 2){
-//		            		LessonTimeInformation i = new LessonTimeInformation("Dienstag", "1", "2", "14:00", "23:00");
-//		            		// if null 
-//		            		Lesson l = null;
-//		            		mainApp.showConfigurationDialog(l,i);	
-//		            	}
-//		            });
-//		        }
-//		        
-//		    };
-//		});
+		mondayC.setCellFactory(column -> {
+		    return new TableCell<TimePeriod, Lesson>() {
+		        @Override
+		        protected void updateItem(Lesson item, boolean empty) {
+		            super.updateItem(item, empty);
+		            this.setOnMouseClicked((event)->{
+		            	if(event.getClickCount() == 2){
+		            		LessonTimeInformation i = new LessonTimeInformation("Montag", "1", "2", "14:00", "23:00");
+		            		// if null 
+		            		Lesson l = null;
+		            		mainApp.showConfigurationDialog(l,i);	
+		            	}
+		            });
+		        }
+		        
+		    };
+		});
+		thursdayC.setCellFactory(column -> {
+		    return new TableCell<TimePeriod, Lesson>() {
+		        @Override
+		        protected void updateItem(Lesson item, boolean empty) {
+		            super.updateItem(item, empty);
+		            this.setOnMouseClicked((event)->{
+		            	if(event.getClickCount() == 2){
+		            		LessonTimeInformation i = new LessonTimeInformation("Dienstag", "1", "2", "14:00", "23:00");
+		            		// if null 
+		            		Lesson l = null;
+		            		mainApp.showConfigurationDialog(l,i);	
+		            	}
+		            });
+		        }
+		        
+		    };
+		});
 		
 
 	}

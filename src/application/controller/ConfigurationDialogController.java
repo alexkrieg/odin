@@ -10,8 +10,10 @@ import application.model.Room;
 import application.model.SchoolClass;
 import application.model.SchoolClassGroup;
 import application.model.Teacher;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -27,7 +29,9 @@ public class ConfigurationDialogController {
 	private MainApplication mainApplication;
 	private Lesson lesson;
 	private LessonTimeInformation timeInformation;
-	
+	private ObservableList<String> lessons = FXCollections.observableArrayList();
+	@FXML
+	private Button buttonRemove;
 	@FXML
 	private Label dayLabel;
 	@FXML
@@ -38,6 +42,8 @@ public class ConfigurationDialogController {
 	private Label timeLabelFrom;
 	@FXML
 	private Label timeLabelTo;
+	@FXML
+	private ComboBox<String> classSplitComboBox;
 	@FXML
 	private ComboBox<SchoolClass> classComboBox;
 	@FXML
@@ -54,11 +60,15 @@ public class ConfigurationDialogController {
     //================================================================================
 	public ConfigurationDialogController(){
 		this.lesson = null;
+		//this.lessons.add(null);
 	}
     @FXML
     private void initialize() {
     	this.classGroupComboBox.setDisable(true);
     	this.fieldComboBox.setDisable(true);
+    	this.classSplitComboBox.setItems(this.lessons);
+    	this.classSplitComboBox.getSelectionModel().select(0);
+    	this.onClassSplitComboBox();
     }
     //================================================================================
     // Setters
@@ -82,6 +92,12 @@ public class ConfigurationDialogController {
 			this.lesson = l;
 			//TODO : set all fields
 		}
+		else{
+			
+		}
+	}
+	public void setLessons(ObservableList<String> list){
+		this.lessons.addAll(list);
 	}
 	public void setTeachers(ObservableList<Teacher> list){
 		this.teacherComboBox.setItems(list);
@@ -146,5 +162,14 @@ public class ConfigurationDialogController {
 	}
 	@FXML
 	private void onRoomComboBox(){
+	}
+	@FXML
+	private void onClassSplitComboBox(){
+		//Lesson l = this.classSplitComboBox.getSelectionModel().getSelectedItem();
+		//this.setLesson(l);
+	}
+	@FXML
+	private void onButtonRemove(){
+		MainApplication.log("Remove");
 	}
 }

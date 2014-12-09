@@ -6,6 +6,7 @@ public class Lesson {
     // Properties
     //================================================================================
 	private int id;
+	private String identifier;
 	private Teacher teacher;
 	private LearningField learningField;
 	private SchoolClass sClass;
@@ -72,6 +73,12 @@ public class Lesson {
 	}
 	public void setTimeInformation(LessonTimeInformation timeInformation) {
 		this.timeInformation = timeInformation;
+	}
+	public String getIdentifier() {
+		return identifier;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 	//================================================================================
     // Methods

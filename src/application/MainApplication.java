@@ -210,7 +210,12 @@ public class MainApplication extends Application {
 		controller.setDialogStage(dialogStage);
 		controller.setMainApplication(this);
 		controller.setTimeInformation(i);
-		controller.setLesson(l);
+		ObservableList<String> lessons = FXCollections.observableArrayList();
+		lessons.add("hallo");
+		lessons.add("födhgoöiehf");
+		lessons.add("sdäfheogp");
+		lessons.add("dfüdoupidehü");
+		controller.setLessons(lessons);
 		controller.setClasses(this.classData);
 		controller.setRooms(this.blabla);
 		controller.setTeachers(this.teacherData);
