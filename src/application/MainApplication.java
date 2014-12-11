@@ -34,6 +34,9 @@ public class MainApplication extends Application {
     //================================================================================
     // Properties
     //================================================================================
+	public static MainApplication globalMain;
+	
+	
 	private static final String APPLICATION_TITLE = "Stundenplaner";
 	private Stage primaryStage;
 	private MainWindowController mainController;
@@ -94,13 +97,15 @@ public class MainApplication extends Application {
 		classData.add(new SchoolClass("Klasse 5"));
 		classData.add(new SchoolClass("Klasse 6"));
 		ObservableList<Lesson> test = FXCollections.observableArrayList();
-		test.add(new Lesson(t1,learningFieldData.get(3),classData.get(2),classData.get(2).getGroups().get(0),blabla.get(0),new LessonTimeInformation("Montag", "1", "2", "08:00", "11:00")));
-		MainApplication.log("Lessons:"+test);
-		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "1", "2", "08:00", "11:00")));
-		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "3", "4", "10:00", "11:00")));
-		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "5", "6", "10:00", "11:00")));
-		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "7", "8", "10:00", "11:00")));
-		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("", "9", "10", "10:00", "11:00")));
+		ObservableList<Lesson> test2 = FXCollections.observableArrayList();
+		test.add(new Lesson(t1,learningFieldData.get(2),classData.get(1),classData.get(1).getGroups().get(0),blabla.get(5),new LessonTimeInformation("Montag", "23", "23", "08:00", "11:00")));
+		test2.add(new Lesson(t1,learningFieldData.get(3),classData.get(2),classData.get(2).getGroups().get(0),blabla.get(0),new LessonTimeInformation("Montag", "1", "2", "08:00", "11:00")));
+		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("Montag", "1", "2", "08:00", "11:00")));
+		timePeriodData.add(new TimePeriod(test2, new LessonTimeInformation("Montag", "3", "4", "10:00", "11:00")));
+		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("Montag", "5", "6", "10:00", "11:00")));
+		timePeriodData.add(new TimePeriod(test2, new LessonTimeInformation("Montag", "7", "8", "10:00", "11:00")));
+		timePeriodData.add(new TimePeriod(test, new LessonTimeInformation("Montag", "9", "10", "10:00", "11:00")));
+		MainApplication.globalMain = this;
 	}
 	
     //================================================================================

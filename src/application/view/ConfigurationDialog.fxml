@@ -100,12 +100,18 @@
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></Pane>
-                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></Pane>
                   <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></Pane>
-                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></Pane>
                   <Label text="Lernfeld :" GridPane.rowIndex="8">
                      <GridPane.margin>
                         <Insets left="10.0" />
@@ -139,7 +145,10 @@
                         <Insets right="10.0" />
                      </GridPane.margin></ComboBox>
                   <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator" GridPane.rowIndex="1" />
-                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin></Pane>
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />

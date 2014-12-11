@@ -17,6 +17,9 @@ public class Lesson {
     //================================================================================
     // Cunstructors
     //================================================================================
+	public Lesson(LessonTimeInformation i){
+		this.setTimeInformation(i);
+	}
 	public Lesson(int id,Teacher t, LearningField f, SchoolClass s, SchoolClassGroup g, Room r, LessonTimeInformation i){
 		this(t,f,s,g,r,i);
 		this.setId(id);
