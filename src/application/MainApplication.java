@@ -90,12 +90,12 @@ public class MainApplication extends Application {
 		blabla.add(new Room("Raum 5"));
 		blabla.add(new Room("Raum 6"));
 		blabla.add(new Room("Raum 7"));
-		classData.add(new SchoolClass("Klasse 1"));
-		classData.add(new SchoolClass("Klasse 2"));
-		classData.add(new SchoolClass("Klasse 3"));
-		classData.add(new SchoolClass("Klasse 4"));
-		classData.add(new SchoolClass("Klasse 5"));
-		classData.add(new SchoolClass("Klasse 6"));
+		classData.add(new SchoolClass("Klasse 1",t1));
+		classData.add(new SchoolClass("Klasse 2",t1));
+		classData.add(new SchoolClass("Klasse 3",t1));
+		classData.add(new SchoolClass("Klasse 4",t1));
+		classData.add(new SchoolClass("Klasse 5",t1));
+		classData.add(new SchoolClass("Klasse 6",t1));
 		ObservableList<Lesson> test = FXCollections.observableArrayList();
 		ObservableList<Lesson> test2 = FXCollections.observableArrayList();
 		test.add(new Lesson(t1,learningFieldData.get(2),classData.get(1),classData.get(1).getGroups().get(0),blabla.get(5),new LessonTimeInformation("Montag", "23", "23", "08:00", "11:00")));
@@ -176,7 +176,7 @@ public class MainApplication extends Application {
         Stage dialogStage = this.generateStage("ClassDialog",ClassDialogController.DIALOG_STAGE_TITLE,false);
         ClassDialogController controller = this.fxmlLoader.getController();
         controller.setDialogStage(dialogStage);
-        controller.setClassList(this.classData);
+        //controller.setClassList(this.classData);
 		dialogStage.showAndWait();
 	}
 	public void showTeacherDialog(){
@@ -184,7 +184,7 @@ public class MainApplication extends Application {
         TeacherDialogController controller = this.fxmlLoader.getController();
         controller.setDialogStage(dialogStage);
         controller.setTeachers(this.teacherData);
-        controller.setFields(this.learningFieldData);
+        //controller.setFields(this.learningFieldData);
         controller.setMainApplication(this);
 		dialogStage.showAndWait();
 	}
@@ -199,14 +199,14 @@ public class MainApplication extends Application {
         LearningDialogController controller = this.fxmlLoader.getController();
         MainApplication.log(controller+"");
         controller.setDialogStage(dialogStage);
-        controller.setLearningFields(this.learningFieldData);
+        //controller.setLearningFields(this.learningFieldData);
 		dialogStage.showAndWait();
 	}
 	public void showRoomDialog(){
         Stage dialogStage = this.generateStage("RoomDialog",RoomDialogController.DIALOG_STAGE_TITLE,false);
         RoomDialogController controller = this.fxmlLoader.getController();
         controller.setDialogStage(dialogStage);
-        controller.setRoomList(this.blabla);
+        //controller.setRoomList(this.blabla);
 		dialogStage.showAndWait();
 	}
 	public void showConfigurationDialog(Lesson l,LessonTimeInformation i){
