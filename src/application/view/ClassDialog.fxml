@@ -13,8 +13,8 @@
          <children>
             <GridPane prefHeight="303.0" prefWidth="550.0" styleClass="background">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="112.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="489.0" minWidth="0.0" prefWidth="438.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="119.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="489.0" minWidth="0.0" prefWidth="431.0" />
               </columnConstraints>
               <rowConstraints>
                   <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
@@ -32,7 +32,7 @@
                         <Font size="12.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="24.0" prefWidth="92.0" text="Merkmal :" GridPane.rowIndex="3">
+                  <Label prefHeight="24.0" prefWidth="117.0" text="Klassenlehrer :" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
@@ -59,11 +59,6 @@
                   </Label>
                   <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d8d8d8;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d8d8d8;" GridPane.rowIndex="1" />
-                  <TextField fx:id="descriptionTxtField" prefHeight="26.0" prefWidth="476.0" styleClass="textField" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <GridPane.margin>
-                        <Insets left="5.0" right="5.0" />
-                     </GridPane.margin>
-                  </TextField>
                   <Label text="Gruppen :" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets left="5.0" />
@@ -100,6 +95,11 @@
                         </VBox>
                      </children>
                   </HBox>
+                  <ComboBox fx:id="classTeacherComboBox" onAction="#onClassTeacherComboBox" prefHeight="28.0" prefWidth="428.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </GridPane.margin>
+                  </ComboBox>
                </children>
                <VBox.margin>
                   <Insets />

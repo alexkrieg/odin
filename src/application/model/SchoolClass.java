@@ -11,19 +11,19 @@ public class SchoolClass {
     //================================================================================
 	private int id ;
 	private StringProperty name;
-	private StringProperty description;
+	private Teacher classTeacher;
 	private ObservableList<SchoolClassGroup> groups;
 	
     //================================================================================
     // Constructors
     //================================================================================
-	public SchoolClass(String name, int id){
-		this(name);
+	public SchoolClass(String name, int id,Teacher classTeacher){
+		this(name,classTeacher);
 		this.id = id;
 	}
-	public SchoolClass(String name){
+	public SchoolClass(String name, Teacher classTeacher){
 		this.name = new SimpleStringProperty(name);
-		this.description = new SimpleStringProperty("");
+		this.setClassTeacher(classTeacher);
 		this.groups = FXCollections.observableArrayList();
 		this.groups.add(new SchoolClassGroup("Alle Sch¸ler"));
 	}
@@ -43,14 +43,14 @@ public class SchoolClass {
 	public void setName(String name) {
 		this.name.set(name);
 	}
-	public StringProperty getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description.set(description);
-	}
 	public ObservableList<SchoolClassGroup>getGroups(){
 		return this.groups;
+	}
+	public Teacher getClassTeacher() {
+		return classTeacher;
+	}
+	public void setClassTeacher(Teacher classTeacher) {
+		this.classTeacher = classTeacher;
 	}
 	@Override
 	public String toString(){

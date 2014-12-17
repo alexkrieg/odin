@@ -1,5 +1,6 @@
 package application.controller;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.controlsfx.dialog.Dialogs;
@@ -18,6 +19,7 @@ import javafx.util.Callback;
 import application.MainApplication;
 import application.model.SchoolClass;
 import application.model.SchoolClassGroup;
+import application.model.Teacher;
 
 public class ClassDialogController {
     //================================================================================
@@ -32,7 +34,7 @@ public class ClassDialogController {
 	@FXML
 	private TextField nameTxtField;
 	@FXML
-	private TextField descriptionTxtField;
+	private ComboBox<Teacher> classTeacherComboBox;
 	@FXML
 	private Button removeButton;
 	@FXML
@@ -44,13 +46,20 @@ public class ClassDialogController {
     // Cunstructors
     //================================================================================
 	public ClassDialogController(){
-		this.classList.add(new SchoolClass("Neue Klasse hinzuf¸gen ...",-1));
+		this.classList.add(new SchoolClass("Neue Klasse hinzuf¸gen ...",-1,null));
+		ArrayList<SchoolClass> list = MainApplication.globalMain.sharedSQLManager().selectAllClasses();
+		this.setClassList(FXCollections.observableArrayList(list));
+		
 	}
     @FXML
     private void initialize() {
     	this.choiceBox.setItems(this.classList);
     	this.choiceBox.getSelectionModel().select(0);
     	this.choiceBoxAction();
+    	ArrayList<Teacher> list = MainApplication.globalMain.sharedSQLManager().selectAllTeacher();
+		ObservableList<Teacher> oList = FXCollections.observableArrayList(list);
+		this.classTeacherComboBox.setItems(oList);
+		this.classTeacherComboBox.getSelectionModel().select(oList.get(0));
     }
     public void setDialogStage(Stage stage){
     	this.dialogStage = stage;
@@ -58,13 +67,12 @@ public class ClassDialogController {
     private void setClass(SchoolClass classy){
     	if(classy.getId() == -1){
     		this.nameTxtField.setText("");
-    		this.descriptionTxtField.setText("");
     		this.removeButton.setDisable(true);
     		this.groupHBox.setDisable(true);
     		this.groupList.setItems(null);
     	}else{
     		this.nameTxtField.setText(classy.getName().get());
-    		this.descriptionTxtField.setText(classy.getDescription().get());
+    		this.classTeacherComboBox.getSelectionModel().select(classy.getClassTeacher());
     		this.removeButton.setDisable(false);
     		this.groupHBox.setDisable(false);
     		this.groupList.setItems(classy.getGroups());
@@ -86,22 +94,22 @@ public class ClassDialogController {
     @FXML
     private void handleOK() {
     	if(this.choiceBox.getSelectionModel().getSelectedItem().getId() == -1){
-    		SchoolClass s = new SchoolClass(this.nameTxtField.getText());
-    		s.setDescription(this.descriptionTxtField.getText());
+    		Teacher t = this.classTeacherComboBox.getSelectionModel().getSelectedItem();
+    		SchoolClass s = new SchoolClass(this.nameTxtField.getText(),t);
     		this.classList.add(s);
-    		// TODO : insert new class in database
+    		MainApplication.globalMain.sharedSQLManager().addNewClass(s);
     	}else{
     		SchoolClass s = this.choiceBox.getSelectionModel().getSelectedItem();
-    		s.setDescription(this.descriptionTxtField.getText());
     		s.setName(this.nameTxtField.getText());
+    		s.setClassTeacher(this.classTeacherComboBox.getSelectionModel().getSelectedItem());
     		// TODO : update class anhand von id 
     	}
-    	Dialogs.create()
-        .owner(dialogStage)
-        .title("Information")
-        .message("ƒnderungen wurden gespeichert!")
-        .showInformation();
-    	this.choiceBoxAction();
+//    	Dialogs.create()
+//        .owner(dialogStage)
+//        .title("Information")
+//        .message("ƒnderungen wurden gespeichert!")
+//        .showInformation();
+//    	this.choiceBoxAction();
     }
     @FXML
     private void onRemove() {
@@ -132,5 +140,9 @@ public class ClassDialogController {
     		SchoolClass sc = this.choiceBox.getSelectionModel().getSelectedItem();
   		  	sc.getGroups().remove(this.groupList.getSelectionModel().getSelectedItem());
     	}
+    }
+    @FXML
+    private void onClassTeacherComboBox(){
+    	
     }
 }

@@ -4,7 +4,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.input.DataFormat;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,6 +16,7 @@ public class Teacher {
 	private int id;
 	private StringProperty firstName;
 	private StringProperty lastName;
+	private StringProperty identifier;
 	
 	private ObservableList<LearningField> learningFields;
     //================================================================================
@@ -34,6 +34,7 @@ public class Teacher {
 		this.lastName = new SimpleStringProperty(lastName);
 		this.learningFields = FXCollections.observableArrayList();
 		this.id = -1;
+		this.identifier = new SimpleStringProperty();
 	}
     //================================================================================
     // Setter
@@ -94,6 +95,12 @@ public class Teacher {
 			counter ++;
 		}
 		return result;
+	}
+	public StringProperty getIdentifier() {
+		return identifier;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier.set(identifier);
 	}
 	@Override
 	public String toString() {

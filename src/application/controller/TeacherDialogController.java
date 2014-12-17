@@ -1,6 +1,8 @@
 package application.controller;
 
 
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,6 +32,8 @@ public class TeacherDialogController {
 	@FXML
 	private TextField lastNameTxtField;
 	@FXML
+	private TextField tokenTxtField;
+	@FXML
 	private ComboBox<Teacher> choiceBox;
 	@FXML
 	private Pane listPane;
@@ -46,6 +50,8 @@ public class TeacherDialogController {
 	public TeacherDialogController(){
 		this.checkListView = new CheckListView<>();
 		teacherList.add(new Teacher(-1, "Neuen Lehrer anlegen ...", ""));
+		ArrayList<LearningField> list = MainApplication.globalMain.sharedSQLManager().selectAllLearningFields();
+		this.setFields(FXCollections.observableArrayList(list));
 	}
 	/**
      * Initializes the controller class. This method is automatically called
@@ -80,10 +86,12 @@ public class TeacherDialogController {
     		this.firstNameTxtField.setText("");
         	this.lastNameTxtField.setText("");
         	this.checkListView.setDisable(true);
+        	this.tokenTxtField.setText("");
     	}else{
     		this.removeButton.setDisable(false);
     		this.firstNameTxtField.setText(teacher.firstNameProperty().get());
         	this.lastNameTxtField.setText(teacher.lastNameProperty().get());
+        	this.tokenTxtField.setText(teacher.getIdentifier().get());
         	this.checkListView.setDisable(false);
         	for(LearningField f : teacher.learningFieldProperty()){
         		this.checkListView.getCheckModel().check(f);
@@ -107,13 +115,14 @@ public class TeacherDialogController {
     }
     @FXML
     private void handleOk() {
-    	if (this.firstNameTxtField.getText().length() == 0 || this.lastNameTxtField.getText().length() == 0 ) {
+    	if (this.firstNameTxtField.getText().length() == 0 || this.lastNameTxtField.getText().length() == 0 || this.tokenTxtField.getText().length() == 0) {
     		return;
     	}
     	if (this.choiceBox.getSelectionModel().getSelectedItem().getID() == -1) {
     		Teacher t = new Teacher(this.firstNameTxtField.getText(), this.lastNameTxtField.getText());
+    		t.setIdentifier(this.tokenTxtField.getText());
 			this.teacherList.add(t);
-			// TODO: insert new Teacher
+			MainApplication.globalMain.sharedSQLManager().addNewTeacher(t);
 		}
     	else {
     		Teacher t = this.choiceBox.getSelectionModel().getSelectedItem();
@@ -124,11 +133,11 @@ public class TeacherDialogController {
         	t.learningFieldProperty().addAll(list);
         	// TODO: update teacher anhand von id
     	}
-    	Dialogs.create()
-        .owner(dialogStage)
-        .title("Information")
-        .message("ƒnderungen wurden gespeichert!")
-        .showInformation();
+//    	Dialogs.create()
+//        .owner(dialogStage)
+//        .title("Information")
+//        .message("ƒnderungen wurden gespeichert!")
+//        .showInformation();
     	this.mainApplication.getClass();
     	this.choiceBoxAction();
     }

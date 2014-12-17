@@ -1,5 +1,7 @@
 package application.controller;
 
+import java.util.ArrayList;
+
 import org.controlsfx.dialog.Dialogs;
 
 import application.MainApplication;
@@ -34,9 +36,9 @@ public class RoomDialogController {
     // Cunstructors
     //================================================================================
 	public RoomDialogController(){
-		// TODO: get all rooms and save them in room list
 		this.roomList.add(new Room("Neuen Raum hinzuf¸gen ...", -1));
-		
+		ArrayList<Room> list = MainApplication.globalMain.sharedSQLManager().selectAllRooms();
+		this.setRoomList(FXCollections.observableArrayList(list));
 	}
     @FXML
     private void initialize() {
@@ -77,7 +79,7 @@ public class RoomDialogController {
     		Room r = new Room(this.nameTxtField.getText());
     		r.setCharacteristic(this.characteristicTxtField.getText());
     		this.roomList.add(r);
-    		// TODO : insert new room in database
+    		MainApplication.globalMain.sharedSQLManager().addNewRoom(r);
     	}else{
     		Room r = this.choiceBox.getSelectionModel().getSelectedItem();
     		r.setCharacteristic(this.characteristicTxtField.getText());

@@ -1,5 +1,7 @@
 package application.controller;
 
+import java.util.ArrayList;
+
 import org.controlsfx.dialog.Dialogs;
 
 import javafx.collections.FXCollections;
@@ -36,7 +38,8 @@ public class LearningDialogController {
     //================================================================================
 	public LearningDialogController(){
 		this.fieldList.add(new LearningField("Neues Lernfeld hinzuf¸gen ...","",-1));
-		//TODO: get all learning fields and save the in fieldList
+		ArrayList<LearningField> list = MainApplication.globalMain.sharedSQLManager().selectAllLearningFields();
+		this.setLearningFields(FXCollections.observableArrayList(list));
 		
 	}
     @FXML
@@ -80,18 +83,18 @@ public class LearningDialogController {
     	if(this.comboBox.getSelectionModel().getSelectedItem().getID() == -1){
     		LearningField f = new LearningField(this.nameTxtField.getText(), this.descriptionTxtField.getText(), 0);
     		this.fieldList.add(f);
-    		// TODO: insert new Field in database
+    		MainApplication.globalMain.sharedSQLManager().addNewLearningField(f);
     	}else{
     		LearningField f = this.comboBox.getSelectionModel().getSelectedItem();
     		f.setName(this.nameTxtField.getText());
     		f.setDescription(this.descriptionTxtField.getText());
     		// TODO : update db anhand von field id
     	}
-    	Dialogs.create()
-        .owner(dialogStage)
-        .title("Information")
-        .message("ƒnderungen wurden gespeichert!")
-        .showInformation();
+//    	Dialogs.create()
+//        .owner(dialogStage)
+//        .title("Information")
+//        .message("ƒnderungen wurden gespeichert!")
+//        .showInformation();
     	this.choiceBoxAction();
     }
     @FXML

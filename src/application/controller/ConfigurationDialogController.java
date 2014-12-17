@@ -92,7 +92,11 @@ public class ConfigurationDialogController {
 		if(l!= null){
 			this.buttonRemove.setDisable(false);
 			this.lesson = l;
-			//TODO : set all fields
+			this.teacherComboBox.getSelectionModel().select(this.lesson.getTeacher());
+			this.roomComboBox.getSelectionModel().select(this.lesson.getRoom());
+			this.classComboBox.getSelectionModel().select(this.lesson.getsClass());
+			this.classGroupComboBox.getSelectionModel().select(this.lesson.getsClassGroup());
+			this.fieldComboBox.getSelectionModel().select(this.lesson.getLearningField());
 		}
 		else{
 			this.buttonRemove.setDisable(true);

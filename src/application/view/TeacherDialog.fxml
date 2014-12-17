@@ -21,6 +21,7 @@
                   <RowConstraints maxHeight="1.0" minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="85.0" minHeight="0.0" prefHeight="52.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="85.0" minHeight="0.0" prefHeight="56.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="240.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
@@ -32,7 +33,7 @@
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin></Label>
-                  <Label text="Lernfelder:" GridPane.rowIndex="4">
+                  <Label text="Lernfelder :" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin></Label>
@@ -56,7 +57,7 @@
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
                   </ComboBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
                         <Pane fx:id="listPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="233.0" prefWidth="405.0">
                            <HBox.margin>
@@ -67,6 +68,16 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                   </HBox>
+                  <Label text="Lehrerkürzel :" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tokenTxtField" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </GridPane.margin>
+                  </TextField>
                </children>
             </GridPane>
             <GridPane prefHeight="55.0" prefWidth="550.0">
