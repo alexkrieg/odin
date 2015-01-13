@@ -3,19 +3,18 @@ package application.controller;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import org.controlsfx.dialog.Dialogs;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+
+import org.controlsfx.dialog.Dialogs;
+
 import application.MainApplication;
 import application.model.SchoolClass;
 import application.model.SchoolClassGroup;
@@ -45,7 +44,6 @@ public class ClassDialogController {
     // Cunstructors
     //================================================================================
 	public ClassDialogController(){
-		updateClassList();
 	}
     @FXML
     private void initialize() {
@@ -56,6 +54,7 @@ public class ClassDialogController {
 		ObservableList<Teacher> oList = FXCollections.observableArrayList(list);
 		this.classTeacherComboBox.setItems(oList);
 		this.classTeacherComboBox.getSelectionModel().select(oList.get(0));
+		updateClassList();
     }
     public void setDialogStage(Stage stage){
     	this.dialogStage = stage;
@@ -80,6 +79,7 @@ public class ClassDialogController {
     	ArrayList<SchoolClass> list = MainApplication.globalMain.sharedSQLManager().selectAllClasses();
     	this.classList.addAll(list);
     	MainApplication.globalMain.updateData();
+    	this.choiceBox.getSelectionModel().select(0);
     }
     //================================================================================
     // Action Handler
@@ -109,7 +109,6 @@ public class ClassDialogController {
     	}
     	if(checker == true){
     		this.updateClassList();
-    		this.choiceBox.getSelectionModel().select(0);
     		//TODO: INFO : daten geändert
     	}else{
     		//TODO: info :änern fehlgeschlagen
@@ -120,7 +119,6 @@ public class ClassDialogController {
     	SchoolClass sc = this.choiceBox.getSelectionModel().getSelectedItem();
     	if(MainApplication.globalMain.sharedSQLManager().removeClass(sc)){
     		this.updateClassList();
-    		this.choiceBox.getSelectionModel().select(0);
     		//TODO: info daten geändert
     	}else{
     		MainApplication.log("sdsdfaipgdoaegf");

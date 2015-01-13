@@ -5,12 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
-import javax.security.auth.callback.Callback;
-
 import application.FormattedTableCellFactory;
 import application.MainApplication;
 import application.model.Lesson;
@@ -85,15 +81,15 @@ public class MainWindowController {
 		this.setTeachers(teachers);
 	}
     //================================================================================
-    // Setter
+    // Private Setter
     //================================================================================
-	public void setTeachers(ObservableList<Teacher> list){
+	private void setTeachers(ObservableList<Teacher> list){
 		this.teacherListView.setItems(list);
 	}
-	public void setClasses(ObservableList<SchoolClass> list){
+	private void setClasses(ObservableList<SchoolClass> list){
 		this.classListView.setItems(list);
 	}
-	public void setTimes(ObservableList<TimePeriod> list) {
+	private void setTimes(ObservableList<TimePeriod> list) {
 		this.mainTableView.setItems(list);
 	}
     //================================================================================
@@ -122,16 +118,5 @@ public class MainWindowController {
 	@FXML
 	private void menuOnRoom(){
 		this.mainApp.showRoomDialog();
-	}
-	@FXML
-	private void open(){
-		// time information from cell
-		LessonTimeInformation i = new LessonTimeInformation("Dienstag", "1", "2", "14:00", "23:00");
-		// if null 
-		Lesson l = null;
-		this.mainApp.showConfigurationDialog(l,i);	
-		// !null 
-		//Lesson l = null;// replace with lesson from cell 
-		//this.mainApp.showConfigurationDialog(l,i);
 	}
 }

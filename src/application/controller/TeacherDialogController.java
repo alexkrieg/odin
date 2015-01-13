@@ -81,11 +81,13 @@ public class TeacherDialogController {
         	this.lastNameTxtField.setText("");
         	this.checkListView.setDisable(true);
         	this.tokenTxtField.setText("");
+        	this.tokenTxtField.setDisable(false);
     	}else{
     		this.removeButton.setDisable(false);
     		this.firstNameTxtField.setText(teacher.firstNameProperty().get());
         	this.lastNameTxtField.setText(teacher.lastNameProperty().get());
         	this.tokenTxtField.setText(teacher.getIdentifier().get());
+        	this.tokenTxtField.setDisable(true);
         	this.checkListView.setDisable(false);
         	for(LearningField f: this.checkListView.getItems()){
         		for(LearningField g : teacher.learningFieldProperty()){

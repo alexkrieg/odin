@@ -37,7 +37,6 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="K" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#open" text="Unspecified Action" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Hilfe">
