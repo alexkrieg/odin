@@ -28,7 +28,6 @@ public class ClassDialogController {
 	public static final String DIALOG_STAGE_TITLE = "Klasse bearbeiten ...";
 	private Stage dialogStage;
 	private ObservableList<SchoolClass> classList = FXCollections.observableArrayList();
-	private MainApplication dataHandler;
 	@FXML 
 	private ComboBox<SchoolClass> choiceBox;
 	@FXML
@@ -46,10 +45,7 @@ public class ClassDialogController {
     // Cunstructors
     //================================================================================
 	public ClassDialogController(){
-		this.classList.add(new SchoolClass("Neue Klasse hinzuf¸gen ...",-1,null));
-		ArrayList<SchoolClass> list = MainApplication.globalMain.sharedSQLManager().selectAllClasses();
-		this.setClassList(FXCollections.observableArrayList(list));
-		
+		updateClassList();
 	}
     @FXML
     private void initialize() {
@@ -78,44 +74,59 @@ public class ClassDialogController {
     		this.groupList.setItems(classy.getGroups());
     	}
     }
-    public void setClassList(ObservableList<SchoolClass> list){
+    public void updateClassList(){
+    	this.classList.clear();
+    	this.classList.add(new SchoolClass("Neue Klasse hinzufuegen ...",-1,null));
+    	ArrayList<SchoolClass> list = MainApplication.globalMain.sharedSQLManager().selectAllClasses();
     	this.classList.addAll(list);
-    }
-    public void setDataHandler(MainApplication dataHandler){
-    	this.dataHandler = dataHandler;
+    	MainApplication.globalMain.updateData();
     }
     //================================================================================
     // Action Handler
     //================================================================================
     @FXML
     private void choiceBoxAction(){
-    	this.setClass(this.choiceBox.getSelectionModel().getSelectedItem());
+    	if(this.choiceBox.getSelectionModel().getSelectedItem()!= null){
+    		this.setClass(this.choiceBox.getSelectionModel().getSelectedItem());
+    	}	
     }
     @FXML
     private void handleOK() {
+    	boolean checker = false;
     	if(this.choiceBox.getSelectionModel().getSelectedItem().getId() == -1){
     		Teacher t = this.classTeacherComboBox.getSelectionModel().getSelectedItem();
     		SchoolClass s = new SchoolClass(this.nameTxtField.getText(),t);
-    		this.classList.add(s);
-    		MainApplication.globalMain.sharedSQLManager().addNewClass(s);
+    		if(MainApplication.globalMain.sharedSQLManager().addNewClass(s)){
+    			checker = true;
+    		}
     	}else{
     		SchoolClass s = this.choiceBox.getSelectionModel().getSelectedItem();
     		s.setName(this.nameTxtField.getText());
     		s.setClassTeacher(this.classTeacherComboBox.getSelectionModel().getSelectedItem());
-    		// TODO : update class anhand von id 
+    		if(MainApplication.globalMain.sharedSQLManager().updateClass(s)){
+    			checker = true;
+    		}
     	}
-//    	Dialogs.create()
-//        .owner(dialogStage)
-//        .title("Information")
-//        .message("ƒnderungen wurden gespeichert!")
-//        .showInformation();
-//    	this.choiceBoxAction();
+    	if(checker == true){
+    		this.updateClassList();
+    		this.choiceBox.getSelectionModel().select(0);
+    		//TODO: INFO : daten geändert
+    	}else{
+    		//TODO: info :änern fehlgeschlagen
+    	}
     }
     @FXML
     private void onRemove() {
-    	this.classList.remove(this.choiceBox.getSelectionModel().getSelectedItem());
+    	SchoolClass sc = this.choiceBox.getSelectionModel().getSelectedItem();
+    	if(MainApplication.globalMain.sharedSQLManager().removeClass(sc)){
+    		this.updateClassList();
+    		this.choiceBox.getSelectionModel().select(0);
+    		//TODO: info daten geändert
+    	}else{
+    		MainApplication.log("sdsdfaipgdoaegf");
+    		//TODO: info änerung fehlgeschlagen
+    	}
     	this.choiceBoxAction();
-    	//TODO: remove class anhand id from db
     }
     @FXML
     private void onNewGroup(){
@@ -132,10 +143,10 @@ public class ClassDialogController {
     }
     @FXML
     private void onRemoveGroup(){
-    	if(this.groupList.getSelectionModel().getSelectedIndex() == 0){
+    	SchoolClassGroup g = this.groupList.getSelectionModel().getSelectedItem();
+    	if(g.getId() == -1){
     		return;
     	}
-    	SchoolClassGroup g = this.groupList.getSelectionModel().getSelectedItem();
     	if(g!= null){
     		SchoolClass sc = this.choiceBox.getSelectionModel().getSelectedItem();
   		  	sc.getGroups().remove(this.groupList.getSelectionModel().getSelectedItem());

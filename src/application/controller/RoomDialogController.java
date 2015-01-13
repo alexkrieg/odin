@@ -21,7 +21,6 @@ public class RoomDialogController {
     //================================================================================
 	public static final String DIALOG_STAGE_TITLE = "Raum bearbeiten ...";
 	private Stage dialogStage;
-	private MainApplication dataHandler;
 	private ObservableList<Room> roomList = FXCollections.observableArrayList();
 	
 	@FXML
@@ -36,7 +35,7 @@ public class RoomDialogController {
     // Cunstructors
     //================================================================================
 	public RoomDialogController(){
-		this.roomList.add(new Room("Neuen Raum hinzuf¸gen ...", -1));
+		this.roomList.add(new Room(-1,"Neuen Raum hinzuf¸gen ...",""));
 		ArrayList<Room> list = MainApplication.globalMain.sharedSQLManager().selectAllRooms();
 		this.setRoomList(FXCollections.observableArrayList(list));
 	}
@@ -57,11 +56,11 @@ public class RoomDialogController {
     		this.removeButton.setDisable(false);
     	}
     }
+    //================================================================================
+    // Public Setters
+    //================================================================================
     public void setRoomList(ObservableList<Room> list){
     	this.roomList.addAll(list);
-    }
-    public void setDataHandler(MainApplication dataHandler){
-    	this.dataHandler = dataHandler;
     }
     public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
@@ -76,21 +75,19 @@ public class RoomDialogController {
     @FXML
     private void handleOK() {
     	if(this.choiceBox.getSelectionModel().getSelectedItem().getId() == -1){
-    		Room r = new Room(this.nameTxtField.getText());
-    		r.setCharacteristic(this.characteristicTxtField.getText());
-    		this.roomList.add(r);
-    		MainApplication.globalMain.sharedSQLManager().addNewRoom(r);
+    		Room r = new Room(this.nameTxtField.getText(),this.characteristicTxtField.getText());
+    		if(MainApplication.globalMain.sharedSQLManager().addNewRoom(r)== true){
+    			this.roomList.add(r);
+    		}
     	}else{
     		Room r = this.choiceBox.getSelectionModel().getSelectedItem();
     		r.setCharacteristic(this.characteristicTxtField.getText());
     		r.setName(this.nameTxtField.getText());
-    		// TODO : update room anhand von id 
+    		if(MainApplication.globalMain.sharedSQLManager().updateRoom(r) != true){
+    			//TODO: Info : Fheler beim aktualisieren
+    		}
     	}
-    	Dialogs.create()
-        .owner(null)
-        .title("Information")
-        .message("ƒnderungen wurden gespeichert!")
-        .showInformation();
+    	//TODO: Info Änderungen gespeichert anzeigen
     	this.choiceBoxAction();
     }
     @FXML
@@ -99,8 +96,10 @@ public class RoomDialogController {
     }
     @FXML
     private void onRemove() {
-    	this.roomList.remove(this.choiceBox.getSelectionModel().getSelectedItem());
+    	Room r = this.choiceBox.getSelectionModel().getSelectedItem();
+    	if(MainApplication.globalMain.sharedSQLManager().removeRoom(r) == true){
+    		this.roomList.remove(r);
+    	}
     	this.choiceBoxAction();
-    	//TODO: remove fieldlist anhand id from db
     }
 }

@@ -21,8 +21,6 @@ public class LearningDialogController {
     //================================================================================
 	public static final String DIALOG_STAGE_TITLE = "Lernfeld bearbeiten ...";
 	private Stage dialogStage;
-	private MainApplication mainApplication;
-	
 	@FXML
 	private Button removeButton;
 	@FXML
@@ -40,16 +38,12 @@ public class LearningDialogController {
 		this.fieldList.add(new LearningField("Neues Lernfeld hinzuf¸gen ...","",-1));
 		ArrayList<LearningField> list = MainApplication.globalMain.sharedSQLManager().selectAllLearningFields();
 		this.setLearningFields(FXCollections.observableArrayList(list));
-		
 	}
     @FXML
     private void initialize() {
     	this.comboBox.setItems(this.fieldList);
 		this.comboBox.getSelectionModel().select(0);
     	this.choiceBoxAction();
-    }
-    public void setMainApplication(MainApplication app){
-    	this.mainApplication = app;
     }
     public void setDialogStage(Stage stage){
     	this.dialogStage = stage;
@@ -88,8 +82,12 @@ public class LearningDialogController {
     		LearningField f = this.comboBox.getSelectionModel().getSelectedItem();
     		f.setName(this.nameTxtField.getText());
     		f.setDescription(this.descriptionTxtField.getText());
-    		// TODO : update db anhand von field id
+    		if(MainApplication.globalMain.sharedSQLManager().updateLearningField(f) != true){
+    			//TODO: info daten net geändert
+    			return;
+    		}
     	}
+    	// TODO : info  daten gespeichert
 //    	Dialogs.create()
 //        .owner(dialogStage)
 //        .title("Information")
@@ -103,8 +101,14 @@ public class LearningDialogController {
     }
     @FXML
     private void onRemove() {
-    	this.fieldList.remove(this.comboBox.getSelectionModel().getSelectedItem());
+    	LearningField f = this.comboBox.getSelectionModel().getSelectedItem();
+    	
+    	if(MainApplication.globalMain.sharedSQLManager().removeLearningField(f) != true){
+    		return;
+    		//TODO: info daten speichern fehlgeschlagen
+    	}
+    	this.fieldList.remove(f);
     	this.choiceBoxAction();
-    	//TODO: remove fieldlist anhand id from db
+    	//TODO: daten gespeichert
     }
 }

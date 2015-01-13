@@ -128,11 +128,11 @@ public class ConfigurationDialogController {
 		String day = this.dayLabel.getText();
 		String hour = ""+this.hourLabelFrom.getText()+"-"+this.hourLabelTo.getText();
 		if(t == null || f == null || s == null || g == null || r == null){
-	    	Dialogs.create()
+	    	/*Dialogs.create()
 	        .owner(dialogStage)
 	        .title("Fehler")
 	        .message("Es sind nicht alle Felder ausgef¸llt! Bitte w‰hlen sie in jeder Kategorie ein dings!")
-	        .showError();
+	        .showError();*/
 			return;
 		}
 		if(this.lesson != null){
@@ -143,6 +143,7 @@ public class ConfigurationDialogController {
 			//TODO: update lesson anhand von id
 		}else{
 			Lesson l = new Lesson(t, f, s, g, r, timeInformation);
+			MainApplication.globalMain.sharedSQLManager().addNewLesson(l, timeInformation.getHourFrom()+","+timeInformation.getHourTo(),timeInformation.getDay());
 			//TODO: insert lesson in mapping table
 		}
 		this.dialogStage.close();

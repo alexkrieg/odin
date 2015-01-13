@@ -13,7 +13,6 @@ public class Teacher {
     //================================================================================
     // Properties
     //================================================================================
-	private int id;
 	private StringProperty firstName;
 	private StringProperty lastName;
 	private StringProperty identifier;
@@ -23,18 +22,16 @@ public class Teacher {
     // Constructors
     //================================================================================
 	public Teacher(){
-		this(null,null);
-	}
-	public Teacher(int id, String firstName, String lastName){
-		this(firstName,lastName);
-		this.id = id;
+		this(null,null,null);
 	}
 	public Teacher(String firstName, String lastName){
+		this("empty",firstName,lastName);
+	}
+	public Teacher(String identifier,String firstName, String lastName){
+		this.identifier = new SimpleStringProperty(identifier);
 		this.firstName = new SimpleStringProperty(firstName);
 		this.lastName = new SimpleStringProperty(lastName);
 		this.learningFields = FXCollections.observableArrayList();
-		this.id = -1;
-		this.identifier = new SimpleStringProperty();
 	}
     //================================================================================
     // Setter
@@ -79,9 +76,6 @@ public class Teacher {
 	public String getLearningFields(){
 		String result = StringUtils.join(this.learningFields, ", ");
 		return result;
-	}
-	public int getID(){
-		return this.id;
 	}
 	public String getLearningFieldNames(){
 		String result = "";int counter = 1;

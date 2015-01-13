@@ -1,5 +1,6 @@
 package application.controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -72,11 +73,16 @@ public class MainWindowController {
 		
 		FormattedTableCellFactory<TimePeriod, Lesson>  cellFactory = new FormattedTableCellFactory<TimePeriod,Lesson>();
 		mondayC.setCellFactory(cellFactory);
+		tuesdayC.setCellFactory(cellFactory);
+		wendsdayC.setCellFactory(cellFactory);
+		fridayC.setCellFactory(cellFactory);
+		reloadData();
 	}
 	public void reloadData(){
-    	// TODO: get all teachers here 
-    	// TODO: get all classes here
-		// TODO: this.mainApplication.sharedSQLManager().getData;
+		ObservableList<Teacher> teachers = FXCollections.observableArrayList(MainApplication.globalMain.sharedSQLManager().selectAllTeacher());
+		ObservableList<SchoolClass> classes = FXCollections.observableArrayList(MainApplication.globalMain.sharedSQLManager().selectAllClasses());
+		this.setClasses(classes);
+		this.setTeachers(teachers);
 	}
     //================================================================================
     // Setter

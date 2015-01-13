@@ -25,7 +25,6 @@ public class SchoolClass {
 		this.name = new SimpleStringProperty(name);
 		this.setClassTeacher(classTeacher);
 		this.groups = FXCollections.observableArrayList();
-		this.groups.add(new SchoolClassGroup("Alle Sch¸ler"));
 	}
 	
     //================================================================================
@@ -43,8 +42,11 @@ public class SchoolClass {
 	public void setName(String name) {
 		this.name.set(name);
 	}
-	public ObservableList<SchoolClassGroup>getGroups(){
+	public ObservableList<SchoolClassGroup> getGroups(){
 		return this.groups;
+	}
+	public void setGroups(ObservableList<SchoolClassGroup> groups){
+		this.groups = groups;
 	}
 	public Teacher getClassTeacher() {
 		return classTeacher;

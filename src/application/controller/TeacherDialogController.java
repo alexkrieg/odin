@@ -13,7 +13,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.controlsfx.control.CheckListView;
-import org.controlsfx.dialog.Dialogs;
 
 import application.MainApplication;
 import application.model.LearningField;
@@ -38,7 +37,6 @@ public class TeacherDialogController {
 	@FXML
 	private Pane listPane;
 	
-	private MainApplication mainApplication;
 	private Stage dialogStage;
 	private CheckListView<LearningField> checkListView;
 	private ObservableList<Teacher> teacherList = FXCollections.observableArrayList();
@@ -49,9 +47,11 @@ public class TeacherDialogController {
     //================================================================================
 	public TeacherDialogController(){
 		this.checkListView = new CheckListView<>();
-		teacherList.add(new Teacher(-1, "Neuen Lehrer anlegen ...", ""));
+		teacherList.add(new Teacher("Neuen Lehrer anlegen ...", ""));
 		ArrayList<LearningField> list = MainApplication.globalMain.sharedSQLManager().selectAllLearningFields();
 		this.setFields(FXCollections.observableArrayList(list));
+		ArrayList<Teacher> listlist = MainApplication.globalMain.sharedSQLManager().selectAllTeacher();
+		this.setTeachers(FXCollections.observableArrayList(listlist));
 	}
 	/**
      * Initializes the controller class. This method is automatically called
@@ -74,14 +74,8 @@ public class TeacherDialogController {
     public void setDialogStage(Stage stage){
     	this.dialogStage = stage;
     }
-	public void setMainApplication(MainApplication app){
-		this.mainApplication=app;
-    	// TODO: get all teachers here and save them in teacher list
-    	// TODO: get all learning fields here and save them in field list
-		// TODO: this.mainApplication.sharedSQLManager().getData;
-	}
     private void setTeacher(Teacher teacher){
-    	if(teacher.getID() == -1){
+    	if(teacher.getIdentifier().get().equals("empty")){
     		this.removeButton.setDisable(true);
     		this.firstNameTxtField.setText("");
         	this.lastNameTxtField.setText("");
@@ -93,8 +87,12 @@ public class TeacherDialogController {
         	this.lastNameTxtField.setText(teacher.lastNameProperty().get());
         	this.tokenTxtField.setText(teacher.getIdentifier().get());
         	this.checkListView.setDisable(false);
-        	for(LearningField f : teacher.learningFieldProperty()){
-        		this.checkListView.getCheckModel().check(f);
+        	for(LearningField f: this.checkListView.getItems()){
+        		for(LearningField g : teacher.learningFieldProperty()){
+        			if(f.getID() == g.getID()){
+        				this.checkListView.getCheckModel().check(f);
+        			}
+            	}
         	}
     	}
     }
@@ -118,11 +116,14 @@ public class TeacherDialogController {
     	if (this.firstNameTxtField.getText().length() == 0 || this.lastNameTxtField.getText().length() == 0 || this.tokenTxtField.getText().length() == 0) {
     		return;
     	}
-    	if (this.choiceBox.getSelectionModel().getSelectedItem().getID() == -1) {
-    		Teacher t = new Teacher(this.firstNameTxtField.getText(), this.lastNameTxtField.getText());
-    		t.setIdentifier(this.tokenTxtField.getText());
-			this.teacherList.add(t);
-			MainApplication.globalMain.sharedSQLManager().addNewTeacher(t);
+    	if (this.choiceBox.getSelectionModel().getSelectedItem().getIdentifier().get().equals("empty") == true) {
+    		Teacher t = new Teacher(this.tokenTxtField.getText(),this.firstNameTxtField.getText(), this.lastNameTxtField.getText());
+    		t.setLearningFields(FXCollections.observableArrayList(this.checkListView.getCheckModel().getCheckedItems()));
+    		if(MainApplication.globalMain.sharedSQLManager().addNewTeacher(t) != true){
+    			//TODO: INFO: fehler beim speichern
+    			return;
+    		}
+    		this.teacherList.add(t);
 		}
     	else {
     		Teacher t = this.choiceBox.getSelectionModel().getSelectedItem();
@@ -131,14 +132,12 @@ public class TeacherDialogController {
         	ObservableList<LearningField> list = this.checkListView.getCheckModel().getCheckedItems();
         	t.learningFieldProperty().clear();
         	t.learningFieldProperty().addAll(list);
-        	// TODO: update teacher anhand von id
+        	if(MainApplication.globalMain.sharedSQLManager().updateTeacher(t) != true){
+    			//TODO: INFO: fehler beim speichern
+    			return;
+    		}
     	}
-//    	Dialogs.create()
-//        .owner(dialogStage)
-//        .title("Information")
-//        .message("ƒnderungen wurden gespeichert!")
-//        .showInformation();
-    	this.mainApplication.getClass();
+    	//TODO: INFO änderungen gespeichert
     	this.choiceBoxAction();
     }
     @FXML
@@ -148,8 +147,12 @@ public class TeacherDialogController {
     @FXML
     private void handleRemove() {
     	Teacher t = this.choiceBox.getSelectionModel().getSelectedItem();
+    	if(MainApplication.globalMain.sharedSQLManager().removeTeacher(t)!= true){
+        	//TODO: INfo: fehlgeschlagen
+    		return;
+    	}
     	this.teacherList.remove(t);
-    	// TODO: remove teacher anhand von id
+		//TODO: INFO: lehrer GELÖSCHT
     	this.choiceBoxAction();
     }
 }

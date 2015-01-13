@@ -14,13 +14,13 @@ public class Room {
     //================================================================================
     // Constructors
     //================================================================================
-	public Room(String name, int id){
-		this(name);
+	public Room(int id, String name, String characteristic){
+		this(name,characteristic);
 		this.setId(id);
 	}
-	public Room(String name){
+	public Room(String name,String characteristic){
 		this.name= new SimpleStringProperty(name);
-		this.characteristic= new SimpleStringProperty("");
+		this.characteristic= new SimpleStringProperty(characteristic);
 		this.setId(0);
 	}
     //================================================================================
