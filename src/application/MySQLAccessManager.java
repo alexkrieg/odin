@@ -32,11 +32,16 @@ public class MySQLAccessManager {
     // Constructor
     //================================================================================
 	public MySQLAccessManager(){
-		this.connectToMySQL("stefanherr.noip.me:42042", "mydb", "javaprojekt", "javaprojekt*");
+		this.connectToMySQL("localhost:3306", "mydb", "javaprojekt", "javaprojekt*");
 	}
     //================================================================================
     // Connector
     //================================================================================
+	
+	public  boolean ichBinEineDoofeMethode(){
+		return true;
+	}
+	
 	private boolean connectToMySQL(String host, String database, String user, String password)
 	{
 		try{
