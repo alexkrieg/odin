@@ -1,5 +1,7 @@
 package application.controller;
 
+import java.sql.Time;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -55,17 +57,18 @@ public class MainWindowController {
 		// Handle ListView selection changes.
 		this.teacherListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 		    System.out.println("TeacherListView Selection Changed (selected: " + newValue.toString() + ")");
+		    this.setTimes(MainApplication.globalMain.sharedSQLManager().getAllLessonByTeacher(newValue));
 		});
 		this.classListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 		    System.out.println("ClassListView Selection Changed (selected: " + newValue.toString() + ")");
 		});
 
 		timeC.setCellValueFactory(cellData -> cellData.getValue().getTimeInformation());
-		mondayC.setCellValueFactory(cellData ->cellData.getValue().getLessonForDayAndTime("Montag"));
-		tuesdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDayAndTime("Dienstag"));
-		wendsdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDayAndTime("Mittwoch"));
-		thursdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDayAndTime("Donnerstag"));
-		fridayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDayAndTime("Freitag"));
+		mondayC.setCellValueFactory(cellData ->cellData.getValue().getLessonForDayAndTime(1));
+		tuesdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDayAndTime(2));
+		wendsdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDayAndTime(3));
+		thursdayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDayAndTime(4));
+		fridayC.setCellValueFactory(cellData -> cellData.getValue().getLessonForDayAndTime(5));
 		
 		FormattedTableCellFactory<TimePeriod, Lesson>  cellFactory = new FormattedTableCellFactory<TimePeriod,Lesson>();
 		mondayC.setCellFactory(cellFactory);
@@ -89,8 +92,16 @@ public class MainWindowController {
 	private void setClasses(ObservableList<SchoolClass> list){
 		this.classListView.setItems(list);
 	}
-	private void setTimes(ObservableList<TimePeriod> list) {
-		this.mainTableView.setItems(list);
+	private void setTimes(Lesson[][] lList) {
+		ObservableList<TimePeriod> pList = FXCollections.observableArrayList();
+		for(int i = 0;i<10;i++){
+			TimePeriod p = new TimePeriod(i);
+			for (int j = 0; j < 5 ; j++) {
+				p.addLessonAtIndex(lList[i][j], j);
+			}
+			pList.add(p);
+		}
+		this.mainTableView.setItems(pList);
 	}
     //================================================================================
     // Action Handlers

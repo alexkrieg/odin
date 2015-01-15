@@ -83,9 +83,9 @@ public class ConfigurationDialogController {
 		this.timeInformation = i;
 		this.timeLabelFrom.setText(this.timeInformation.getTimeFrom());
 		this.timeLabelTo.setText(this.timeInformation.getTimeTo());
-		this.hourLabelFrom.setText(this.timeInformation.getHourFrom());
-		this.hourLabelTo.setText(this.timeInformation.getHourTo());
-		this.dayLabel.setText(this.timeInformation.getDay());
+		this.hourLabelFrom.setText(this.timeInformation.getHour()+"");
+		this.hourLabelTo.setText(this.timeInformation.getHour()+"");
+		this.dayLabel.setText(this.timeInformation.getDay()+"");
 	}
 	public void setLesson(Lesson l){
 		MainApplication.log("Set lesson: "+l);
@@ -143,7 +143,7 @@ public class ConfigurationDialogController {
 			//TODO: update lesson anhand von id
 		}else{
 			Lesson l = new Lesson(t, f, s, g, r, timeInformation);
-			MainApplication.globalMain.sharedSQLManager().addNewLesson(l, timeInformation.getHourFrom()+","+timeInformation.getHourTo(),timeInformation.getDay());
+			//MainApplication.globalMain.sharedSQLManager().addNewLesson(l, timeInformation.getHourFrom()+","+timeInformation.getHourTo(),timeInformation.getDay());
 			//TODO: insert lesson in mapping table
 		}
 		this.dialogStage.close();

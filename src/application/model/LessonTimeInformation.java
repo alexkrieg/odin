@@ -6,23 +6,21 @@ public class LessonTimeInformation {
     // Properties
     //================================================================================
 	private int id;
-	private String day;
-	private String hourFrom;
-	private String hourTo;
+	private int day;
+	private int hour;
 	private String timeFrom;
 	private String timeTo;
 	
     //================================================================================
     // Cunstructors
     //================================================================================
-	public LessonTimeInformation(int id,String day, String hourFrom, String hourTo, String timeFrom, String timeTo){
-		this(day,hourFrom,hourTo,timeFrom,timeTo);
+	public LessonTimeInformation(int id,int day, int hour, String timeFrom, String timeTo){
+		this(day,hour,timeFrom,timeTo);
 		this.setId(id);
 	}
-	public LessonTimeInformation(String day, String hourFrom, String hourTo, String timeFrom, String timeTo){
+	public LessonTimeInformation(int day, int hour, String timeFrom, String timeTo){
 		this.setDay(day);
-		this.setHourFrom(hourFrom);
-		this.setHourTo(hourTo);
+		this.setHour(hour);
 		this.setTimeFrom(timeFrom);
 		this.setTimeTo(timeTo);
 	}
@@ -35,17 +33,17 @@ public class LessonTimeInformation {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getDay() {
+	public int getDay() {
 		return day;
 	}
-	public void setDay(String day) {
+	public void setDay(int day) {
 		this.day = day;
 	}
-	public String getHourFrom() {
-		return hourFrom;
+	public int getHour() {
+		return hour;
 	}
-	public void setHourFrom(String hourFrom) {
-		this.hourFrom = hourFrom;
+	public void setHour(int hour) {
+		this.hour = hour;
 	}
 	public String getTimeFrom() {
 		return timeFrom;
@@ -53,12 +51,8 @@ public class LessonTimeInformation {
 	public void setTimeFrom(String timeFrom) {
 		this.timeFrom = timeFrom;
 	}
-	public String getHourTo() {
-		return hourTo;
-	}
-	public void setHourTo(String hourTo) {
-		this.hourTo = hourTo;
-	}
+
+
 	public String getTimeTo() {
 		return timeTo;
 	}
@@ -69,12 +63,12 @@ public class LessonTimeInformation {
     // Methods
     //================================================================================
 	public String getTime(){
-		String s = ""+getHourFrom()+" - "+getHourTo()+"\n"+getTimeFrom()+" - "+getTimeTo()+" Uhr";
+		String s = ""+getHour()+" "+"\n"+getTimeFrom()+" - "+getTimeTo()+" Uhr";
 		return s;
 	}
 	@Override
 	public String toString(){
-		String s = ""+getDay()+","+getHourFrom()+"-"+getHourTo()+","+getTimeFrom()+"-";
+		String s = ""+getDay()+","+getHour()+"-"+","+getTimeFrom()+"-";
 		s += getTimeTo()+","+getId();
 		return s;
 	}

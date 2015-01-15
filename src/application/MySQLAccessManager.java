@@ -19,6 +19,7 @@ import application.model.Room;
 import application.model.SchoolClass;
 import application.model.SchoolClassGroup;
 import application.model.Teacher;
+import application.model.TimePeriod;
 
 public class MySQLAccessManager {
 	
@@ -516,10 +517,18 @@ public class MySQLAccessManager {
     //================================================================================
     // Lesson
     //================================================================================
-	public ArrayList<Lesson> getAllLessonByTeacher(Teacher argT)
+	public Lesson[][] getAllLessonByTeacher(Teacher argT)
 	{
-		ArrayList<Lesson> retArrayList = new ArrayList<Lesson>();
+		ArrayList<Lesson> recArrayList = new ArrayList<Lesson>();
 		Statement stmt = null;
+		Lesson[][] lessList = new Lesson[10][5]; 
+		
+//		for (int i=0; i<10; i++) {
+//			for (int x=0; x<5; x++) {
+//				lessList[i][x]=null;
+//			}
+//		}
+		
 		String strSql = "select " +
 								"hour, " +
 						       "fk_teacher, " +
@@ -539,7 +548,8 @@ public class MySQLAccessManager {
 						       "day " +
 						  "from " +
 						       "mydb.main_mapping main " +
-						  "where fk_teacher = '" + argT.getIdentifier().get()+"'";
+						  "where fk_teacher = '" + argT.getIdentifier().get()+"' " +
+						       "ORDER BY hour";
 		
 		try {
 			stmt = connect.createStatement();
@@ -550,17 +560,20 @@ public class MySQLAccessManager {
 				Room r =  new Room(rs.getInt("fk_room"), rs.getNString("room_name"), rs.getNString("room_description"));
 				SchoolClass s = new SchoolClass(rs.getNString("class_name"), rs.getInt("fk_class"), t);
 				SchoolClassGroup g = new SchoolClassGroup(rs.getNString("class_type_name"), rs.getInt("fk_class_type"));
-				String string = rs.getNString("hour");
-				String[] a = string.split(",");
-				LessonTimeInformation i = new LessonTimeInformation(rs.getNString("day"), a[0], a[1], "00:00", "00:00");
+				
+				LessonTimeInformation i = new LessonTimeInformation(rs.getInt("day"), rs.getInt("hour"), "00:00", "00:00");
 				Lesson tempLesson = new Lesson(t, f, s, g, r, i);
-				retArrayList.add(tempLesson);
+				recArrayList.add(tempLesson);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return retArrayList;
-		
+		for (Lesson l : recArrayList) {
+			int day = l.getTimeInformation().getDay();
+			int hour = l.getTimeInformation().getHour();
+			lessList[hour][day] = l;
+		}
+		return lessList;
 	}
 	
 	
