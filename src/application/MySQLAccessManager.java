@@ -466,17 +466,29 @@ public class MySQLAccessManager {
 	}	
 	
 	public boolean updateClass(SchoolClass sc){
+		
 		boolean retVal = false;
 		Statement stmt = null; 
-		
-		String strSql = "UPDATE mydb.class "+
-						"SET fk_identifier_teacher = '" + sc.getClassTeacher().getIdentifier().get() + "', " +
-						    "name = '"+ sc.getName().get() +"' " +
-						"WHERE id_class = " + sc.getId();
-		
+						
 		try {
+			
+			String strSql = "UPDATE mydb.class "+
+					"SET fk_identifier_teacher = '" + sc.getClassTeacher().getIdentifier().get() + "', " +
+					    "name = '"+ sc.getName().get() +"' " +
+					"WHERE id_class = " + sc.getId();
+
 			stmt = connect.createStatement();
 			stmt.execute(strSql);
+			for(SchoolClassGroup group : sc.getGroups()) {
+				if (group.getId() == -2) {
+					strSql = "INSERT INTO mydb.class_types (name) VALUES ('"+group.getName()+"')";
+					stmt = connect.createStatement();
+					stmt.execute(strSql);
+					
+					strSql = "INSERT INTO mydb.class_has_class_types (class_id, class_types_id) VALUES " +
+								"("+sc.getId()+", "+""+")";		
+				}
+			}
 			retVal = true;	
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -513,11 +525,11 @@ public class MySQLAccessManager {
     //================================================================================
     // Lesson
     //================================================================================
-	public Lesson[][] getAllLessonByTeacher(Teacher argT)
+	public Lesson[][][] getAllLessonByTeacher(Teacher argT)
 	{
 		ArrayList<Lesson> recArrayList = new ArrayList<Lesson>();
 		Statement stmt = null;
-		Lesson[][] lessList = new Lesson[10][5]; 
+		Lesson[][][] lessList = new Lesson[10][5][5]; 
 		
 //		for (int i=0; i<10; i++) {
 //			for (int x=0; x<5; x++) {
@@ -545,7 +557,7 @@ public class MySQLAccessManager {
 						  "from " +
 						       "mydb.main_mapping main " +
 						  "where fk_teacher = '" + argT.getIdentifier().get()+"' " +
-						       "ORDER BY hour";
+						       "ORDER BY day, hour";
 		
 		try {
 			stmt = connect.createStatement();
@@ -559,23 +571,120 @@ public class MySQLAccessManager {
 				
 				LessonTimeInformation i = new LessonTimeInformation(rs.getInt("day"), rs.getInt("hour"));
 				Lesson tempLesson = new Lesson(t, f, s, g, r, i);
+				
+				tempLesson.setTeacherAvailable(this.isTeacherAvailable(rs.getInt("hour"), rs.getInt("day"), argT.getIdentifier().get()));
+				tempLesson.setRoomAvailable(this.isRoomAvailable(rs.getInt("hour"), rs.getInt("day"), rs.getInt("fk_room")));
+				tempLesson.setClassAvailable(isClassAvailable(rs.getInt("hour"), rs.getInt("day"),rs.getInt("fk_class"),rs.getInt("fk_class_type") ));
+				
+				
 				recArrayList.add(tempLesson);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		int lastDayNumber = -99;
+		int lastHourNumber = -99;
+		int posI = 0;
 		for (Lesson l : recArrayList) {
+			
+			if (lastDayNumber != l.getTimeInformation().getDay() || lastHourNumber != l.getTimeInformation().getHour() ) {
+				posI = 0;
+			}
+			lastDayNumber = l.getTimeInformation().getDay();
+			lastHourNumber = l.getTimeInformation().getHour();
 			int day = l.getTimeInformation().getDay();
 			int hour = l.getTimeInformation().getHour();
-			lessList[hour][day] = l;
+			 lessList[hour][day][posI] = l;
+			 posI++;
 		}
 		return lessList;
 	}
-	public Lesson[][] getAllLessonByClass(SchoolClass argC)
+	
+	public boolean isTeacherAvailable(int hour, int day, String teacherId) {
+		
+		Statement stmt = null;
+		
+		String strSql = "SELECT " +
+				"fk_teacher, " +
+				"count(fk_teacher) " +
+			 "FROM " +
+			 	"mydb.main_mapping " +
+			 	"where hour = "+hour+" " +
+			 	"and day = "+day+" " +
+			 	"and fk_teacher = '" + teacherId + "' " +
+			 	"group by fk_teacher " +
+			 	"having count(fk_teacher) > 1 ";
+		try {
+			stmt = connect.createStatement();
+			ResultSet rsTeacher = stmt.executeQuery(strSql);
+			if (rsTeacher.next()) {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean isRoomAvailable(int hour, int day, int id) {
+		Statement stmt = null;
+		
+		String strSql = "SELECT " +
+				"fk_room, " +
+				"count(fk_room) " +
+			 "FROM " +
+			 	"mydb.main_mapping " +
+			 	"where hour = "+hour+" " +
+			 	"and day = "+day+" " +
+			 	"and fk_room = '" + id + "' " +
+			 	"group by fk_room " +
+			 	"having count(fk_room) > 1 ";
+		try {
+			stmt = connect.createStatement();
+			ResultSet rsTeacher = stmt.executeQuery(strSql);
+			if (rsTeacher.next()) {
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean isClassAvailable(int hour, int day, int classId, int classGroupId) {
+		
+		Statement stmt = null;
+		
+		String strSql = "SELECT fk_class, count(fk_class), fk_class_type, count(fk_class_type) " +
+				"FROM mydb.main_mapping " +
+				"where hour = " + hour + " and day = " + day + " and fk_class = " + classId + " and fk_class_type = "+classGroupId + " " +
+				"group by fk_class, fk_class_type " + 
+				"having count(fk_class) > 1 " +
+				"and count(fk_class_type) > 1 ";
+		try {
+			stmt = connect.createStatement();
+			ResultSet rsTeacher = stmt.executeQuery(strSql);
+			if (rsTeacher.next()) {
+				return false;
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return true;
+	
+	}
+	
+	
+	
+	public Lesson[][][] getAllLessonByClass(SchoolClass argC)
 	{
 		ArrayList<Lesson> recArrayList = new ArrayList<Lesson>();
 		Statement stmt = null;
-		Lesson[][] lessList = new Lesson[10][5]; 
+		Lesson[][][] lessList = new Lesson[10][5][5]; 
 		
 //		for (int i=0; i<10; i++) {
 //			for (int x=0; x<5; x++) {
@@ -622,10 +731,20 @@ public class MySQLAccessManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		int lastDayNumber = -99;
+		int lastHourNumber = -99;
+		int posI = 0;
 		for (Lesson l : recArrayList) {
+			
+			if (lastDayNumber != l.getTimeInformation().getDay() || lastHourNumber != l.getTimeInformation().getHour() ) {
+				posI = 0;
+			}
+			lastDayNumber = l.getTimeInformation().getDay();
+			lastHourNumber = l.getTimeInformation().getHour();
 			int day = l.getTimeInformation().getDay();
 			int hour = l.getTimeInformation().getHour();
-			lessList[hour][day] = l;
+			lessList[hour][day][posI] = l;
+			posI++;
 		}
 		return lessList;
 	}

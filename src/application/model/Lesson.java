@@ -14,6 +14,9 @@ public class Lesson {
 	private Room room;
 	private LessonTimeInformation timeInformation;
 	private boolean empty;
+	private boolean teacherAvailable;
+	private boolean roomAvailable;
+	private boolean classAvailable;
 	
     //================================================================================
     // Cunstructors
@@ -21,19 +24,21 @@ public class Lesson {
 	public Lesson(LessonTimeInformation i){
 		this.setTimeInformation(i);
 		this.setEmpty(true);
+		this.setTeacherAvailable(true);
+		this.setRoomAvailable(true);
+		this.setClassAvailable(true);
 	}
 	public Lesson(int id,Teacher t, LearningField f, SchoolClass s, SchoolClassGroup g, Room r, LessonTimeInformation i){
 		this(t,f,s,g,r,i);
 		this.setId(id);
 	}
 	public Lesson(Teacher t, LearningField f, SchoolClass s, SchoolClassGroup g, Room r, LessonTimeInformation i){
+		this(i);
 		this.setTeacher(t);
 		this.setLearningField(f);
 		this.setsClass(s);
 		this.setsClassGroup(g);
 		this.setRoom(r);
-		this.setTimeInformation(i);
-		this.setEmpty(false);
 	}
 	//================================================================================
     // Getter / Setter
@@ -91,6 +96,24 @@ public class Lesson {
 	}
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+	}
+	public boolean isTeacherAvailable() {
+		return teacherAvailable;
+	}
+	public void setTeacherAvailable(boolean teacherAvailable) {
+		this.teacherAvailable = teacherAvailable;
+	}
+	public boolean isRoomAvailable() {
+		return roomAvailable;
+	}
+	public void setRoomAvailable(boolean roomAvailable) {
+		this.roomAvailable = roomAvailable;
+	}
+	public boolean isClassAvailable() {
+		return classAvailable;
+	}
+	public void setClassAvailable(boolean classAvailable) {
+		this.classAvailable = classAvailable;
 	}
 	//================================================================================
     // Methods

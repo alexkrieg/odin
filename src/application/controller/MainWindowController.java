@@ -112,12 +112,12 @@ public class MainWindowController {
 	private void setClasses(ObservableList<SchoolClass> list){
 		this.classListView.setItems(list);
 	}
-	private void setTimes(Lesson[][] lList) {
+	private void setTimes(Lesson[][][] lList) {
 		this.pList.clear();
 		for(int i = 0;i<10;i++){
 			TimePeriod p = new TimePeriod(i);
 			for (int j = 0; j < 5 ; j++) {
-				p.addLessonAtIndex(lList[i][j], j);
+				p.addLessonAtIndex(lList[i][j][0], j);
 			}
 			pList.add(p);
 		}
