@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.controlsfx.control.CheckListView;
+import org.controlsfx.dialog.Dialogs;
 
 import application.MainApplication;
 import application.model.LearningField;
@@ -112,6 +113,7 @@ public class TeacherDialogController {
     private void choiceBoxAction(){
     	this.checkListView.getCheckModel().clearChecks();
     	this.setTeacher(this.choiceBox.getSelectionModel().getSelectedItem());
+    	MainApplication.globalMain.updateData(false);
     }
     @FXML
     private void handleOk() {
@@ -122,7 +124,12 @@ public class TeacherDialogController {
     		Teacher t = new Teacher(this.tokenTxtField.getText(),this.firstNameTxtField.getText(), this.lastNameTxtField.getText());
     		t.setLearningFields(FXCollections.observableArrayList(this.checkListView.getCheckModel().getCheckedItems()));
     		if(MainApplication.globalMain.sharedSQLManager().addNewTeacher(t) != true){
-    			//TODO: INFO: fehler beim speichern
+            	Dialogs.create()
+                .owner(this.dialogStage)
+                .title("Information")
+                .masthead(null)
+                .message("Fehler beim Speichern der Daten")
+                .showError();
     			return;
     		}
     		this.teacherList.add(t);
@@ -135,11 +142,21 @@ public class TeacherDialogController {
         	t.learningFieldProperty().clear();
         	t.learningFieldProperty().addAll(list);
         	if(MainApplication.globalMain.sharedSQLManager().updateTeacher(t) != true){
-    			//TODO: INFO: fehler beim speichern
+            	Dialogs.create()
+                .owner(this.dialogStage)
+                .title("Information")
+                .masthead(null)
+                .message("Fehler beim Speichern der Daten")
+                .showError();
     			return;
     		}
     	}
-    	//TODO: INFO änderungen gespeichert
+    	Dialogs.create()
+        .owner(this.dialogStage)
+        .title("Information")
+        .masthead(null)
+        .message("Daten gespeichert!")
+        .showInformation();
     	this.choiceBoxAction();
     }
     @FXML

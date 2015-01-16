@@ -20,7 +20,7 @@ public class SchoolClassGroup {
 	}
 	public SchoolClassGroup(String name){
 		this.name = new SimpleStringProperty(name);
-		this.id = -1;
+		this.id = -2;
 	}
 		
 	//================================================================================

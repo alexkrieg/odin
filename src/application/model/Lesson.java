@@ -13,12 +13,14 @@ public class Lesson {
 	private SchoolClassGroup sClassGroup;
 	private Room room;
 	private LessonTimeInformation timeInformation;
+	private boolean empty;
 	
     //================================================================================
     // Cunstructors
     //================================================================================
 	public Lesson(LessonTimeInformation i){
 		this.setTimeInformation(i);
+		this.setEmpty(true);
 	}
 	public Lesson(int id,Teacher t, LearningField f, SchoolClass s, SchoolClassGroup g, Room r, LessonTimeInformation i){
 		this(t,f,s,g,r,i);
@@ -31,6 +33,7 @@ public class Lesson {
 		this.setsClassGroup(g);
 		this.setRoom(r);
 		this.setTimeInformation(i);
+		this.setEmpty(false);
 	}
 	//================================================================================
     // Getter / Setter
@@ -71,7 +74,13 @@ public class Lesson {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
-    public LessonTimeInformation getTimeInformation() {
+    public boolean isEmpty() {
+		return empty;
+	}
+	public void setEmpty(boolean empty) {
+		this.empty = empty;
+	}
+	public LessonTimeInformation getTimeInformation() {
 		return timeInformation;
 	}
 	public void setTimeInformation(LessonTimeInformation timeInformation) {
@@ -91,5 +100,8 @@ public class Lesson {
 		String s = ""+getTimeInformation()+","+getsClass()+","+getsClassGroup()+","+getTeacher()+",";
 		s += getRoom()+","+getLearningField();
 		return s;
+	}
+	public String makeMePretty(){
+		return "Klasse: "+getsClass()+"\nGruppe: "+getsClassGroup()+"\nLehrer: "+getTeacher()+"\nRaum: "+getRoom()+"\nLernfeld: "+getLearningField();
 	}
 }

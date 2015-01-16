@@ -1,14 +1,11 @@
 package application;
 
-import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +16,6 @@ import application.model.Room;
 import application.model.SchoolClass;
 import application.model.SchoolClassGroup;
 import application.model.Teacher;
-import application.model.TimePeriod;
 
 public class MySQLAccessManager {
 	
@@ -561,7 +557,65 @@ public class MySQLAccessManager {
 				SchoolClass s = new SchoolClass(rs.getNString("class_name"), rs.getInt("fk_class"), t);
 				SchoolClassGroup g = new SchoolClassGroup(rs.getNString("class_type_name"), rs.getInt("fk_class_type"));
 				
-				LessonTimeInformation i = new LessonTimeInformation(rs.getInt("day"), rs.getInt("hour"), "00:00", "00:00");
+				LessonTimeInformation i = new LessonTimeInformation(rs.getInt("day"), rs.getInt("hour"));
+				Lesson tempLesson = new Lesson(t, f, s, g, r, i);
+				recArrayList.add(tempLesson);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (Lesson l : recArrayList) {
+			int day = l.getTimeInformation().getDay();
+			int hour = l.getTimeInformation().getHour();
+			lessList[hour][day] = l;
+		}
+		return lessList;
+	}
+	public Lesson[][] getAllLessonByClass(SchoolClass argC)
+	{
+		ArrayList<Lesson> recArrayList = new ArrayList<Lesson>();
+		Statement stmt = null;
+		Lesson[][] lessList = new Lesson[10][5]; 
+		
+//		for (int i=0; i<10; i++) {
+//			for (int x=0; x<5; x++) {
+//				lessList[i][x]=null;
+//			}
+//		}
+		
+		String strSql = "select " +
+								"hour, " +
+						       "fk_teacher, " +
+						       "(select firstname from mydb.teacher te where te.id_teacher = main.fk_teacher) teachFirstName, " +
+						       "(select lastname from mydb.teacher te where te.id_teacher = main.fk_teacher) teachLastName, " +
+						       " fk_room, " +
+						       "(select name from mydb.room ro where id_room = fk_room) room_name, " +
+						       "(select room_description from mydb.room where id_room = fk_room) room_description, " +
+						       "fk_learning_field, " +
+						       " (select name from mydb.learning_field lf where id_learning_field = fk_learning_field) lf_name, " +
+						       " (select description from mydb.learning_field lf where id_learning_field = fk_learning_field) lf_description, " +
+						       "fk_class, " +
+						       "(select name from mydb.class cl where id_class = fk_class) class_name, " +
+						       "(select fk_identifier_teacher from mydb.class cl where id_class = fk_class) class_name, " +
+						       "fk_class_type, " +
+						       "(select name from mydb.class_types where id = fk_class_type) class_type_name, " +
+						       "day " +
+						  "from " +
+						       "mydb.main_mapping main " +
+						  "where fk_class = '" + argC.getId()+"' " +
+						       "ORDER BY hour";
+		
+		try {
+			stmt = connect.createStatement();
+			ResultSet rs = stmt.executeQuery(strSql);
+			while (rs.next()) {
+				Teacher t = new Teacher(rs.getNString("fk_teacher"), rs.getNString("teachFirstName"), rs.getNString("teachLastName"));
+				LearningField f = new LearningField(rs.getNString("lf_name"), rs.getNString("lf_description") , rs.getInt("fk_learning_field"));
+				Room r =  new Room(rs.getInt("fk_room"), rs.getNString("room_name"), rs.getNString("room_description"));
+				SchoolClass s = new SchoolClass(rs.getNString("class_name"), rs.getInt("fk_class"), t);
+				SchoolClassGroup g = new SchoolClassGroup(rs.getNString("class_type_name"), rs.getInt("fk_class_type"));
+				
+				LessonTimeInformation i = new LessonTimeInformation(rs.getInt("day"), rs.getInt("hour"));
 				Lesson tempLesson = new Lesson(t, f, s, g, r, i);
 				recArrayList.add(tempLesson);
 			}
@@ -576,21 +630,20 @@ public class MySQLAccessManager {
 		return lessList;
 	}
 	
-	
-	public boolean addNewLesson(Lesson l, String hour, String day)
+	public boolean addNewLesson(Lesson l)
 	{
 		boolean retVal = false;
 		Statement stmt = null; 
+		int hour = l.getTimeInformation().getHour();
+		int day = l.getTimeInformation().getDay();
 		String stringIdTeacher = l.getTeacher().getIdentifier().get();
 		int intRoom = l.getRoom().getId();
 		int intLearningFieldId = l.getLearningField().getID();
 		int intSchoolClassId = l.getsClass().getId();
 		int intSchoolClassGroupId = l.getsClassGroup().getId();
 		
-		
 		String strSql ="INSERT INTO mydb.main_mapping  (hour, fk_teacher, fk_room, fk_learning_field, fk_class, fk_class_type, day) " + 
-							"VALUES ('"+hour+"', "+stringIdTeacher+", "+intRoom+", "+intLearningFieldId+", "+intSchoolClassId+", "+intSchoolClassGroupId+", '"+day+"' )" ;
-		
+							"VALUES ("+hour+", '"+stringIdTeacher+"', "+intRoom+", "+intLearningFieldId+", "+intSchoolClassId+", "+intSchoolClassGroupId+", "+day+" )" ;
 		try {
 			stmt = connect.createStatement();
 			stmt.execute(strSql);
@@ -599,7 +652,6 @@ public class MySQLAccessManager {
 			e.printStackTrace();
 		}
 		return retVal;
-		
 	}
 	
 }

@@ -13,60 +13,57 @@ public class TimePeriod {
 	//================================================================================
     // Properties
     //================================================================================
-	private Lesson[] lessons;
-	private LessonTimeInformation lessonTimeInformation;
-	private StringProperty timeInformation;
+	private ObservableList<Lesson> lessons;
+	//private Lesson[] lessons;
 	private int hour;
 	
 	//================================================================================
     // Contructors
     //================================================================================
 	public TimePeriod(int hour){
-		setLessons(new Lesson[5]);
+		lessons = FXCollections.observableArrayList();
+		//setLessons(new Lesson[5]);
 		this.setHour(hour);
 		
 	}
-	public TimePeriod(ObservableList<Lesson> list, LessonTimeInformation timeInformation, int hour){
-		this(hour);
-		this.lessonTimeInformation = timeInformation;
-		this.timeInformation = new SimpleStringProperty(timeInformation.getTime());
-		setLessons(new Lesson[5]);
-		
-	}
+//	public TimePeriod(ObservableList<Lesson> list, LessonTimeInformation timeInformation, int hour){
+//		this(hour);
+//		this.lessonTimeInformation = timeInformation;
+//		this.timeInformation = new SimpleStringProperty(timeInformation.getTime());
+//		setLessons(new Lesson[5]);
+//		
+//	}
 	//================================================================================
     // Getter / Setter
     //================================================================================
-	public Lesson[] getLessons() {
-		return lessons;
-	}
-	public void setLessons(Lesson[] lessons) {
-		this.lessons = lessons;
-	}
-	public SimpleObjectProperty<Lesson> getLessonForDayAndTime(int day){
-		// Only if for this.lesson time onformation
-		for(int i = 0 ; i<lessons.length;i++){
-			Lesson l = lessons[i];
-			if(l == null){
-				return new SimpleObjectProperty<Lesson>(new Lesson(new LessonTimeInformation(0, 0, "sdsd", "sdds")));
-			}
-			if(l.getTimeInformation().getDay() == day){
-				if(l.getTimeInformation().getHour() == this.getHour()){
-					return new SimpleObjectProperty<Lesson>(l);
-				}else{
-					return new SimpleObjectProperty<Lesson>(new Lesson(new LessonTimeInformation(0, 0, "sdsd", "sdds")));
-				}
+//	public Lesson[] getLessons() {
+//		return lessons;
+//	}
+//	public void setLessons(Lesson[] lessons) {
+//		this.lessons = lessons;
+//	}
+	public SimpleObjectProperty<Lesson> getLessonForDay(int day){
+		for(Lesson l: this.lessons){
+			//Lesson l = lessons[i];
+			if(l != null && l.getTimeInformation().getDay() == day){
+				MainApplication.log("Lesson:"+l.makeMePretty());
+				return new SimpleObjectProperty<Lesson>(l);
 			}
 		}
-		return new SimpleObjectProperty<Lesson>();
+//		for(int i = 0 ; i<lessons.length;i++){
+//			Lesson l = lessons[i];
+//			if(l != null && l.getTimeInformation().getDay() == day){
+//				MainApplication.log("Lesson:"+l.makeMePretty());
+//				return new SimpleObjectProperty<Lesson>(l);
+//			}
+//		}
+		Lesson l = new Lesson(new LessonTimeInformation(day,this.hour));
+		return new SimpleObjectProperty<Lesson>(l);
 	}
-	public StringProperty getTimeInformation() {
-		return timeInformation;
-	}
-	public void setTimeInformation(StringProperty timeInformation) {
-		this.timeInformation = timeInformation;
-	}
-	public LessonTimeInformation getLessonTimeInformation(){
-		return this.lessonTimeInformation;
+	public StringProperty getPrettyTime() {
+		LessonTimeInformation lti = new LessonTimeInformation(-1, this.getHour());
+		String s = ""+(lti.getHour()+1)+". Stunde\n"+lti.getTime();
+		return new SimpleStringProperty(s);
 	}
 	public int getHour() {
 		return hour;
@@ -75,10 +72,15 @@ public class TimePeriod {
 		this.hour = hour;
 	}
 	public void addLessonAtIndex(Lesson l, int index){
-		this.lessons[index]= l;
+		this.lessons.add(index,l);
+		//this.lessons[index]= l;
+	}
+	public void removeAllLessons(){
+		this.lessons.clear();
+		//this.lessons[index]= l;
 	}
 	@Override
 	public String toString(){
-		return this.timeInformation+" - "+this.lessons+"";
+		return this.getHour()+" - "+this.lessons+"";
 	}
 }

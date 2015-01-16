@@ -35,7 +35,7 @@ public class RoomDialogController {
     // Cunstructors
     //================================================================================
 	public RoomDialogController(){
-		this.roomList.add(new Room(-1,"Neuen Raum hinzuf¸gen ...",""));
+		this.roomList.add(new Room(-1,"Neuen Raum hinzufuegen ...",""));
 		ArrayList<Room> list = MainApplication.globalMain.sharedSQLManager().selectAllRooms();
 		this.setRoomList(FXCollections.observableArrayList(list));
 	}
@@ -84,10 +84,20 @@ public class RoomDialogController {
     		r.setCharacteristic(this.characteristicTxtField.getText());
     		r.setName(this.nameTxtField.getText());
     		if(MainApplication.globalMain.sharedSQLManager().updateRoom(r) != true){
-    			//TODO: Info : Fheler beim aktualisieren
+    	    	Dialogs.create()
+    	        .owner(this.dialogStage)
+    	        .title("Information")
+    	        .masthead(null)
+    	        .message("Fehler beim Speichern der Daten.")
+    	        .showError();
     		}
     	}
-    	//TODO: Info Änderungen gespeichert anzeigen
+    	Dialogs.create()
+        .owner(this.dialogStage)
+        .title("Information")
+        .masthead(null)
+        .message("Daten gespeichert.")
+        .showInformation();
     	this.choiceBoxAction();
     }
     @FXML

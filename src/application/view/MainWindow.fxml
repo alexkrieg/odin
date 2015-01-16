@@ -39,6 +39,15 @@
                      </accelerator></MenuItem>
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Exportieren">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#createPDF" text="PDF ...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Hilfe">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#menuOnAbout" text="Über ...">

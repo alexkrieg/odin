@@ -2,6 +2,13 @@ package application.controller;
 
 import org.controlsfx.dialog.Dialogs;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import application.MainApplication;
 import application.model.LearningField;
 import application.model.Lesson;
@@ -10,15 +17,6 @@ import application.model.Room;
 import application.model.SchoolClass;
 import application.model.SchoolClassGroup;
 import application.model.Teacher;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class ConfigurationDialogController {
     //================================================================================
@@ -26,10 +24,11 @@ public class ConfigurationDialogController {
     //================================================================================
 	public static final String DIALOG_STAGE_TITLE = "Stunde bearbeiten ...";
 	private Stage dialogStage;
-	private MainApplication mainApplication;
 	private Lesson lesson;
-	private LessonTimeInformation timeInformation;
-	private ObservableList<String> lessons = FXCollections.observableArrayList();
+	private ObservableList<String> lessons;
+	private ObservableList<Teacher> teacherList;
+	private ObservableList<SchoolClass> classList;
+	private ObservableList<Room> roomList;
 	@FXML
 	private Button buttonRemove;
 	@FXML
@@ -60,15 +59,23 @@ public class ConfigurationDialogController {
     //================================================================================
 	public ConfigurationDialogController(){
 		this.lesson = null;
-		this.lessons.add(null);
+		this.teacherList = FXCollections.observableArrayList(MainApplication.globalMain.sharedSQLManager().selectAllTeacher());
+		this.classList = FXCollections.observableArrayList(MainApplication.globalMain.sharedSQLManager().selectAllClasses());
+		this.roomList = FXCollections.observableArrayList(MainApplication.globalMain.sharedSQLManager().selectAllRooms());
+		//this.lessons.add(null);
 	}
     @FXML
     private void initialize() {
     	this.classGroupComboBox.setDisable(true);
     	this.fieldComboBox.setDisable(true);
+    	
     	this.classSplitComboBox.setItems(this.lessons);
     	this.classSplitComboBox.getSelectionModel().select(0);
     	this.onClassSplitComboBox();
+    	
+    	this.teacherComboBox.setItems(this.teacherList);
+    	this.roomComboBox.setItems(roomList);
+    	this.classComboBox.setItems(classList);
     }
     //================================================================================
     // Setters
@@ -76,22 +83,17 @@ public class ConfigurationDialogController {
 	public void setDialogStage(Stage stage){
 		this.dialogStage = stage;
 	}
-	public void setMainApplication(MainApplication app){
-		this.mainApplication = app;
-	}
-	public void setTimeInformation(LessonTimeInformation i){
-		this.timeInformation = i;
-		this.timeLabelFrom.setText(this.timeInformation.getTimeFrom());
-		this.timeLabelTo.setText(this.timeInformation.getTimeTo());
-		this.hourLabelFrom.setText(this.timeInformation.getHour()+"");
-		this.hourLabelTo.setText(this.timeInformation.getHour()+"");
-		this.dayLabel.setText(this.timeInformation.getDay()+"");
+	private void setTimeInformation(LessonTimeInformation i){
+		this.timeLabelFrom.setText(i.getTimeFrom());
+		this.timeLabelTo.setText(i.getTimeTo());
+		this.hourLabelFrom.setText(i.getHour()+1+"");
+		this.hourLabelTo.setText(i.getHour()+1+"");
+		this.dayLabel.setText(i.getDayString());
 	}
 	public void setLesson(Lesson l){
-		MainApplication.log("Set lesson: "+l);
-		if(l!= null){
+		this.lesson = l;
+		if(!l.isEmpty()){
 			this.buttonRemove.setDisable(false);
-			this.lesson = l;
 			this.teacherComboBox.getSelectionModel().select(this.lesson.getTeacher());
 			this.roomComboBox.getSelectionModel().select(this.lesson.getRoom());
 			this.classComboBox.getSelectionModel().select(this.lesson.getsClass());
@@ -100,20 +102,17 @@ public class ConfigurationDialogController {
 		}
 		else{
 			this.buttonRemove.setDisable(true);
-			this.lesson = null;
+			if(MainWindowController.lastSelectedClass != null){
+				this.classComboBox.getSelectionModel().select(MainWindowController.lastSelectedClass);
+			}
+			else if(MainWindowController.lastSelectedTeacher != null){
+				this.teacherComboBox.getSelectionModel().select(MainWindowController.lastSelectedTeacher);
+			}
 		}
 	}
-	public void setLessons(ObservableList<String> list){
-		this.lessons.addAll(list);
-	}
-	public void setTeachers(ObservableList<Teacher> list){
-		this.teacherComboBox.setItems(list);
-	}
-	public void setRooms(ObservableList<Room> list){
-		this.roomComboBox.setItems(list);
-	}
-	public void setClasses(ObservableList<SchoolClass> list){
-		this.classComboBox.setItems(list);
+	public void setLessons(Lesson l){
+		this.setTimeInformation(l.getTimeInformation());
+		this.setLesson(l);
 	}
     //================================================================================
     // Action Handler
@@ -125,27 +124,26 @@ public class ConfigurationDialogController {
 		SchoolClass s = this.classComboBox.getSelectionModel().getSelectedItem();
 		SchoolClassGroup g = this.classGroupComboBox.getSelectionModel().getSelectedItem();
 		Room r = this.roomComboBox.getSelectionModel().getSelectedItem();
-		String day = this.dayLabel.getText();
-		String hour = ""+this.hourLabelFrom.getText()+"-"+this.hourLabelTo.getText();
 		if(t == null || f == null || s == null || g == null || r == null){
-	    	/*Dialogs.create()
+	    	Dialogs.create()
 	        .owner(dialogStage)
 	        .title("Fehler")
-	        .message("Es sind nicht alle Felder ausgef¸llt! Bitte w‰hlen sie in jeder Kategorie ein dings!")
-	        .showError();*/
+	        .message("Es sind nicht alle Felder ausgefuellt!")
+	        .showError();
 			return;
 		}
-		if(this.lesson != null){
+		if(this.lesson.isEmpty()){
+			Lesson l = new Lesson(t, f, s, g, r, this.lesson.getTimeInformation());
+			MainApplication.globalMain.sharedSQLManager().addNewLesson(l);
+		}else{
 			this.lesson.setLearningField(f);
 			this.lesson.setRoom(r);
 			this.lesson.setsClass(s);
 			this.lesson.setsClassGroup(g);
+			this.lesson.setTeacher(t);
 			//TODO: update lesson anhand von id
-		}else{
-			Lesson l = new Lesson(t, f, s, g, r, timeInformation);
-			//MainApplication.globalMain.sharedSQLManager().addNewLesson(l, timeInformation.getHourFrom()+","+timeInformation.getHourTo(),timeInformation.getDay());
-			//TODO: insert lesson in mapping table
 		}
+		MainApplication.globalMain.updateData(true);
 		this.dialogStage.close();
 	}
 	@FXML
@@ -174,7 +172,7 @@ public class ConfigurationDialogController {
 	@FXML
 	private void onClassSplitComboBox(){
 		//Lesson l = this.classSplitComboBox.getSelectionModel().getSelectedItem();
-		this.setLesson(null);
+		//this.setLesson(null);
 	}
 	@FXML
 	private void onButtonRemove(){

@@ -4,8 +4,6 @@ package application;
 import java.io.IOException;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -20,13 +18,7 @@ import application.controller.LearningDialogController;
 import application.controller.MainWindowController;
 import application.controller.RoomDialogController;
 import application.controller.TeacherDialogController;
-import application.model.LearningField;
 import application.model.Lesson;
-import application.model.LessonTimeInformation;
-import application.model.Room;
-import application.model.SchoolClass;
-import application.model.Teacher;
-import application.model.TimePeriod;
 
 
 public class MainApplication extends Application {
@@ -127,43 +119,27 @@ public class MainApplication extends Application {
 	public void showLearningFieldDialog(){
         Stage dialogStage = this.generateStage("LearningFieldDialog",LearningDialogController.DIALOG_STAGE_TITLE,false);
         LearningDialogController controller = this.fxmlLoader.getController();
-        MainApplication.log(controller+"");
         controller.setDialogStage(dialogStage);
-        //controller.setLearningFields(this.learningFieldData);
 		dialogStage.showAndWait();
 	}
 	public void showRoomDialog(){
         Stage dialogStage = this.generateStage("RoomDialog",RoomDialogController.DIALOG_STAGE_TITLE,false);
         RoomDialogController controller = this.fxmlLoader.getController();
         controller.setDialogStage(dialogStage);
-        //controller.setRoomList(this.blabla);
 		dialogStage.showAndWait();
 	}
-	public void showConfigurationDialog(Lesson l,LessonTimeInformation i){
+	public void showConfigurationDialog(Lesson l){
 		Stage dialogStage = this.generateStage("ConfigurationDialog", ConfigurationDialogController.DIALOG_STAGE_TITLE, false);
 		ConfigurationDialogController controller = this.fxmlLoader.getController();
 		controller.setDialogStage(dialogStage);
-		controller.setMainApplication(this);
-		controller.setTimeInformation(i);
-		ObservableList<String> lessons = FXCollections.observableArrayList();
-		lessons.add("hallo");
-		lessons.add("födhgoöiehf");
-		lessons.add("sdäfheogp");
-		lessons.add("dfüdoupidehü");
-		ObservableList<Room> rooms = FXCollections.observableArrayList(MainApplication.globalMain.sharedSQLManager().selectAllRooms());
-		ObservableList<SchoolClass> classes = FXCollections.observableArrayList(MainApplication.globalMain.sharedSQLManager().selectAllClasses());
-		ObservableList<Teacher> teachers = FXCollections.observableArrayList(MainApplication.globalMain.sharedSQLManager().selectAllTeacher());
-		controller.setTeachers(teachers);
-		controller.setLessons(lessons);
-		controller.setClasses(classes);
-		controller.setRooms(rooms);
+		controller.setLessons(l);
 		dialogStage.showAndWait();
 	}    
 	//================================================================================
     // Updater
     //================================================================================
-	public void updateData(){
-		this.mainController.reloadData();
+	public void updateData(boolean updateTableView){
+		this.mainController.reloadData(updateTableView);
 	}
     //================================================================================
     // Launch / Log / Close

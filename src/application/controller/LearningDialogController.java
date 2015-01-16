@@ -35,7 +35,7 @@ public class LearningDialogController {
     // Cunstructors
     //================================================================================
 	public LearningDialogController(){
-		this.fieldList.add(new LearningField("Neues Lernfeld hinzuf¸gen ...","",-1));
+		this.fieldList.add(new LearningField("Neues Lernfeld hinzufuegen ...","",-1));
 		ArrayList<LearningField> list = MainApplication.globalMain.sharedSQLManager().selectAllLearningFields();
 		this.setLearningFields(FXCollections.observableArrayList(list));
 	}
@@ -83,16 +83,21 @@ public class LearningDialogController {
     		f.setName(this.nameTxtField.getText());
     		f.setDescription(this.descriptionTxtField.getText());
     		if(MainApplication.globalMain.sharedSQLManager().updateLearningField(f) != true){
-    			//TODO: info daten net geändert
+            	Dialogs.create()
+                .owner(this.dialogStage)
+                .title("Information")
+                .masthead(null)
+                .message("Fehler beim Speichern der Daten.")
+                .showError();
     			return;
     		}
     	}
-    	// TODO : info  daten gespeichert
-//    	Dialogs.create()
-//        .owner(dialogStage)
-//        .title("Information")
-//        .message("ƒnderungen wurden gespeichert!")
-//        .showInformation();
+    	Dialogs.create()
+        .owner(this.dialogStage)
+        .title("Information")
+        .masthead(null)
+        .message("Daten gespeichert.")
+        .showInformation();
     	this.choiceBoxAction();
     }
     @FXML
@@ -104,11 +109,21 @@ public class LearningDialogController {
     	LearningField f = this.comboBox.getSelectionModel().getSelectedItem();
     	
     	if(MainApplication.globalMain.sharedSQLManager().removeLearningField(f) != true){
+        	Dialogs.create()
+            .owner(this.dialogStage)
+            .title("Information")
+            .masthead(null)
+            .message("Fehler beim Speichern der Daten.")
+            .showError();
     		return;
-    		//TODO: info daten speichern fehlgeschlagen
     	}
     	this.fieldList.remove(f);
     	this.choiceBoxAction();
-    	//TODO: daten gespeichert
+    	Dialogs.create()
+        .owner(this.dialogStage)
+        .title("Information")
+        .masthead(null)
+        .message("Daten gespeichert.")
+        .showInformation();
     }
 }

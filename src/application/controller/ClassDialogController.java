@@ -78,7 +78,7 @@ public class ClassDialogController {
     	this.classList.add(new SchoolClass("Neue Klasse hinzufuegen ...",-1,null));
     	ArrayList<SchoolClass> list = MainApplication.globalMain.sharedSQLManager().selectAllClasses();
     	this.classList.addAll(list);
-    	MainApplication.globalMain.updateData();
+    	MainApplication.globalMain.updateData(false);
     	this.choiceBox.getSelectionModel().select(0);
     }
     //================================================================================
