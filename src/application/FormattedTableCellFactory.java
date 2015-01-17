@@ -19,7 +19,7 @@ public class FormattedTableCellFactory<S,T> implements Callback<TableColumn<Time
 	            super.updateItem(item, empty);    
 	            this.setOnMouseClicked((event)->{
 	            	if(event.getClickCount() == 2){
-	            			MainApplication.globalMain.showConfigurationDialog(item);	
+	            		MainApplication.globalMain.showConfigurationDialog(item);	
 	            	}
 	            });
 	            this.setOnMouseEntered((event)->{

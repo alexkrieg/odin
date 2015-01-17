@@ -135,6 +135,10 @@ public class MainWindowController {
 		this.mainApp.showLearningFieldDialog();
 	}
 	@FXML
+	private void menuOnSchoolClassGroup(){
+		this.mainApp.showSchoolClassGroupDialog();
+	}
+	@FXML
 	private void menuOnAbout(){
 		this.mainApp.showAboutDialog();
 	}

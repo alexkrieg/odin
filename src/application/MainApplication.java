@@ -17,6 +17,7 @@ import application.controller.ConfigurationDialogController;
 import application.controller.LearningDialogController;
 import application.controller.MainWindowController;
 import application.controller.RoomDialogController;
+import application.controller.SchoolClassGroupDialogController;
 import application.controller.TeacherDialogController;
 import application.model.Lesson;
 
@@ -119,6 +120,12 @@ public class MainApplication extends Application {
 	public void showLearningFieldDialog(){
         Stage dialogStage = this.generateStage("LearningFieldDialog",LearningDialogController.DIALOG_STAGE_TITLE,false);
         LearningDialogController controller = this.fxmlLoader.getController();
+        controller.setDialogStage(dialogStage);
+		dialogStage.showAndWait();
+	}
+	public void showSchoolClassGroupDialog(){
+        Stage dialogStage = this.generateStage("SchoolClassGroupDialog",SchoolClassGroupDialogController.DIALOG_STAGE_TITLE,false);
+        SchoolClassGroupDialogController controller = this.fxmlLoader.getController();
         controller.setDialogStage(dialogStage);
 		dialogStage.showAndWait();
 	}

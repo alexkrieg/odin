@@ -39,6 +39,7 @@ public class Lesson {
 		this.setsClass(s);
 		this.setsClassGroup(g);
 		this.setRoom(r);
+		this.setEmpty(false);
 	}
 	//================================================================================
     // Getter / Setter

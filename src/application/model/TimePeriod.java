@@ -14,7 +14,7 @@ public class TimePeriod {
     // Properties
     //================================================================================
 	private ObservableList<Lesson> lessons;
-	//private Lesson[] lessons;
+	private ObservableList<Lesson>[] lessonss;
 	private int hour;
 	
 	//================================================================================

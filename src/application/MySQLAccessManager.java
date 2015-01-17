@@ -35,10 +35,6 @@ public class MySQLAccessManager {
     // Connector
     //================================================================================
 	
-	public  boolean ichBinEineDoofeMethode(){
-		return true;
-	}
-	
 	private boolean connectToMySQL(String host, String database, String user, String password)
 	{
 		try{
@@ -686,12 +682,6 @@ public class MySQLAccessManager {
 		Statement stmt = null;
 		Lesson[][][] lessList = new Lesson[10][5][5]; 
 		
-//		for (int i=0; i<10; i++) {
-//			for (int x=0; x<5; x++) {
-//				lessList[i][x]=null;
-//			}
-//		}
-		
 		String strSql = "select " +
 								"hour, " +
 						       "fk_teacher, " +
@@ -764,6 +754,91 @@ public class MySQLAccessManager {
 		String strSql ="INSERT INTO mydb.main_mapping  (hour, fk_teacher, fk_room, fk_learning_field, fk_class, fk_class_type, day) " + 
 							"VALUES ("+hour+", '"+stringIdTeacher+"', "+intRoom+", "+intLearningFieldId+", "+intSchoolClassId+", "+intSchoolClassGroupId+", "+day+" )" ;
 		try {
+			stmt = connect.createStatement();
+			stmt.execute(strSql);
+			retVal = true;	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retVal;
+	}
+    //================================================================================
+    // SchoolClassGroup
+    //================================================================================
+	public boolean addNewSchoolClassGroup(SchoolClassGroup lf) {
+		
+		boolean retVal = false;
+		Statement stmt = null; 
+		String strName = lf.getName().get();
+		
+		String strSql ="INSERT INTO mydb.learning_field (name, description) " +
+							"VALUES ('"+strName+"','"+""+"')" ;
+		try {
+			stmt = connect.createStatement();
+			stmt.execute(strSql);
+			retVal = true;	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retVal;
+	}
+
+	public ArrayList<SchoolClassGroup> selectAllSchoolClassGroup() {
+		ArrayList<SchoolClassGroup> retArrayList = new ArrayList<SchoolClassGroup>();
+		Statement stmt = null;
+		String strSql = "SELECT name, id FROM mydb.class_types ORDER BY name";
+		try {
+			stmt = connect.createStatement();
+			ResultSet rs = stmt.executeQuery(strSql);
+			while (rs.next()) {
+				SchoolClassGroup tempGroup = new SchoolClassGroup(rs.getNString(1), rs.getInt(2));
+				retArrayList.add(tempGroup);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retArrayList;
+	}
+	
+	public boolean removeSchoolClassGroup(SchoolClassGroup g){
+		boolean retVal = false;
+		
+		try {
+			Statement stmt = null; 
+			
+			String strSql = "UPDATE mydb.main_mapping " +
+					"SET fk_class_type = null " +
+					"WHERE fk_class_type = " + g.getId() + "";
+			stmt = connect.createStatement();
+			stmt.execute(strSql);
+			stmt = null;
+			
+			strSql = "DELETE FROM mydb.class_has_class_types " +
+					"WHERE class_types_id = '" +g.getId()+ "'";
+			stmt = connect.createStatement();
+			stmt.execute(strSql);
+			stmt = null;
+		
+			strSql = "DELETE FROM mydb.class_types " +
+					"WHERE id = " +g.getId()+ "";
+			stmt = connect.createStatement();
+			stmt.execute(strSql);
+		stmt = null;
+			
+			retVal = true;	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retVal;
+	}
+	public boolean updateSchoolClassGroup(SchoolClassGroup g){
+		boolean retVal = false;
+		Statement stmt = null; 
+		try {
+			String strSql = "UPDATE mydb.class_types "+
+							"SET name = '" + g.getName().get() + "', " +
+							"WHERE id = " + g.getId() + "";
 			stmt = connect.createStatement();
 			stmt.execute(strSql);
 			retVal = true;	
