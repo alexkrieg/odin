@@ -21,6 +21,10 @@ public class Lesson {
     //================================================================================
     // Cunstructors
     //================================================================================
+	public Lesson(int id, LessonTimeInformation i){
+		this(i);
+		this.setId(id);
+	}
 	public Lesson(LessonTimeInformation i){
 		this.setTimeInformation(i);
 		this.setEmpty(true);
@@ -121,9 +125,11 @@ public class Lesson {
     //================================================================================
 	@Override
 	public String toString(){
-		String s = ""+getTimeInformation()+","+getsClass()+","+getsClassGroup()+","+getTeacher()+",";
-		s += getRoom()+","+getLearningField();
-		return s;
+		if(id == -1){
+			return "Neue Stunde hinzufuegen ...";
+		}else{
+			return "Klasse: "+getsClass()+"\nGruppe: "+getsClassGroup();
+		}
 	}
 	public String makeMePretty(){
 		return "Klasse: "+getsClass()+"\nGruppe: "+getsClassGroup()+"\nLehrer: "+getTeacher()+"\nRaum: "+getRoom()+"\nLernfeld: "+getLearningField();

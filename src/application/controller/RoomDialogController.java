@@ -36,7 +36,7 @@ public class RoomDialogController {
     //================================================================================
 	public RoomDialogController(){
 		this.roomList.add(new Room(-1,"Neuen Raum hinzufuegen ...",""));
-		ArrayList<Room> list = MainApplication.globalMain.sharedSQLManager().selectAllRooms();
+		ArrayList<Room> list = MainApplication.globalMain.sharedSQLManager().selectAllRooms(null);
 		this.setRoomList(FXCollections.observableArrayList(list));
 	}
     @FXML

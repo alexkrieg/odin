@@ -51,7 +51,7 @@ public class TeacherDialogController {
 		teacherList.add(new Teacher("Neuen Lehrer anlegen ...", ""));
 		ArrayList<LearningField> list = MainApplication.globalMain.sharedSQLManager().selectAllLearningFields();
 		this.setFields(FXCollections.observableArrayList(list));
-		ArrayList<Teacher> listlist = MainApplication.globalMain.sharedSQLManager().selectAllTeacher();
+		ArrayList<Teacher> listlist = MainApplication.globalMain.sharedSQLManager().selectAllTeacher(null);
 		this.setTeachers(FXCollections.observableArrayList(listlist));
 	}
 	/**

@@ -8,7 +8,7 @@ public class AboutDialogController {
     //================================================================================
     // Properties
     //================================================================================
-	public static final String DIALOG_STAGE_TITLE = "Über ...";
+	public static final String DIALOG_STAGE_TITLE = "Ueber ...";
 	private Stage dialogStage;
 	
     //================================================================================

@@ -63,7 +63,7 @@ public class ClassDialogController {
     	this.checkListView.setMinWidth(421);
     	this.listPane.getChildren().add(checkListView);
     	
-    	ArrayList<Teacher> list = MainApplication.globalMain.sharedSQLManager().selectAllTeacher();
+    	ArrayList<Teacher> list = MainApplication.globalMain.sharedSQLManager().selectAllTeacher(null);
 		this.classTeacherComboBox.setItems(FXCollections.observableArrayList(list));
 		this.classTeacherComboBox.getSelectionModel().select(0);
 		
@@ -99,7 +99,7 @@ public class ClassDialogController {
     public void updateClassList(){
     	this.classList.clear();
     	this.classList.add(new SchoolClass("Neue Klasse hinzufuegen ...",-1,null));
-    	ArrayList<SchoolClass> list = MainApplication.globalMain.sharedSQLManager().selectAllClasses();
+    	ArrayList<SchoolClass> list = MainApplication.globalMain.sharedSQLManager().selectAllClasses(null);
     	this.classList.addAll(list);
     	MainApplication.globalMain.updateData(false);
     	this.choiceBox.getSelectionModel().select(0);

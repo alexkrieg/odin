@@ -4,6 +4,7 @@ package application;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -135,11 +136,11 @@ public class MainApplication extends Application {
         controller.setDialogStage(dialogStage);
 		dialogStage.showAndWait();
 	}
-	public void showConfigurationDialog(Lesson l){
+	public void showConfigurationDialog(ObservableList<Lesson> list){
 		Stage dialogStage = this.generateStage("ConfigurationDialog", ConfigurationDialogController.DIALOG_STAGE_TITLE, false);
 		ConfigurationDialogController controller = this.fxmlLoader.getController();
 		controller.setDialogStage(dialogStage);
-		controller.setLessons(l);
+		controller.setLessons(list);
 		dialogStage.showAndWait();
 	}    
 	//================================================================================

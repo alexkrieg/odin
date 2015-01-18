@@ -112,7 +112,7 @@ public class MySQLAccessManager {
 		return retVal;
 	}
 	
-	public ArrayList<Teacher> selectAllTeacher() {
+	public ArrayList<Teacher> selectAllTeacher(LessonTimeInformation i) {
 		
 		ArrayList<Teacher> retArrayList = new ArrayList<Teacher>();
 		Statement stmt = null;
@@ -141,7 +141,9 @@ public class MySQLAccessManager {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-								
+				if(i != null){
+					tempT.setAvailable(this.isTeacherAvailable(i.getHour(),i.getDay(),tempT.getIdentifier().get(),0));
+				}
 				retArrayList.add(tempT);
 			}
 			
@@ -334,7 +336,7 @@ public class MySQLAccessManager {
 		return retVal;
 	}
 	
-	public ArrayList<Room> selectAllRooms() {
+	public ArrayList<Room> selectAllRooms(LessonTimeInformation i) {
 		ArrayList<Room> retArrayList = new ArrayList<Room>();
 		Statement stmt = null;
 		String strSql = "SELECT name, id_room, room_description FROM mydb.room ORDER BY name";
@@ -343,7 +345,9 @@ public class MySQLAccessManager {
 			ResultSet rs = stmt.executeQuery(strSql);
 			while (rs.next()) {
 				Room tempR = new Room(rs.getInt(2), rs.getNString(1), rs.getNString(3));
-				//tempR.setAvailable(this.isRoomAvailable(hour, day, id));
+				if(i!= null){
+					tempR.setAvailable(this.isRoomAvailable(i.getHour(),i.getDay(), tempR.getId(),0));
+				}
 				retArrayList.add(tempR);
 			}
 			
@@ -422,7 +426,7 @@ public class MySQLAccessManager {
 		return retVal;
 	}
 	
-	public ArrayList<SchoolClass> selectAllClasses() {
+	public ArrayList<SchoolClass> selectAllClasses(LessonTimeInformation i) {
 		ArrayList<SchoolClass> retArrayList = new ArrayList<SchoolClass>();
 		Statement stmt = null;
 		Statement stmtGroup = null;
@@ -449,6 +453,9 @@ public class MySQLAccessManager {
 				
 				while (rsGroups.next()) {
 					SchoolClassGroup tmpSchoolClassGroup = new SchoolClassGroup(rsGroups.getNString("name"), rsGroups.getInt("class_types_id"));
+					if(i != null){
+						tmpSchoolClassGroup.setAvailable(this.isClassAvailable(i.getHour(),i.getDay(),tempSC.getId(),tmpSchoolClassGroup.getId(),0));
+					}
 					tmpListAllGroups.add(tmpSchoolClassGroup);
 				}
 				
@@ -473,14 +480,20 @@ public class MySQLAccessManager {
 					"SET fk_identifier_teacher = '" + sc.getClassTeacher().getIdentifier().get() + "', " +
 					    "name = '"+ sc.getName().get() +"' " +
 					"WHERE id_class = " + sc.getId();
-
 			stmt = connect.createStatement();
 			stmt.execute(strSql);
 			for(SchoolClassGroup group : sc.getGroups()) {
-					strSql = "INSERT INTO mydb.class_has_class_types (class_id, class_types_id) VALUES " +
+					Statement sStmt = connect.createStatement();
+					Statement iStmt = connect.createStatement();
+					strSql = "SELECT * FROM mydb.class_has_class_types WHERE class_id = "+sc.getId()+" AND class_types_id = "+group.getId()+";";
+					ResultSet rs = sStmt.executeQuery(strSql);
+					if(!rs.next()){
+						strSql = "INSERT INTO mydb.class_has_class_types (class_id, class_types_id) VALUES " +
 								"("+sc.getId()+", "+group.getId()+")";
-					stmt = connect.createStatement();
-					stmt.execute(strSql);
+						iStmt.execute(strSql);
+					}
+					sStmt.close();
+					iStmt.close();
 			}
 			retVal = true;	
 		} catch (SQLException e) {
@@ -531,6 +544,7 @@ public class MySQLAccessManager {
 //		}
 		
 		String strSql = "select " +
+								"id,"+
 								"hour, " +
 						       "fk_teacher, " +
 						       "(select firstname from mydb.teacher te where te.id_teacher = main.fk_teacher) teachFirstName, " +
@@ -563,11 +577,11 @@ public class MySQLAccessManager {
 				SchoolClassGroup g = new SchoolClassGroup(rs.getNString("class_type_name"), rs.getInt("fk_class_type"));
 				
 				LessonTimeInformation i = new LessonTimeInformation(rs.getInt("day"), rs.getInt("hour"));
-				Lesson tempLesson = new Lesson(t, f, s, g, r, i);
+				Lesson tempLesson = new Lesson(rs.getInt("id"),t, f, s, g, r, i);
 				
-				tempLesson.setTeacherAvailable(this.isTeacherAvailable(rs.getInt("hour"), rs.getInt("day"), argT.getIdentifier().get()));
-				tempLesson.setRoomAvailable(this.isRoomAvailable(rs.getInt("hour"), rs.getInt("day"), rs.getInt("fk_room")));
-				tempLesson.setClassAvailable(isClassAvailable(rs.getInt("hour"), rs.getInt("day"),rs.getInt("fk_class"),rs.getInt("fk_class_type") ));
+				tempLesson.setTeacherAvailable(this.isTeacherAvailable(rs.getInt("hour"), rs.getInt("day"), argT.getIdentifier().get(),1));
+				tempLesson.setRoomAvailable(this.isRoomAvailable(rs.getInt("hour"), rs.getInt("day"), rs.getInt("fk_room"),1));
+				tempLesson.setClassAvailable(isClassAvailable(rs.getInt("hour"), rs.getInt("day"),rs.getInt("fk_class"),rs.getInt("fk_class_type"),1));
 				
 				
 				recArrayList.add(tempLesson);
@@ -594,7 +608,7 @@ public class MySQLAccessManager {
 		return lessList;
 	}
 	
-	public boolean isTeacherAvailable(int hour, int day, String teacherId) {
+	public boolean isTeacherAvailable(int hour, int day, String teacherId,int counter) {
 		
 		Statement stmt = null;
 		
@@ -607,7 +621,7 @@ public class MySQLAccessManager {
 			 	"and day = "+day+" " +
 			 	"and fk_teacher = '" + teacherId + "' " +
 			 	"group by fk_teacher " +
-			 	"having count(fk_teacher) > 1 ";
+			 	"having count(fk_teacher) > "+counter;
 		try {
 			stmt = connect.createStatement();
 			ResultSet rsTeacher = stmt.executeQuery(strSql);
@@ -621,9 +635,8 @@ public class MySQLAccessManager {
 		return true;
 	}
 	
-	public boolean isRoomAvailable(int hour, int day, int id) {
+	public boolean isRoomAvailable(int hour, int day, int id,int counter) {
 		Statement stmt = null;
-		
 		String strSql = "SELECT " +
 				"fk_room, " +
 				"count(fk_room) " +
@@ -633,7 +646,14 @@ public class MySQLAccessManager {
 			 	"and day = "+day+" " +
 			 	"and fk_room = '" + id + "' " +
 			 	"group by fk_room " +
-			 	"having count(fk_room) > 1 ";
+			 	"having count(fk_room) > "+counter;
+//		String strSql = "SELECT *" +
+//						"FROM " +
+//						"mydb.main_mapping " +
+//						"WHERE hour = "+hour+" " +
+//						"AND day = "+day+" " +
+//						"AND fk_room = '" + id + "' " +
+//						"group by fk_room ";
 		try {
 			stmt = connect.createStatement();
 			ResultSet rsTeacher = stmt.executeQuery(strSql);
@@ -647,7 +667,7 @@ public class MySQLAccessManager {
 		return true;
 	}
 	
-	public boolean isClassAvailable(int hour, int day, int classId, int classGroupId) {
+	public boolean isClassAvailable(int hour, int day, int classId, int classGroupId,int counter) {
 		
 		Statement stmt = null;
 		
@@ -655,8 +675,8 @@ public class MySQLAccessManager {
 				"FROM mydb.main_mapping " +
 				"where hour = " + hour + " and day = " + day + " and fk_class = " + classId + " and fk_class_type = "+classGroupId + " " +
 				"group by fk_class, fk_class_type " + 
-				"having count(fk_class) > 1 " +
-				"and count(fk_class_type) > 1 ";
+				"having count(fk_class) > " +counter +" "+
+				"and count(fk_class_type) > "+counter;
 		try {
 			stmt = connect.createStatement();
 			ResultSet rsTeacher = stmt.executeQuery(strSql);
@@ -680,6 +700,7 @@ public class MySQLAccessManager {
 		Lesson[][][] lessList = new Lesson[10][5][5]; 
 		
 		String strSql = "select " +
+								"id,"+
 								"hour, " +
 						       "fk_teacher, " +
 						       "(select firstname from mydb.teacher te where te.id_teacher = main.fk_teacher) teachFirstName, " +
@@ -712,7 +733,10 @@ public class MySQLAccessManager {
 				SchoolClassGroup g = new SchoolClassGroup(rs.getNString("class_type_name"), rs.getInt("fk_class_type"));
 				
 				LessonTimeInformation i = new LessonTimeInformation(rs.getInt("day"), rs.getInt("hour"));
-				Lesson tempLesson = new Lesson(t, f, s, g, r, i);
+				Lesson tempLesson = new Lesson(rs.getInt("id"),t, f, s, g, r, i);
+				tempLesson.setTeacherAvailable(this.isTeacherAvailable(rs.getInt("hour"), rs.getInt("day"), t.getIdentifier().get(),1));
+				tempLesson.setRoomAvailable(this.isRoomAvailable(rs.getInt("hour"), rs.getInt("day"), rs.getInt("fk_room"),1));
+				tempLesson.setClassAvailable(isClassAvailable(rs.getInt("hour"), rs.getInt("day"),rs.getInt("fk_class"),rs.getInt("fk_class_type"),1));
 				recArrayList.add(tempLesson);
 			}
 		} catch (SQLException e) {
@@ -750,6 +774,39 @@ public class MySQLAccessManager {
 		
 		String strSql ="INSERT INTO mydb.main_mapping  (hour, fk_teacher, fk_room, fk_learning_field, fk_class, fk_class_type, day) " + 
 							"VALUES ("+hour+", '"+stringIdTeacher+"', "+intRoom+", "+intLearningFieldId+", "+intSchoolClassId+", "+intSchoolClassGroupId+", "+day+" )" ;
+		try {
+			stmt = connect.createStatement();
+			stmt.execute(strSql);
+			retVal = true;	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retVal;
+	}
+	public boolean removeLesson(int id){
+		boolean retVal = false;
+		Statement stmt = null;
+		String strSql = "DELETE FROM mydb.main_mapping WHERE id = "+id;
+		try {
+			stmt = connect.createStatement();
+			stmt.execute(strSql);
+			retVal = true;	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retVal;
+	}
+	public boolean updateLesson(Lesson l){
+		boolean retVal = false;
+		Statement stmt = null;
+		String strSql = "UPDATE mydb.main_mapping SET "+
+						"fk_teacher='"+l.getTeacher().getIdentifier().get()+"',"+
+						"fk_room="+l.getRoom().getId()+","+
+						"fk_learning_field="+l.getLearningField().getID()+","+
+						"fk_class="+l.getsClass().getId()+","+
+						"week_number="+"''"+","+
+						"fk_class_type="+l.getsClassGroup().getId()+" "+
+						"WHERE id = "+l.getId()+";";
 		try {
 			stmt = connect.createStatement();
 			stmt.execute(strSql);
@@ -843,6 +900,22 @@ public class MySQLAccessManager {
 			e.printStackTrace();
 		}
 		return retVal;
+	}
+	public ArrayList<SchoolClassGroup> getSchoolClassGroupForClass(SchoolClass sc){
+		Statement stmt = null;
+		String strSql = "SELECT * FROM mmydb.class_has_class_types "+
+						"WHERE class_id ="+sc.getId();
+		ArrayList<SchoolClassGroup> retArray = new ArrayList<SchoolClassGroup>();
+		try {
+			stmt = connect.createStatement();
+			ResultSet rsSet = stmt.executeQuery(strSql);
+			if (rsSet.next()) {
+				//retArray.add(new SchoolClassGroup(rsSet.getNString(""), id))
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retArray;
 	}
 	
 }

@@ -1,7 +1,5 @@
 package application.model;
 
-import application.MainApplication;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -13,16 +11,17 @@ public class TimePeriod {
 	//================================================================================
     // Properties
     //================================================================================
-	private ObservableList<Lesson> lessons;
-	private ObservableList<Lesson>[] lessonss;
+	private ObservableList<ObservableList<Lesson>> lessonss;
 	private int hour;
 	
 	//================================================================================
     // Contructors
     //================================================================================
 	public TimePeriod(int hour){
-		lessons = FXCollections.observableArrayList();
-		//setLessons(new Lesson[5]);
+		lessonss = FXCollections.observableArrayList();
+//		for(ObservableList<Lesson> list :lessonss){
+//			list = FXCollections.observableArrayList();
+//		}
 		this.setHour(hour);
 		
 	}
@@ -36,29 +35,16 @@ public class TimePeriod {
 	//================================================================================
     // Getter / Setter
     //================================================================================
-//	public Lesson[] getLessons() {
-//		return lessons;
-//	}
-//	public void setLessons(Lesson[] lessons) {
-//		this.lessons = lessons;
-//	}
-	public SimpleObjectProperty<Lesson> getLessonForDay(int day){
-		for(Lesson l: this.lessons){
-			//Lesson l = lessons[i];
-			if(l != null && l.getTimeInformation().getDay() == day){
-				MainApplication.log("Lesson:"+l.makeMePretty());
-				return new SimpleObjectProperty<Lesson>(l);
+	public SimpleObjectProperty<ObservableList<Lesson>> getLessonsForDay(int day){
+		for(ObservableList<Lesson> list :lessonss){
+			if(list.get(0) != null && list.get(0).getTimeInformation().getDay() == day){
+				return new SimpleObjectProperty<ObservableList<Lesson>>(list);
 			}
 		}
-//		for(int i = 0 ; i<lessons.length;i++){
-//			Lesson l = lessons[i];
-//			if(l != null && l.getTimeInformation().getDay() == day){
-//				MainApplication.log("Lesson:"+l.makeMePretty());
-//				return new SimpleObjectProperty<Lesson>(l);
-//			}
-//		}
 		Lesson l = new Lesson(new LessonTimeInformation(day,this.hour));
-		return new SimpleObjectProperty<Lesson>(l);
+		ObservableList<Lesson> newList = FXCollections.observableArrayList();
+		newList.add(l);
+		return new SimpleObjectProperty<ObservableList<Lesson>>(newList);
 	}
 	public StringProperty getPrettyTime() {
 		LessonTimeInformation lti = new LessonTimeInformation(-1, this.getHour());
@@ -71,16 +57,16 @@ public class TimePeriod {
 	public void setHour(int hour) {
 		this.hour = hour;
 	}
-	public void addLessonAtIndex(Lesson l, int index){
-		this.lessons.add(index,l);
-		//this.lessons[index]= l;
+	
+	public void addLessonsAtIndex(Lesson[] list, int index){
+		ObservableList<Lesson> l = FXCollections.observableArrayList(list);
+		this.lessonss.add(index,l);
 	}
 	public void removeAllLessons(){
-		this.lessons.clear();
-		//this.lessons[index]= l;
+		this.lessonss.clear();
 	}
 	@Override
 	public String toString(){
-		return this.getHour()+" - "+this.lessons+"";
+		return this.getHour()+" - "+this.lessonss+"";
 	}
 }
