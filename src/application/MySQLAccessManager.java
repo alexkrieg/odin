@@ -343,6 +343,7 @@ public class MySQLAccessManager {
 			ResultSet rs = stmt.executeQuery(strSql);
 			while (rs.next()) {
 				Room tempR = new Room(rs.getInt(2), rs.getNString(1), rs.getNString(3));
+				//tempR.setAvailable(this.isRoomAvailable(hour, day, id));
 				retArrayList.add(tempR);
 			}
 			
@@ -476,14 +477,10 @@ public class MySQLAccessManager {
 			stmt = connect.createStatement();
 			stmt.execute(strSql);
 			for(SchoolClassGroup group : sc.getGroups()) {
-				if (group.getId() == -2) {
-					strSql = "INSERT INTO mydb.class_types (name) VALUES ('"+group.getName()+"')";
+					strSql = "INSERT INTO mydb.class_has_class_types (class_id, class_types_id) VALUES " +
+								"("+sc.getId()+", "+group.getId()+")";
 					stmt = connect.createStatement();
 					stmt.execute(strSql);
-					
-					strSql = "INSERT INTO mydb.class_has_class_types (class_id, class_types_id) VALUES " +
-								"("+sc.getId()+", "+""+")";		
-				}
 			}
 			retVal = true;	
 		} catch (SQLException e) {

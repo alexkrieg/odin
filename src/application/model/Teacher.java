@@ -16,6 +16,7 @@ public class Teacher {
 	private StringProperty firstName;
 	private StringProperty lastName;
 	private StringProperty identifier;
+	private boolean available;
 	
 	private ObservableList<LearningField> learningFields;
     //================================================================================
@@ -32,6 +33,7 @@ public class Teacher {
 		this.firstName = new SimpleStringProperty(firstName);
 		this.lastName = new SimpleStringProperty(lastName);
 		this.learningFields = FXCollections.observableArrayList();
+		this.setAvailable(true);
 	}
     //================================================================================
     // Setter
@@ -95,6 +97,12 @@ public class Teacher {
 	}
 	public void setIdentifier(String identifier) {
 		this.identifier.set(identifier);
+	}
+	public void setAvailable(boolean available){
+		this.available = available;
+	}
+	public boolean isAvailable(){
+		return this.available;
 	}
 	@Override
 	public String toString() {

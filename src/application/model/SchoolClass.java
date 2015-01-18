@@ -13,6 +13,7 @@ public class SchoolClass {
 	private StringProperty name;
 	private Teacher classTeacher;
 	private ObservableList<SchoolClassGroup> groups;
+	private boolean available;
 	
     //================================================================================
     // Constructors
@@ -25,6 +26,7 @@ public class SchoolClass {
 		this.name = new SimpleStringProperty(name);
 		this.setClassTeacher(classTeacher);
 		this.groups = FXCollections.observableArrayList();
+		this.setAvailable(true);
 	}
 	
     //================================================================================
@@ -48,11 +50,22 @@ public class SchoolClass {
 	public void setGroups(ObservableList<SchoolClassGroup> groups){
 		this.groups = groups;
 	}
+	public void removeAllGroups(){
+		SchoolClassGroup all = this.groups.get(0);
+		this.groups.clear();
+		this.groups.add(all);
+	}
 	public Teacher getClassTeacher() {
 		return classTeacher;
 	}
 	public void setClassTeacher(Teacher classTeacher) {
 		this.classTeacher = classTeacher;
+	}
+	public void setAvailable(boolean available){
+		this.available = available;
+	}
+	public boolean isAvailable(){
+		return this.available;
 	}
 	@Override
 	public String toString(){

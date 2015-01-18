@@ -21,8 +21,8 @@
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Label fx:id="hourLabelFrom" text="3" />
-                              <Label text=" - " />
-                              <Label fx:id="hourLabelTo" text="4" />
+                              <Label />
+                              <Label fx:id="hourLabelTo" />
                               <Label text=" Stunde       " />
                               <Label fx:id="timeLabelFrom" text="10:00" />
                               <Label text=" - ">

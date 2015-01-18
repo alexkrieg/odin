@@ -87,7 +87,6 @@ public class ConfigurationDialogController {
 		this.timeLabelFrom.setText(i.getTimeFrom());
 		this.timeLabelTo.setText(i.getTimeTo());
 		this.hourLabelFrom.setText(i.getHour()+1+"");
-		this.hourLabelTo.setText(i.getHour()+1+"");
 		this.dayLabel.setText(i.getDayString());
 	}
 	public void setLesson(Lesson l){

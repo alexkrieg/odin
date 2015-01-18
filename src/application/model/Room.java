@@ -10,6 +10,7 @@ public class Room {
 	private int id;
 	private StringProperty name;
 	private StringProperty characteristic;
+	private boolean available;
 	
     //================================================================================
     // Constructors
@@ -22,6 +23,7 @@ public class Room {
 		this.name= new SimpleStringProperty(name);
 		this.characteristic= new SimpleStringProperty(characteristic);
 		this.setId(0);
+		this.setAvailable(true);
 	}
     //================================================================================
     // Accessors
@@ -43,6 +45,12 @@ public class Room {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public void setAvailable(boolean available){
+		this.available = available;
+	}
+	public boolean isAvailable(){
+		return this.available;
 	}
 	@Override
 	public String toString(){

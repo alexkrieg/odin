@@ -66,33 +66,11 @@
                   </Label>
                   <HBox fx:id="groupHBox" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <ListView fx:id="groupList" prefHeight="136.0" prefWidth="334.0">
+                        <Pane fx:id="listPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="135.0" prefWidth="421.0">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
-                        </ListView>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#onNewGroup" prefHeight="33.0" prefWidth="92.0" text="Neu">
-                                 <VBox.margin>
-                                    <Insets left="5.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="seperator">
-                                 <VBox.margin>
-                                    <Insets left="5.0" top="10.0" />
-                                 </VBox.margin>
-                              </Pane>
-                              <Button mnemonicParsing="false" onAction="#onRemoveGroup" prefHeight="33.0" prefWidth="99.0" text="Löschen">
-                                 <VBox.margin>
-                                    <Insets left="5.0" top="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </VBox>
+                        </Pane>
                      </children>
                   </HBox>
                   <ComboBox fx:id="classTeacherComboBox" onAction="#onClassTeacherComboBox" prefHeight="28.0" prefWidth="428.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
