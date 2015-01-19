@@ -61,7 +61,7 @@ public class MainApplication extends Application {
 			FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApplication.class.getResource("view/MainWindow.fxml"));
 			BorderPane root = loader.load();
-			Scene scene = new Scene(root,1080,600);
+			Scene scene = new Scene(root,1280,800);
 			scene.getStylesheets().add(getClass().getResource("view/application.css").toExternalForm());
 			this.primaryStage.setScene(scene);
 			this.primaryStage.setTitle(MainApplication.APPLICATION_TITLE);

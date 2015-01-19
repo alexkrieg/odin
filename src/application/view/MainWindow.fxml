@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="600.0" prefWidth="1080.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MainWindowController">
+<BorderPane prefHeight="800.0" prefWidth="1280.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MainWindowController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -66,12 +66,12 @@
    <center>
       <TableView fx:id="mainTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="timeC" prefWidth="116.0" text="Stunde" />
-          <TableColumn fx:id="mondayC" prefWidth="159.0" text="Montag" />
-            <TableColumn fx:id="tuesdayC" minWidth="0.0" prefWidth="137.0" text="Dienstag" />
-            <TableColumn fx:id="wendsdayC" minWidth="0.0" prefWidth="137.0" text="Mittwoch" />
-            <TableColumn fx:id="thursdayC" prefWidth="151.0" text="Donnerstag" />
-            <TableColumn fx:id="fridayC" prefWidth="154.0" text="Freitag" />
+          <TableColumn fx:id="timeC" prefWidth="150.0" text="Stunde" />
+          <TableColumn fx:id="mondayC" prefWidth="180.0" text="Montag" />
+            <TableColumn fx:id="tuesdayC" minWidth="0.0" prefWidth="180.0" text="Dienstag" />
+            <TableColumn fx:id="wendsdayC" minWidth="0.0" prefWidth="180.0" text="Mittwoch" />
+            <TableColumn fx:id="thursdayC" prefWidth="180.0" text="Donnerstag" />
+            <TableColumn fx:id="fridayC" prefWidth="180.0" text="Freitag" />
         </columns>
          <BorderPane.margin>
             <Insets top="33.0" />

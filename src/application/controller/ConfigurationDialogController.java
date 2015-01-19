@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import application.MainApplication;
 import application.factory.FormattedClassComboCellFactory;
@@ -56,6 +57,8 @@ public class ConfigurationDialogController {
 	private ComboBox<LearningField> fieldComboBox;
 	@FXML
 	private ComboBox<Room> roomComboBox;
+	@FXML
+	private TextField weekNumbersField;
 
     //================================================================================
     // Constructors
@@ -71,8 +74,6 @@ public class ConfigurationDialogController {
     	FormattedClassComboCellFactory<SchoolClassGroup> classFactory= new FormattedClassComboCellFactory<SchoolClassGroup>();
     	this.classGroupComboBox.setCellFactory(classFactory);
     	this.classSplitComboBox.setItems(this.lessons);
-    	
-
     	this.classComboBox.setItems(classList);
     }
 	public void setLessons(ObservableList<Lesson> list){
@@ -119,6 +120,7 @@ public class ConfigurationDialogController {
 			this.classGroupComboBox.getSelectionModel().clearSelection();
 			this.fieldComboBox.getSelectionModel().clearSelection();
 			this.teacherComboBox.getSelectionModel().clearSelection();
+			this.weekNumbersField.setText("");
 			if(MainWindowController.lastSelectedClass != null){
 				this.classComboBox.getSelectionModel().select(MainWindowController.lastSelectedClass);
 			}
@@ -133,6 +135,7 @@ public class ConfigurationDialogController {
 			this.classComboBox.getSelectionModel().select(this.lesson.getsClass());
 			this.classGroupComboBox.getSelectionModel().select(this.lesson.getsClassGroup());
 			this.fieldComboBox.getSelectionModel().select(this.lesson.getLearningField());
+			this.weekNumbersField.setText(this.lesson.getWeekNumbers());
 		}
 	}
 
@@ -156,6 +159,7 @@ public class ConfigurationDialogController {
 		}
 		if(this.lesson.isEmpty()){
 			Lesson l = new Lesson(t, f, s, g, r, this.lesson.getTimeInformation());
+			l.setWeekNumbers(this.weekNumbersField.getText());
 			MainApplication.globalMain.sharedSQLManager().addNewLesson(l);
 		}else{
 			this.lesson.setLearningField(f);
@@ -163,8 +167,8 @@ public class ConfigurationDialogController {
 			this.lesson.setsClass(s);
 			this.lesson.setsClassGroup(g);
 			this.lesson.setTeacher(t);
+			this.lesson.setWeekNumbers(this.weekNumbersField.getText());
 			if(MainApplication.globalMain.sharedSQLManager().updateLesson(this.lesson)){
-				
 			}else{
 				Dialogs.create()
 		        .owner(dialogStage)

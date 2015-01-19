@@ -560,7 +560,8 @@ public class MySQLAccessManager {
 						       "(select fk_identifier_teacher from mydb.class cl where id_class = fk_class) class_name, " +
 						       "fk_class_type, " +
 						       "(select name from mydb.class_types where id = fk_class_type) class_type_name, " +
-						       "day " +
+						       "day, " +
+						       "week_number "+
 						  "from " +
 						       "mydb.main_mapping main " +
 						  "where fk_teacher = '" + argT.getIdentifier().get()+"' " +
@@ -601,8 +602,7 @@ public class MySQLAccessManager {
 				tempLesson.setTeacherAvailable(this.isTeacherAvailable(rs.getInt("hour"), rs.getInt("day"), argT.getIdentifier().get(),1));
 				tempLesson.setRoomAvailable(this.isRoomAvailable(rs.getInt("hour"), rs.getInt("day"), rs.getInt("fk_room"),1));
 				tempLesson.setClassAvailable(isClassAvailable(rs.getInt("hour"), rs.getInt("day"),rs.getInt("fk_class"),rs.getInt("fk_class_type"),1));
-				
-				
+				tempLesson.setWeekNumbers(rs.getNString("week_number"));
 				recArrayList.add(tempLesson);
 			}
 		} catch (SQLException e) {
@@ -735,7 +735,8 @@ public class MySQLAccessManager {
 						       "(select fk_identifier_teacher from mydb.class cl where id_class = fk_class) class_name, " +
 						       "fk_class_type, " +
 						       "(select name from mydb.class_types where id = fk_class_type) class_type_name, " +
-						       "day " +
+						       "day, " +
+						       "week_number "+
 						  "from " +
 						       "mydb.main_mapping main " +
 						  "where fk_class = '" + argC.getId()+"' " +
@@ -774,6 +775,7 @@ public class MySQLAccessManager {
 				tempLesson.setTeacherAvailable(this.isTeacherAvailable(rs.getInt("hour"), rs.getInt("day"), t.getIdentifier().get(),1));
 				tempLesson.setRoomAvailable(this.isRoomAvailable(rs.getInt("hour"), rs.getInt("day"), rs.getInt("fk_room"),1));
 				tempLesson.setClassAvailable(isClassAvailable(rs.getInt("hour"), rs.getInt("day"),rs.getInt("fk_class"),rs.getInt("fk_class_type"),1));
+				tempLesson.setWeekNumbers(rs.getNString("week_number"));
 				recArrayList.add(tempLesson);
 			}
 		} catch (SQLException e) {
@@ -809,8 +811,8 @@ public class MySQLAccessManager {
 		int intSchoolClassId = l.getsClass().getId();
 		int intSchoolClassGroupId = l.getsClassGroup().getId();
 		
-		String strSql ="INSERT INTO mydb.main_mapping  (hour, fk_teacher, fk_room, fk_learning_field, fk_class, fk_class_type, day) " + 
-							"VALUES ("+hour+", '"+stringIdTeacher+"', "+intRoom+", "+intLearningFieldId+", "+intSchoolClassId+", "+intSchoolClassGroupId+", "+day+" )" ;
+		String strSql ="INSERT INTO mydb.main_mapping  (hour, fk_teacher, fk_room, fk_learning_field, fk_class, fk_class_type, day, week_number) " + 
+							"VALUES ("+hour+", '"+stringIdTeacher+"', "+intRoom+", "+intLearningFieldId+", "+intSchoolClassId+", "+intSchoolClassGroupId+", "+day+",'"+l.getWeekNumbers()+"' )" ;
 		try {
 			stmt = connect.createStatement();
 			stmt.execute(strSql);
@@ -842,8 +844,9 @@ public class MySQLAccessManager {
 						"fk_learning_field="+l.getLearningField().getID()+","+
 						"fk_class="+l.getsClass().getId()+","+
 						"week_number="+"''"+","+
-						"fk_class_type="+l.getsClassGroup().getId()+" "+
-						"WHERE id = "+l.getId()+";";
+						"fk_class_type="+l.getsClassGroup().getId()+","+
+						"week_number='"+l.getWeekNumbers()+"' "+
+						"WHERE id = '"+l.getId()+"';";
 		try {
 			stmt = connect.createStatement();
 			stmt.execute(strSql);

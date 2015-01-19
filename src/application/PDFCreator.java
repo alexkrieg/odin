@@ -19,6 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable; 
 import javax.swing.table.DefaultTableModel; 
 
+import org.controlsfx.dialog.Dialogs;
+
 import application.controller.MainWindowController;
 import application.model.Lesson;
 
@@ -48,7 +50,10 @@ public class PDFCreator {
         }
         else {
         	dataFromDb = null;
-        	System.out.println("Nichts wurde ausgewählt !!!! FEHLER");
+        	Dialogs.create()
+	        .title("Fehler")
+	        .message("Bitte wählen Sie zunächst einen Lehrer oder eine Klasse aus!")
+	        .showError();
         	return;
         }
         

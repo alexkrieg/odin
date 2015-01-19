@@ -8,6 +8,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import application.MainApplication;
+import application.PDFCreator;
 import application.factory.FormattedTableCellFactory;
 import application.model.Lesson;
 import application.model.SchoolClass;
@@ -162,6 +163,10 @@ public class MainWindowController {
 	}
 	@FXML
 	private void createPDF(){
-		String filnemae = "";		
+		try{
+			PDFCreator pdf = new PDFCreator();
+		}catch(Exception e){
+			
+		}
 	}
 }

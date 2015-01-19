@@ -12,6 +12,7 @@ public class Lesson {
 	private SchoolClass sClass;
 	private SchoolClassGroup sClassGroup;
 	private Room room;
+	private String weekNumbers;
 	private LessonTimeInformation timeInformation;
 	private boolean empty;
 	private boolean teacherAvailable;
@@ -24,6 +25,7 @@ public class Lesson {
 	public Lesson(int id, LessonTimeInformation i){
 		this(i);
 		this.setId(id);
+		this.setWeekNumbers("");
 	}
 	public Lesson(LessonTimeInformation i){
 		this.setTimeInformation(i);
@@ -120,6 +122,12 @@ public class Lesson {
 	public void setClassAvailable(boolean classAvailable) {
 		this.classAvailable = classAvailable;
 	}
+	public String getWeekNumbers() {
+		return weekNumbers;
+	}
+	public void setWeekNumbers(String weekNumbers) {
+		this.weekNumbers = weekNumbers;
+	}
 	//================================================================================
     // Methods
     //================================================================================
@@ -132,6 +140,8 @@ public class Lesson {
 		}
 	}
 	public String makeMePretty(){
-		return "Klasse: "+getsClass()+"\nGruppe: "+getsClassGroup()+"\nLehrer: "+getTeacher()+"\nRaum: "+getRoom()+"\nLernfeld: "+getLearningField();
+		String s = "Klasse: "+getsClass()+"\nGruppe: "+getsClassGroup()+"\nLehrer: "+getTeacher()+"\nRaum: "+getRoom()+"\nLernfeld: "+getLearningField();
+		s += "\nWochen: "+getWeekNumbers();
+		return s;
 	}
 }
