@@ -19,7 +19,7 @@ import application.model.Teacher;
 
 public class MySQLAccessManager {
 	
-	//cstefanherr.noip.me:42080/adminer.php fÃ¼r Browser
+	//cstefanherr.noip.me:42080/adminer.php für Browser
     //================================================================================
     // Properties
     //================================================================================
