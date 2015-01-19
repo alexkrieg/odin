@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color; 
 import java.awt.event.ActionEvent; 
 import java.awt.event.ActionListener; 
+import java.io.File;
 import java.io.FileNotFoundException; 
 import java.io.FileOutputStream; 
 import java.text.DateFormat; 
@@ -102,7 +103,8 @@ public class PDFCreator {
         final DefaultTableModel model = new DefaultTableModel(data, colNames);
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddkkmmss");
         String strDate = dateFormat.format(new Date());
-        writePDF("Stundenplan_"+strDate+".pdf", model, colNames); 
+        String s = System.getProperty("user.name");
+        writePDF("C:\\Users\\"+s+"\\Desktop\\Stundenplan_"+strDate+".pdf", model, colNames); 
     } 
     
     private String getTime(int hour){
