@@ -32,6 +32,9 @@ public class SchoolClass {
     //================================================================================
     // Getter / Setter
     //================================================================================
+	public void addSchoolClassType(SchoolClassGroup argSchoolClassGroup) {
+		this.groups.add(argSchoolClassGroup);
+	}
 	public int getId() {
 		return id;
 	}

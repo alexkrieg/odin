@@ -571,9 +571,28 @@ public class MySQLAccessManager {
 			ResultSet rs = stmt.executeQuery(strSql);
 			while (rs.next()) {
 				Teacher t = new Teacher(rs.getNString("fk_teacher"), rs.getNString("teachFirstName"), rs.getNString("teachLastName"));
+				strSql = "SELECT * "+
+							"FROM mydb.teacher_has_learning_fields thlf, mydb.learning_field lf " +
+							"WHERE thlf.teacher_id = '"+rs.getNString("fk_teacher")+"' " +
+							"AND thlf.learning_field_id = lf.id_learning_field ";
+				stmt = connect.createStatement();
+				ResultSet rslf = stmt.executeQuery(strSql);
+				while (rslf.next()) {
+					t.addLearningField(new LearningField(rslf.getNString("name"), rslf.getNString("description"), rslf.getInt("id_learning_field")));
+				}
+
 				LearningField f = new LearningField(rs.getNString("lf_name"), rs.getNString("lf_description") , rs.getInt("fk_learning_field"));
 				Room r =  new Room(rs.getInt("fk_room"), rs.getNString("room_name"), rs.getNString("room_description"));
 				SchoolClass s = new SchoolClass(rs.getNString("class_name"), rs.getInt("fk_class"), t);
+				strSql = "SELECT * " +
+							"FROM mydb.class_has_class_types chct, mydb.class_types ct " +
+							"WHERE class_id = " + rs.getInt("fk_class") + " " +
+							"AND ct.id = chct.class_types_id";		
+				stmt = connect.createStatement();
+				ResultSet rsct = stmt.executeQuery(strSql);
+				while (rsct.next()) {
+					s.addSchoolClassType(new SchoolClassGroup(rsct.getNString("name"), rsct.getInt("id")));
+				}
 				SchoolClassGroup g = new SchoolClassGroup(rs.getNString("class_type_name"), rs.getInt("fk_class_type"));
 				
 				LessonTimeInformation i = new LessonTimeInformation(rs.getInt("day"), rs.getInt("hour"));
@@ -727,9 +746,27 @@ public class MySQLAccessManager {
 			ResultSet rs = stmt.executeQuery(strSql);
 			while (rs.next()) {
 				Teacher t = new Teacher(rs.getNString("fk_teacher"), rs.getNString("teachFirstName"), rs.getNString("teachLastName"));
+				strSql = "SELECT * "+
+						"FROM mydb.teacher_has_learning_fields thlf, mydb.learning_field lf " +
+						"WHERE thlf.teacher_id = '"+rs.getNString("fk_teacher")+"' " +
+						"AND thlf.learning_field_id = lf.id_learning_field ";
+				stmt = connect.createStatement();
+				ResultSet rslf = stmt.executeQuery(strSql);
+				while (rslf.next()) {
+					t.addLearningField(new LearningField(rslf.getNString("name"), rslf.getNString("description"), rslf.getInt("id_learning_field")));
+				}
 				LearningField f = new LearningField(rs.getNString("lf_name"), rs.getNString("lf_description") , rs.getInt("fk_learning_field"));
 				Room r =  new Room(rs.getInt("fk_room"), rs.getNString("room_name"), rs.getNString("room_description"));
 				SchoolClass s = new SchoolClass(rs.getNString("class_name"), rs.getInt("fk_class"), t);
+				strSql = "SELECT * " +
+						"FROM mydb.class_has_class_types chct, mydb.class_types ct " +
+						"WHERE class_id = " + rs.getInt("fk_class") + " " +
+						"AND ct.id = chct.class_types_id";		
+				stmt = connect.createStatement();
+				ResultSet rsct = stmt.executeQuery(strSql);
+				while (rsct.next()) {
+					s.addSchoolClassType(new SchoolClassGroup(rsct.getNString("name"), rsct.getInt("id")));
+				}
 				SchoolClassGroup g = new SchoolClassGroup(rs.getNString("class_type_name"), rs.getInt("fk_class_type"));
 				
 				LessonTimeInformation i = new LessonTimeInformation(rs.getInt("day"), rs.getInt("hour"));
