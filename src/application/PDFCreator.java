@@ -104,7 +104,13 @@ public class PDFCreator {
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddkkmmss");
         String strDate = dateFormat.format(new Date());
         String s = System.getProperty("user.name");
-        writePDF("C:\\Users\\"+s+"\\Desktop\\Stundenplan_"+strDate+".pdf", model, colNames); 
+        String path = "C:\\Users\\"+s+"\\Desktop\\Stundenplan_"+strDate+".pdf";
+        writePDF(path, model, colNames); 
+        Dialogs.create()
+        .title("PDF")
+        .message("PDF gespeichert unter "+ path)
+        .showInformation();
+        
     } 
     
     private String getTime(int hour){
@@ -179,6 +185,7 @@ public class PDFCreator {
             document.add(head); 
             document.add(table); 
             document.close(); 
+            
         } catch (FileNotFoundException e) { 
         	e.printStackTrace(); 
         } catch (DocumentException e) { 

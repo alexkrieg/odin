@@ -80,7 +80,7 @@ public class TeacherDialogController {
     		this.removeButton.setDisable(true);
     		this.firstNameTxtField.setText("");
         	this.lastNameTxtField.setText("");
-        	this.checkListView.setDisable(true);
+        	//this.checkListView.setDisable(true);
         	this.tokenTxtField.setText("");
         	this.tokenTxtField.setDisable(false);
     	}else{
@@ -89,7 +89,7 @@ public class TeacherDialogController {
         	this.lastNameTxtField.setText(teacher.lastNameProperty().get());
         	this.tokenTxtField.setText(teacher.getIdentifier().get());
         	this.tokenTxtField.setDisable(true);
-        	this.checkListView.setDisable(false);
+        	//this.checkListView.setDisable(false);
         	for(LearningField f: this.checkListView.getItems()){
         		for(LearningField g : teacher.learningFieldProperty()){
         			if(f.getID() == g.getID()){
@@ -118,17 +118,25 @@ public class TeacherDialogController {
     @FXML
     private void handleOk() {
     	if (this.firstNameTxtField.getText().length() == 0 || this.lastNameTxtField.getText().length() == 0 || this.tokenTxtField.getText().length() == 0) {
+    		Dialogs.create()
+            .owner(this.dialogStage)
+            .title("Information")
+            .masthead(null)
+            .message("Bitte alle Felder ausfüllen")
+            .showError();
     		return;
     	}
     	if (this.choiceBox.getSelectionModel().getSelectedItem().getIdentifier().get().equals("empty") == true) {
     		Teacher t = new Teacher(this.tokenTxtField.getText(),this.firstNameTxtField.getText(), this.lastNameTxtField.getText());
-    		t.setLearningFields(FXCollections.observableArrayList(this.checkListView.getCheckModel().getCheckedItems()));
+    		ObservableList<LearningField> list = this.checkListView.getCheckModel().getCheckedItems();
+        	t.learningFieldProperty().clear();
+        	t.learningFieldProperty().addAll(list);
     		if(MainApplication.globalMain.sharedSQLManager().addNewTeacher(t) != true){
             	Dialogs.create()
                 .owner(this.dialogStage)
                 .title("Information")
                 .masthead(null)
-                .message("Fehler beim Speichern der Daten")
+                .message("Fehler beim Speichern der Daten. Lehrerkuerzel bereits vorhanden!")
                 .showError();
     			return;
     		}

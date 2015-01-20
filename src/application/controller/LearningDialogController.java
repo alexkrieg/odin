@@ -71,7 +71,13 @@ public class LearningDialogController {
     }
     @FXML
     private void handleOK() {
-    	if(this.nameTxtField.getText().length()== 0 || this.descriptionTxtField.getText().length() == 0){
+    	if(this.nameTxtField.getText().length()== 0){
+    		Dialogs.create()
+            .owner(this.dialogStage)
+            .title("Information")
+            .masthead(null)
+            .message("Bitte Name des Lernfeldes eingeben.")
+            .showError();
     		return;
     	}
     	if(this.comboBox.getSelectionModel().getSelectedItem().getID() == -1){

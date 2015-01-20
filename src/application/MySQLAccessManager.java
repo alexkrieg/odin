@@ -91,23 +91,24 @@ public class MySQLAccessManager {
 			e.printStackTrace();
 		}
 		
-		ObservableList<LearningField> list = t.learningFieldProperty(); 
-		for (LearningField lf : list) {
-			strSql = "INSERT INTO mydb.teacher_has_learning_fields (teacher_id, learning_field_id ) " +
-						"VALUES ('" + strId + "', " + lf.getID() + ")";
-			try {
-				stmt = connect.createStatement();
-				if (checkTeacherIdExisting(strId)==false) {
-					stmt.execute(strSql);
-					retVal = true;
-				} else {
-					retVal = false;
+		if(retVal != false){
+			ObservableList<LearningField> list = t.learningFieldProperty(); 
+			for (LearningField lf : list) {
+				strSql = "INSERT INTO mydb.teacher_has_learning_fields (teacher_id, learning_field_id ) " +
+							"VALUES ('" + strId + "', " + lf.getID() + ")";
+				try {
+					stmt = connect.createStatement();
+					if (checkTeacherIdExisting(strId)==true) {
+						stmt.execute(strSql);
+						retVal = true;
+					} else {
+						retVal = false;
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		}
-		
 		
 		return retVal;
 	}
@@ -408,15 +409,29 @@ public class MySQLAccessManager {
 		String strClassTeacherID = sc.getClassTeacher().getIdentifier().get();
 		
 		try {
-			String strSql ="INSERT INTO mydb.class  (name, fk_identifier_teacher) " + 
-							"VALUES ('"+strName+"', '"+strClassTeacherID+"')" ;
+			String strSql ="INSERT INTO mydb.class  (name, fk_identifier_teacher, isLastSelected) " + 
+							"VALUES ('"+strName+"', '"+strClassTeacherID+"', 1)" ;
 			stmt = connect.createStatement();
 			stmt.execute(strSql);
 			
+			ObservableList<SchoolClassGroup> groups = sc.getGroups();
+			
 			strSql = "INSERT INTO mydb.class_has_class_types (class_id, class_types_id) VALUES " +
-						"((SELECT max(id_class) from mydb.class WHERE name = '" + strName + "'), -1)";
+					"((SELECT id_class from mydb.class WHERE isLastSelected = 1), -1)";
 			stmt = connect.createStatement();
 			stmt.execute(strSql);
+			
+			for(SchoolClassGroup tmpSc : groups) {
+			
+				strSql = "INSERT INTO mydb.class_has_class_types (class_id, class_types_id) VALUES " +
+						"((SELECT id_class from mydb.class WHERE isLastSelected = 1), "+ tmpSc.getId() +")";
+				stmt = connect.createStatement();
+				stmt.execute(strSql);
+			}
+			strSql = "update mydb.class set isLastSelected = -1";
+			stmt = connect.createStatement();
+			stmt.execute(strSql);
+			
 								
 			retVal = true;	
 			
@@ -865,8 +880,8 @@ public class MySQLAccessManager {
 		Statement stmt = null; 
 		String strName = lf.getName().get();
 		
-		String strSql ="INSERT INTO mydb.learning_field (name, description) " +
-							"VALUES ('"+strName+"','"+""+"')" ;
+		String strSql ="INSERT INTO mydb.class_types (name) " +
+							"VALUES ('"+strName+"')" ;
 		try {
 			stmt = connect.createStatement();
 			stmt.execute(strSql);

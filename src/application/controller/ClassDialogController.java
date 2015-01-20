@@ -81,12 +81,12 @@ public class ClassDialogController {
     	if(classy.getId() == -1){
     		this.nameTxtField.setText("");
     		this.removeButton.setDisable(true);
-    		this.groupHBox.setDisable(true);
+    		//this.groupHBox.setDisable(true);
     	}else{
     		this.nameTxtField.setText(classy.getName().get());
     		this.classTeacherComboBox.getSelectionModel().select(classy.getClassTeacher());
     		this.removeButton.setDisable(false);
-    		this.groupHBox.setDisable(false);
+    		//this.groupHBox.setDisable(false);
         	for(SchoolClassGroup g: this.checkListView.getItems()){
         		for(SchoolClassGroup d : classy.getGroups()){
         			if(g.getId() == d.getId()){
@@ -120,7 +120,8 @@ public class ClassDialogController {
     	if(this.choiceBox.getSelectionModel().getSelectedItem().getId() == -1){
     		Teacher t = this.classTeacherComboBox.getSelectionModel().getSelectedItem();
     		SchoolClass s = new SchoolClass(this.nameTxtField.getText(),t);
-    		s.setGroups(FXCollections.observableArrayList(this.checkListView.getCheckModel().getCheckedItems()));
+    		ObservableList<SchoolClassGroup> list = this.checkListView.getCheckModel().getCheckedItems();
+        	s.getGroups().addAll(list);
     		if(MainApplication.globalMain.sharedSQLManager().addNewClass(s)){
     			checker = true;
     		}
