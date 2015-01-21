@@ -1,41 +1,32 @@
 package application;
 
-import java.awt.BorderLayout; 
-import java.awt.Color; 
-import java.awt.event.ActionEvent; 
-import java.awt.event.ActionListener; 
-import java.io.File;
-import java.io.FileNotFoundException; 
-import java.io.FileOutputStream; 
-import java.text.DateFormat; 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar; 
+import java.util.GregorianCalendar;
 
 import javafx.beans.property.StringProperty;
 
-import javax.swing.JButton; 
-import javax.swing.JFrame; 
-import javax.swing.JScrollPane; 
-import javax.swing.JTable; 
-import javax.swing.table.DefaultTableModel; 
+import javax.swing.table.DefaultTableModel;
 
 import org.controlsfx.dialog.Dialogs;
 
 import application.controller.MainWindowController;
 import application.model.Lesson;
 
-import com.itextpdf.text.BaseColor; 
-import com.itextpdf.text.Document; 
-import com.itextpdf.text.DocumentException; 
-import com.itextpdf.text.Font; 
-import com.itextpdf.text.Font.FontFamily; 
-import com.itextpdf.text.PageSize; 
-import com.itextpdf.text.Paragraph; 
-import com.itextpdf.text.Phrase; 
-import com.itextpdf.text.pdf.PdfPCell; 
-import com.itextpdf.text.pdf.PdfPTable; 
-import com.itextpdf.text.pdf.PdfWriter; 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class PDFCreator { 
 
@@ -83,22 +74,6 @@ public class PDFCreator {
         		}
         	}
         }
-        
-        
-        /*
-        String[][] data = new String[][] { 
-                new String[] { "1.1", "1.2", "1.3", "1.4", "1.5", "1.6" }, 
-                new String[] { "2.1", "2.2", "2.3", "2.4", "2.5", "2.6" }, 
-                new String[] { "3.1", "3.2", "3.3", "3.4", "3.5", "3.6" }, 
-                new String[] { "4.1", "2.2", "2.3", "2.4", "2.5", "2.6" },
-                new String[] { "5.1", "2.2", "5.3", "2.4", "2.5", "2.6" },
-                new String[] { "6.1", "2.2", "2.3", "6.4", null, "2.6" },
-                new String[] { "7.1", "2.2", "2.3", "2.4", "7.5", "2.6" },
-                new String[] { "8.1", "2.2", "2.3", "2.4", "2.5", "8.6" },
-                new String[] { "9.1", "2.2", "2.3", "2.4", "9.5", "2.6" },
-                new String[] { "10.1", "2.2", "10.3", "2.4", "2.5", "2.6" }
-        }; 
-        */
         
         final DefaultTableModel model = new DefaultTableModel(data, colNames);
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddkkmmss");

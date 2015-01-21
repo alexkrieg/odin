@@ -7,6 +7,7 @@ import javafx.util.Callback;
 import application.MainApplication;
 import application.model.Lesson;
 import application.model.TimePeriod;
+import javafx.scene.input.MouseButton;
 
 public class FormattedTableCellFactory<S,T> implements Callback<TableColumn<TimePeriod, ObservableList<Lesson>>, TableCell<TimePeriod, ObservableList<Lesson>>> {
 
@@ -21,7 +22,17 @@ public class FormattedTableCellFactory<S,T> implements Callback<TableColumn<Time
 	            super.updateItem(item, empty);    
 	            this.setOnMouseClicked((event)->{
 	            	if(event.getClickCount() == 2){
-	            		MainApplication.globalMain.showConfigurationDialog(item);	
+	            		if(event.getButton() == MouseButton.SECONDARY){
+	            			for(Lesson l:item){
+	            				if(l!= null && !l.isEmpty()){
+	            					MainApplication.globalMain.sharedSQLManager().removeLesson(l.getId());
+	            				}
+	            			}
+	            			MainApplication.globalMain.updateData(true);
+	            		}
+	            		else{
+	            			MainApplication.globalMain.showConfigurationDialog(item);	
+	            		}
 	            	}
 	            });
 	            this.setOnMouseEntered((event)->{
