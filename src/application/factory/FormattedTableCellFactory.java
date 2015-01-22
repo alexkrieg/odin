@@ -1,5 +1,7 @@
 package application.factory;
 
+import org.controlsfx.dialog.Dialogs;
+
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -19,7 +21,6 @@ public class FormattedTableCellFactory<S,T> implements Callback<TableColumn<Time
 	}
 	@Override
 	public TableCell<TimePeriod, ObservableList<Lesson>> call(TableColumn<TimePeriod, ObservableList<Lesson>> param) {
-		// TODO Auto-generated method stub
 		return new TableCell<TimePeriod, ObservableList<Lesson>>() {
 			String tempStyle = "";
 	        @Override
@@ -90,11 +91,18 @@ public class FormattedTableCellFactory<S,T> implements Callback<TableColumn<Time
 	            	if(db.hasString()){
 	            		String[] ids = db.getString().split(",");
 	            		LessonTimeInformation newTime = item.get(0).getTimeInformation();
-	            		//TODO: select lesson anhand id save in new time information
-	            		success = true;
+	            		if(MainApplication.globalMain.sharedSQLManager().copyLessonsForIdToNewTime(ids,newTime)){
+	            			success = true;
+	            		}else{
+	            			Dialogs.create()
+	            	        .title("Fehler")
+	            	        .message("Die Stunden konnten nicht kopiert werden!")
+	            	        .showError();
+	            		}
 	            	}
 	            	event.setDropCompleted(success);
 	            	event.consume();
+	            	MainApplication.globalMain.updateData(true);
 	            });
 	            String text = "";
 	            if(item != null && item.get(0).isEmpty() == false){

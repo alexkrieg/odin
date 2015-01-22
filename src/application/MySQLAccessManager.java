@@ -972,5 +972,28 @@ public class MySQLAccessManager {
 		}
 		return retArray;
 	}
-	
+	public boolean copyLessonsForIdToNewTime(String[] argIDs, LessonTimeInformation argTime){
+		try {
+			for(int i = 0;i<argIDs.length;i++){
+				Statement stmt = null;
+				Statement stmtInsert = null;
+				String strSQL = "SELECT * FROM mydb.main_mapping WHERE id="+argIDs[i]+"";
+				stmt = connect.createStatement();
+				ResultSet rs = stmt.executeQuery(strSQL);
+				while(rs.next()){
+					stmtInsert = connect.createStatement();
+					String insertQuery = "INSERT INTO mydb.main_mapping "+
+							"(hour, day, fk_teacher, fk_room, fk_learning_field, fk_class, week_number, fk_class_type) "+
+							"VALUES ("+argTime.getHour()+", "+argTime.getDay()+ ", "+
+							"'"+rs.getNString("fk_teacher")+"', "+rs.getInt("fk_room")+", "+rs.getInt("fk_learning_field")+", "+
+							""+rs.getInt("fk_class")+", '"+rs.getNString("week_number")+"', "+rs.getInt("fk_class_type")+")";
+					stmtInsert.execute(insertQuery);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }
